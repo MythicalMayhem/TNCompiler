@@ -1,0 +1,60 @@
+debut
+
+pour i de 0 a 10 faire
+pour j de 0 a 56 faire
+lire(x)
+pour j de 0 a 56 faire
+lire(x)
+pour j de 0 a 56 faire
+lire(x)
+pour j de 0 a 56 faire
+lire(x)
+finpour
+finpour
+finpour
+finpour
+finpour
+
+pour y de 0 a 56 faire
+lire(x)
+finpour
+
+si o alors
+lire(20)
+si o alors
+lire(20)
+si o alors
+lire(20)
+finsi
+finsi
+finsi
+si g alors
+    Repeter
+        ecrite(sdfg)
+    Jusqu'a Vrai
+sinonsi g alors
+    lire(20)
+sinon
+    lire(aaaa)
+finsi
+
+fonction nom(@ghjk:asdfa,@sdfgsf:gsdfgs):type
+debut
+lire()
+retourner 
+fin
+
+procedure nom(@hghjk:asdfa)
+debut
+lire()
+fin
+
+tantque b
+lire(v)
+fintantque
+
+Repeter
+ecrite(sdfg)
+Jusqu'a Vrai
+
+fin
