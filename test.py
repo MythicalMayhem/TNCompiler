@@ -37,7 +37,7 @@ else :
 #finsi
 def nom (@ghjk:asdfa,@sdfgsf:gsdfgs):type:
 #debut
-	lire()
+	lire(hghjk) 
 	retourner
 #fin
 def nom (@hghjk:asdfa):

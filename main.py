@@ -1,10 +1,20 @@
 import re
 
-    
+
 f = open("test.algo", "r").readlines()
 res = []
 for sub in f:
     res.append(sub.replace("\n", "").strip())
+
+
+if res[0].lower() != "debut":
+    raise Exception("debut manquante")
+if res[len(res) - 1].lower() != "fin":
+    raise Exception(f"Debut manquante : ligne {len(res)}")
+res.pop(0)
+res.pop(-1)
+while "" in res:
+    res.remove("")
 
 
 def searchParent(start, name):
@@ -20,16 +30,7 @@ def searchParent(start, name):
                 return k
 
 
-while "" in res:
-    res.remove("")
-
-if res[0].lower() != "debut":
-    raise Exception("debut manquante")
-if res[len(res) - 1].lower() != "fin":
-    raise Exception(f"Debut manquante : ligne {len(res)}")
-res.pop(0)
-res.pop(-1)
-
+# compress
 for i in range(0, len(res) - 1):
     items = res[i].split(" ")
     if items[0] == "finpour":
@@ -84,12 +85,9 @@ def arraying(pig):
     return L
 
 
+res = arraying(res)
 while "" in res:
     res.remove("")
-#print(res)
-res = arraying(res)
-#print(res)
-
 newres = []
 
 
@@ -124,7 +122,7 @@ def isBoucleFor(el):
         if el[i] == "de":
             index = i
         if el[i] == "a":
-            start = i 
+            start = i
     index, start, end = el[0:index], el[index + 1 : start], el[start + 1 : len(el)]
     if len(index) > 1:
         return False
@@ -153,7 +151,7 @@ def isSinonsi(el):
 
 def isSinon(el):
     newel = re.match("sinon[ ]*:?", el, re.IGNORECASE)
-    if newel :
+    if newel:
         return f"else :"
     else:
         return False
@@ -168,7 +166,7 @@ def isFonction(el):
     if newel:
         newarg = isParam(newel.group("arguments"))
         if newarg:
-            return f"def {newel.group('name')} ({newel.group('arguments')}):{newel.group('returntype')}:"
+            return f"def {newel.group('name')} ({newel.group('arguments')}):{newel.group('returntype')}"
         else:
             return False
     return False
@@ -190,7 +188,7 @@ def isProcedure(el):
 
 
 def isTantque(el):
-    newel = re.match("tantque[ ]+(?P<arguments>.*)", el,re.IGNORECASE)
+    newel = re.match("tantque[ ]+(?P<arguments>.*)", el, re.IGNORECASE)
     if newel:
         return f'while {newel.group("arguments")}:'
     else:
@@ -198,37 +196,39 @@ def isTantque(el):
 
 
 def isJusqua(el):
-    newel = re.match("Jusqu'?a[ ]+(?P<arguments>.+)", el,re.IGNORECASE)
+    newel = re.match("Jusqu'?a[ ]+(?P<arguments>.+)", el, re.IGNORECASE)
     if newel:
         return f'if ({newel.group("arguments")}):'
     else:
         return False
 
+
 def isRepeter(el):
     newel = re.match("repeter[ ]*:?", el, re.IGNORECASE)
-    if newel :
+    if newel:
         return f"while True :"
     else:
         return False
 
+
 for i in range(0, len(res)):
     res[i] = re.sub(" +", " ", res[i])
-    starter = res[i].split(" ")[0].lower()+' '
-    
+    starter = res[i].split(" ")[0].lower() + " "
+
     if starter in ["finpour", "finsi", "fin"]:
         newres.append(res[i])
-        continue 
-    elif re.match("^pour[ ]+",starter,re.IGNORECASE):
+        continue
+    elif re.match("^pour[ ]+", starter, re.IGNORECASE):
         if isBoucleFor(res[i]):
             newres.append(isBoucleFor(res[i]))
         else:
             print("pour invalide")
-    elif re.match("^si[ ]+",starter,re.IGNORECASE):
+    elif re.match("^si[ ]+", starter, re.IGNORECASE):
         if isSi(res[i]):
             newres.append(isSi(res[i]))
         else:
             print("si invalide ")
-    elif re.match("^sinonsi[ ]+",starter,re.IGNORECASE):
+    elif re.match("^sinonsi[ ]+", starter, re.IGNORECASE):
         try:
             if searchParent(i, "si") or (searchParent(i, "sinonsi")):
                 newres.append(isSinonsi(res[i]))
@@ -236,38 +236,39 @@ for i in range(0, len(res)):
                 print("sinon invalide")
         except:
             print("sinon invalide")
-    elif re.match("^sinon[ ]*:?",starter,re.IGNORECASE):
-        print(searchParent(i, "si"),searchParent(i, "sinonsi")),isSinon(res[i])
+    elif re.match("^sinon[ ]*:?", starter, re.IGNORECASE):
         try:
-            if (searchParent(i, "si") or searchParent(i, "sinonsi"))and isSinon(res[i]):
+            if (searchParent(i, "si") or searchParent(i, "sinonsi")) and isSinon(
+                res[i]
+            ):
                 newres.append(isSinon(res[i]))
             else:
                 print("sinon invalide")
         except:
             print("sinon invalide")
-    elif re.match("^fonction[ ]+",starter,re.IGNORECASE):
+    elif re.match("^fonction[ ]+", starter, re.IGNORECASE):
         if isFonction(res[i]):
             newres.append(isFonction(res[i]))
         else:
             print("fonction invalide ")
-    elif re.match("^procedure[ ]+",starter,re.IGNORECASE):
+    elif re.match("^procedure[ ]+", starter, re.IGNORECASE):
         if isProcedure(res[i]):
             newres.append(isProcedure(res[i]))
         else:
             print("procedure invalide ")
-    elif re.match("^tant[ ]?que",starter,re.IGNORECASE):
+    elif re.match("^tant[ ]?que", starter, re.IGNORECASE):
         if isTantque(res[i]):
             newres.append(isTantque(res[i]))
         else:
             print("tantque invalide ")
-    elif re.match("^jusqu'?(a|à)",starter,re.IGNORECASE):
+    elif re.match("^jusqu'?(a|à)", starter, re.IGNORECASE):
         if isJusqua(res[i]):
             newres.append(isJusqua(res[i]))
-            newres.append('break')
-            newres.append('\tfinsi')
+            newres.append("break")
+            newres.append("\tfinsi")
         else:
             print(" Jusqu'a invalide ")
-    elif re.match("^R(e|é)p(e|é)ter[ ]*",starter,re.IGNORECASE):
+    elif re.match("^R(e|é)p(e|é)ter[ ]*", starter, re.IGNORECASE):
         if isRepeter(res[i]):
             newres.append(isRepeter(res[i]))
         else:
@@ -276,31 +277,60 @@ for i in range(0, len(res)):
         newres.append(res[i])
 while "" in newres:
     newres.remove("")
-print(newres)
 
 # writing
-wres = []
-indent = 0 
+indent = 0
+print(res)
+print(newres)
+
+
+def standAlonelegit(hay, needle):
+    rematch = re.sub(
+        f"^([^a-z_0-9]*param[^a-z_0-9]*)$",needle, hay, 
+    )
+    print(rematch)
+
+
+def defFixer(arr):
+    params = arr[0].split("(")[1].split(")")[0].split(",")
+    while "" in params:
+        params.remove("")
+    toreplace = []
+    for i in range(0, len(params)):
+        params[i] = params[i].split(":")[0]
+        if params[i][0] == "@":
+            toreplace.append(params[i][1::])
+    for i in range(1, len(arr) - 1):
+        for j in range(0, len(toreplace)):
+            standAlonelegit(arr[i], toreplace[j])
+
+
+for i in range(0, len(newres) - 1):
+    items = newres[i].split(" ")
+    if items[0] == "fin":
+        for k in range(i, 0, -1):
+            if newres[k].startswith("def"): 
+                defFixer(newres[k:i])
+                break
+
+
+"""
 for i in range(0, len(newres)):
     newres[i] = re.sub(" +", " ", str(newres[i]))
     starter = newres[i].strip()
-    if re.match('debut',starter,re.IGNORECASE):
-        wres.append('#'+'\t'*(indent-1) + str(newres[i])+'\n')
-    elif re.match('finpour|finsi|fin|fintantque',starter,re.IGNORECASE):
-        indent= abs(indent-1)
-        wres.append('#'+'\t'*(indent) + str(newres[i])+'\n')
-    elif re.match('break',starter,re.IGNORECASE):
-        wres.append('\t'*(indent) + str(newres[i])+'\n')
-        indent= abs(indent-1)
-    elif re.match('if|while|def|for',starter,re.IGNORECASE) :
-        wres.append('\t'*indent + str(newres[i])+'\n')
-        indent +=1
-    elif re.match('elif|else',starter,re.IGNORECASE):
-        wres.append('\t'*(abs(indent-1)) + str(newres[i])+'\n' )
+    if re.match("debut", starter, re.IGNORECASE):
+        wres.append("#" + "\t" * (indent - 1) + str(newres[i]) + "\n")
+    elif re.match("finpour|finsi|fin|fintantque", starter, re.IGNORECASE):
+        indent = abs(indent - 1)
+        wres.append("#" + "\t" * (indent) + str(newres[i]) + "\n")
+    elif re.match("break", starter, re.IGNORECASE):
+        wres.append("\t" * (indent) + str(newres[i]) + "\n")
+        indent = abs(indent - 1)
+    elif re.match("if|while|def|for", starter, re.IGNORECASE):
+        wres.append("\t" * indent + str(newres[i]) + "\n")
+        indent += 1
+    elif re.match("elif|else", starter, re.IGNORECASE):
+        wres.append("\t" * (abs(indent - 1)) + str(newres[i]) + "\n")
     else:
-        wres.append(('\t'*indent) + str(newres[i])+'\n')
-    
-
-j = open("test.py", "w+")
-for i in wres:
-    j.write(i)
+        wres.append(("\t" * indent) + str(newres[i]) + "\n")
+"""

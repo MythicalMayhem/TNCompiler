@@ -40,13 +40,14 @@ finsi
 
 fonction nom(@ghjk:asdfa,@sdfgsf:gsdfgs):type
 debut
-lire()
+lire(ghjk)
+ghjk <-- ghjk*2
 retourner 
 fin
 
 procedure nom(@hghjk:asdfa)
 debut
-lire()
+lire(hghjk)
 fin
 
 tantque b
