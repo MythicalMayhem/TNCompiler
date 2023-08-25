@@ -45,7 +45,7 @@ ghjk <-- ghjk*2
 retourner 
 fin
 
-procedure nom(@hghjk:asdfa)
+procedure nom(@willchange1:type,@wontchange1:type,@willchange2:type,@wontchange2:type)
 debut
 lire(hghjk)
 fin

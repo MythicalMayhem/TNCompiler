@@ -102,17 +102,21 @@ def isVariable(el):
     return test
 
 
-def isParam(el):
+def getParams(el):
     els = el.split(",")
+    alles = []
     for e in els:
         newel = re.match(
             "@?[a-z]+([a-z]|[0-9])*(:[a-z]+([a-z]|[0-9])*)?", e, re.IGNORECASE
         )
         if newel:
+            if e[0]=='@':
+                e=e[1::]
+                alles.append(e.split(':')[0])
             continue
         else:
-            return False
-    return True
+            return False 
+    return alles
 
 
 def isBoucleFor(el):
@@ -164,8 +168,8 @@ def isFonction(el):
         re.IGNORECASE,
     )
     if newel:
-        newarg = isParam(newel.group("arguments"))
-        if newarg:
+        newarg = getParams(newel.group("arguments"))
+        if newarg: 
             return f"def {newel.group('name')} ({newel.group('arguments')}):{newel.group('returntype')}"
         else:
             return False
@@ -179,7 +183,7 @@ def isProcedure(el):
         re.IGNORECASE,
     )
     if newel:
-        newarg = isParam(newel.group("arguments"))
+        newarg = getParams(newel.group("arguments"))
         if newarg:
             return f"def {newel.group('name')} ({newel.group('arguments')}):"
         else:
@@ -265,7 +269,7 @@ for i in range(0, len(res)):
         if isJusqua(res[i]):
             newres.append(isJusqua(res[i]))
             newres.append("break")
-            newres.append("\tfinsi")
+            newres.append("finsi")
         else:
             print(" Jusqu'a invalide ")
     elif re.match("^R(e|é)p(e|é)ter[ ]*", starter, re.IGNORECASE):
@@ -279,41 +283,21 @@ while "" in newres:
     newres.remove("")
 
 # writing
-indent = 0
-print(res)
-print(newres)
 
 
-def standAlonelegit(hay, needle):
-    rematch = re.sub(
-        f"^([^a-z_0-9]*param[^a-z_0-9]*)$",needle, hay, 
-    )
-    print(rematch)
 
-
-def defFixer(arr):
-    params = arr[0].split("(")[1].split(")")[0].split(",")
-    while "" in params:
-        params.remove("")
-    toreplace = []
-    for i in range(0, len(params)):
-        params[i] = params[i].split(":")[0]
-        if params[i][0] == "@":
-            toreplace.append(params[i][1::])
-    for i in range(1, len(arr) - 1):
-        for j in range(0, len(toreplace)):
-            standAlonelegit(arr[i], toreplace[j])
-
-
+wres=[]
 for i in range(0, len(newres) - 1):
     items = newres[i].split(" ")
     if items[0] == "fin":
         for k in range(i, 0, -1):
-            if newres[k].startswith("def"): 
-                defFixer(newres[k:i])
+            if newres[k].startswith("def"):
+
                 break
+        
 
 
+indent = 0
 """
 for i in range(0, len(newres)):
     newres[i] = re.sub(" +", " ", str(newres[i]))

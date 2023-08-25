@@ -35,7 +35,7 @@ elif (g):
 else :
 	lire(aaaa)
 #finsi
-def nom (@ghjk:asdfa,@sdfgsf:gsdfgs):type:
+def nom (@ghjk:asdfa,@sdfgsf:gsdfgs):
 #debut
 	lire(hghjk) 
 	retourner
