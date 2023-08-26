@@ -103,20 +103,30 @@ def isVariable(el):
 
 
 def getParams(el):
-    els = el.split(",")
-    alles = []
-    for e in els:
-        newel = re.match(
-            "@?[a-z]+([a-z]|[0-9])*(:[a-z]+([a-z]|[0-9])*)?", e, re.IGNORECASE
-        )
-        if newel:
-            if e[0]!='@': 
-                alles.append(['__OLD'+(e.split(':')[0]),e.split(':')[0]])
+    eltab = el.split(',')
+    while "" in eltab:
+        eltab.remove("")
+    alls = []
+    unchanges = []
+    for i in eltab:
+        i = re.sub(" +", " ", str(i)) 
+    for i in eltab:
+        i = re.sub(" +", " ", str(i))
+        if i ==' ':
+            continue
+        test = re.match("(?P<name>@?[a-z]+([a-z]|[0-9]))*(:[a-z]+([a-z]|[0-9])*)?", i, re.IGNORECASE)
+        name = test.group('name')
+        if test and name:
+            if name[0]!='@':
+                unchanges.append(['__OLD'+test.group('name'),test.group('name')])
+                alls.append(name)
+            else:
+                alls.append(name[1::])
         else:
-            return False 
-    return alles
+            return False,False 
+    return alls,unchanges
 
-
+ 
 def isBoucleFor(el):
     el = el.split(" ")[1:-1]
     index, start, end = 0, 0, 0
@@ -159,19 +169,21 @@ def isSinon(el):
         return False
 
 
-def isFonction(el):
+def isFonction(el): 
     newel = re.match(
         "fonction[ ]+(?P<name>[a-z]([a-z]|[0-9])*)[ ]*\((?P<arguments>.*)\):(?P<returntype>[a-z]+[0-9]*)",
         el,
         re.IGNORECASE,
-    )
+    ) 
     if newel:
-        newarg = getParams(newel.group("arguments"))
-        if newarg: 
-            return f"def {newel.group('name')} ({newel.group('arguments')}):{newel.group('returntype')}",newarg
+        alls,unchages = getParams(newel.group("arguments"))  
+        if alls==[]:
+            return f"def {newel.group('name')} ():{newel.group('returntype')}",[]
+        if unchages: 
+            return f"def {newel.group('name')} ({','.join(alls)}):{newel.group('returntype')}",unchages
         else:
-            return False
-    return False
+            return False,False
+    return False,False
 
 
 def isProcedure(el):
@@ -181,12 +193,16 @@ def isProcedure(el):
         re.IGNORECASE,
     )
     if newel:
-        newarg = getParams(newel.group("arguments"))
-        if newarg:
-            return f"def {newel.group('name')} ({newel.group('arguments')}):",newarg
+        alls,unchages = getParams(newel.group("arguments"))  
+        if alls==[]:
+            return f"def {newel.group('name')} ():",[]
+        if unchages: 
+            return f"def {newel.group('name')} ({','.join(alls)}):",unchages
         else:
-            return False
-    return False
+            return False,False
+    return False,False
+
+
 
 
 def isTantque(el):
@@ -245,8 +261,8 @@ for i in range(0, len(res)):
         except:
             print("sinon invalide")
     elif re.match("^fonction[ ]+", starter, re.IGNORECASE):
-        if isFonction(res[i]):
-            a,b = isFonction(res[i])
+        a,b = isFonction(res[i])  
+        if a :
             newres.append(a)
             newres.append(b)
             for l in b:
@@ -254,8 +270,8 @@ for i in range(0, len(res)):
         else:
             print("fonction invalide ")
     elif re.match("^procedure[ ]+", starter, re.IGNORECASE):
-        if isProcedure(res[i]):
-            a,b = isProcedure(res[i])
+        a,b = isProcedure(res[i])
+        if a and b :
             newres.append(a)
             newres.append(b)
             for l in b:
@@ -290,14 +306,19 @@ for i in range(0,len(newres)):
     if newres[i]=='fin':
         for k in range(i, -1, -1):
             if check(newres[k])==False and  re.match("^def[ ]+", newres[k], re.IGNORECASE):
-                botargs= newres[k+1]
+                botargs= newres[k+1] 
                 for l in botargs:
                     wres.append(l[1]+' = '+l[0])
-                    print(botargs)
 
                 break     
     
     wres.append(newres[i])
+ 
+
+
+test = True
+
+
  
 # writing
  
@@ -308,24 +329,26 @@ for i in range(0,len(newres)):
 
 indent = 0 
 wres2 = []
-for i in range(0, len(newres)):
-    newres[i] = re.sub(" +", " ", str(newres[i]))
-    starter = newres[i].strip()
+for i in range(0, len(wres)):
+    if check(wres[i]) :
+        continue
+    wres[i] = re.sub(" +", " ", str(wres[i]))
+    starter = wres[i].strip()
     if re.match("debut", starter, re.IGNORECASE):
-        wres2.append("#" + "\t" * (indent - 1) + str(newres[i]) + "\n")
+        wres2.append("#" + "\t" * (indent - 1) + str(wres[i]) + "\n")
     elif re.match("finpour|finsi|fin|fintantque", starter, re.IGNORECASE):
         indent = abs(indent - 1)
-        wres2.append("#" + "\t" * (indent) + str(newres[i]) + "\n")
+        wres2.append("#" + "\t" * (indent) + str(wres[i]) + "\n")
     elif re.match("break", starter, re.IGNORECASE):
-        wres2.append("\t" * (indent) + str(newres[i]) + "\n")
+        wres2.append("\t" * (indent) + str(wres[i]) + "\n")
         indent = abs(indent - 1)
     elif re.match("if|while|def|for", starter, re.IGNORECASE):
-        wres2.append("\t" * indent + str(newres[i]) + "\n")
+        wres2.append("\t" * indent + str(wres[i]) + "\n")
         indent += 1
     elif re.match("elif|else", starter, re.IGNORECASE):
-        wres2.append("\t" * (abs(indent - 1)) + str(newres[i]) + "\n")
+        wres2.append("\t" * (abs(indent - 1)) + str(wres[i]) + "\n")
     else:
-        wres2.append(("\t" * indent) + str(newres[i]) + "\n")
+        wres2.append(("\t" * indent) + str(wres[i]) + "\n")
 
 f = open("test.py", "w+")
 for i in wres2:

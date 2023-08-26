@@ -12,6 +12,8 @@ lire(x)
 finpour
 finpour
 finpour
+
+
 finpour
 finpour
 
@@ -39,6 +41,13 @@ sinon
 finsi
 
 fonction nom(@ghjjjk:asdfa,sdfgsf:gsdfgs):type
+debut
+lire(ghjk)
+ghjk <-- ghjk*2
+retourner 
+fin
+
+fonction nom(       ):type
 debut
 lire(ghjk)
 ghjk <-- ghjk*2

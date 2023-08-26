@@ -35,20 +35,27 @@ elif (g):
 else :
 	lire(aaaa)
 #finsi
-def nom (@ghjjjk:asdfa,sdfgsf:gsdfgs):type
-	[['__OLDsdfgsf', 'sdfgsf']]
+def nom (ghjjjk,sdfgsf):type
 	__OLDsdfgsf = sdfgsf
 #debut
 	lire(ghjk)
 	ghjk <-- ghjk*2
 	retourner
+	sdfgsf = __OLDsdfgsf
 #fin
-def nom (@willchange1:type,wontchange1,willchange2:type,wontchange2:type):
-	[['__OLDwontchange1', 'wontchange1'], ['__OLDwontchange2', 'wontchange2']]
+def nom ():type
+#debut
+	lire(ghjk)
+	ghjk <-- ghjk*2
+	retourner
+#fin
+def nom (willchange1,wontchange1,willchange2,wontchange2):
 	__OLDwontchange1 = wontchange1
 	__OLDwontchange2 = wontchange2
 #debut
 	lire(hghjk)
+	wontchange1 = __OLDwontchange1
+	wontchange2 = __OLDwontchange2
 #fin
 while b:
 	lire(v)
