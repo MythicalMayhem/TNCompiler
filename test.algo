@@ -38,14 +38,14 @@ sinon
     lire(aaaa)
 finsi
 
-fonction nom(@ghjk:asdfa,@sdfgsf:gsdfgs):type
+fonction nom(@ghjjjk:asdfa,sdfgsf:gsdfgs):type
 debut
 lire(ghjk)
 ghjk <-- ghjk*2
 retourner 
 fin
 
-procedure nom(@willchange1:type,@wontchange1:type,@willchange2:type,@wontchange2:type)
+procedure nom(@willchange1:type,wontchange1:type,@willchange2:type,wontchange2:type)
 debut
 lire(hghjk)
 fin

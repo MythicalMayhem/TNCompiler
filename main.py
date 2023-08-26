@@ -110,10 +110,8 @@ def getParams(el):
             "@?[a-z]+([a-z]|[0-9])*(:[a-z]+([a-z]|[0-9])*)?", e, re.IGNORECASE
         )
         if newel:
-            if e[0]=='@':
-                e=e[1::]
-                alles.append(e.split(':')[0])
-            continue
+            if e[0]!='@': 
+                alles.append(['__OLD'+(e.split(':')[0]),e.split(':')[0]])
         else:
             return False 
     return alles
@@ -170,7 +168,7 @@ def isFonction(el):
     if newel:
         newarg = getParams(newel.group("arguments"))
         if newarg: 
-            return f"def {newel.group('name')} ({newel.group('arguments')}):{newel.group('returntype')}"
+            return f"def {newel.group('name')} ({newel.group('arguments')}):{newel.group('returntype')}",newarg
         else:
             return False
     return False
@@ -185,7 +183,7 @@ def isProcedure(el):
     if newel:
         newarg = getParams(newel.group("arguments"))
         if newarg:
-            return f"def {newel.group('name')} ({newel.group('arguments')}):"
+            return f"def {newel.group('name')} ({newel.group('arguments')}):",newarg
         else:
             return False
     return False
@@ -217,12 +215,8 @@ def isRepeter(el):
 
 for i in range(0, len(res)):
     res[i] = re.sub(" +", " ", res[i])
-    starter = res[i].split(" ")[0].lower() + " "
-
-    if starter in ["finpour", "finsi", "fin"]:
-        newres.append(res[i])
-        continue
-    elif re.match("^pour[ ]+", starter, re.IGNORECASE):
+    starter = res[i].split(" ")[0].lower() + " " 
+    if re.match("^pour[ ]+", starter, re.IGNORECASE):
         if isBoucleFor(res[i]):
             newres.append(isBoucleFor(res[i]))
         else:
@@ -252,12 +246,16 @@ for i in range(0, len(res)):
             print("sinon invalide")
     elif re.match("^fonction[ ]+", starter, re.IGNORECASE):
         if isFonction(res[i]):
-            newres.append(isFonction(res[i]))
+            a,b = isFonction(res[i])
+            newres.append(a)
+            newres.append(b)
         else:
             print("fonction invalide ")
     elif re.match("^procedure[ ]+", starter, re.IGNORECASE):
         if isProcedure(res[i]):
-            newres.append(isProcedure(res[i]))
+            a,b = isProcedure(res[i])
+            newres.append(a)
+            newres.append(b)
         else:
             print("procedure invalide ")
     elif re.match("^tant[ ]?que", starter, re.IGNORECASE):
@@ -279,21 +277,23 @@ for i in range(0, len(res)):
             print("repeter invalide ")
     else:
         newres.append(res[i])
+
 while "" in newres:
     newres.remove("")
 
+for i in range(0,len(newres)):
+    if newres[i]=='fin':
+        newres.append(newres[i])
+        for k in range(i, -1, -1):
+            
+            if check(newres[k])==False and  re.match("^def[ ]+", newres[k], re.IGNORECASE):
+                print(newres[k+1])
+                break     
+
 # writing
-
-
-
-wres=[]
-for i in range(0, len(newres) - 1):
-    items = newres[i].split(" ")
-    if items[0] == "fin":
-        for k in range(i, 0, -1):
-            if newres[k].startswith("def"):
-
-                break
+ 
+ 
+ 
         
 
 
