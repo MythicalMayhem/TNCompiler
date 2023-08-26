@@ -22,20 +22,20 @@ lire(x)
 finpour
 
 si o alors
-lire(20)
+lire(p)
 si o alors
-lire(20)
+lire(h)
 si o alors
-lire(20)
+lire(hd)
 finsi
 finsi
 finsi
 si g alors
     Repeter
-        ecrite(sdfg)
+        ecrire(sdfg)
     Jusqu'a Vrai
 sinonsi g alors
-    lire(20)
+    lire(r)
 sinon
     lire(aaaa)
 finsi
@@ -44,14 +44,14 @@ fonction nom(@ghjjjk:asdfa,sdfgsf:gsdfgs):type
 debut
 lire(ghjk)
 ghjk <-- ghjk*2
-retourner 
+retourner
 fin
 
 fonction nom(       ):type
 debut
 lire(ghjk)
 ghjk <-- ghjk*2
-retourner 
+retourner dfgh
 fin
 
 procedure nom(@willchange1:type,wontchange1:type,@willchange2:type,wontchange2:type)
@@ -64,7 +64,7 @@ lire(v)
 fintantque
 
 Repeter
-ecrite(sdfg)
+ecrire(sdfg)
 Jusqu'a Vrai
 
 fin

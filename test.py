@@ -1,67 +1,65 @@
 for i in range(0,10):
 	for j in range(0,56):
-		lire(x)
+		x= input()
 		for j in range(0,56):
-			lire(x)
+			x= input()
 			for j in range(0,56):
-				lire(x)
+				x= input()
 				for j in range(0,56):
-					lire(x)
+					x= input()
 #				finpour
 #			finpour
 #		finpour
 #	finpour
 #finpour
 for y in range(0,56):
-	lire(x)
+	x= input()
 #finpour
 if (o):
-	lire(20)
+	p= input()
 	if (o):
-		lire(20)
+		h= input()
 		if (o):
-			lire(20)
+			hd= input()
 #		finsi
 #	finsi
 #finsi
 if (g):
 	while True :
-		ecrite(sdfg)
-		if (Vrai):
+		if (True ):
 			break
 #	finsi
 elif (g):
-	lire(20)
+	r= input()
 else :
-	lire(aaaa)
+	aaaa= input()
 #finsi
-def nom (ghjjjk,sdfgsf):type
+def nom (ghjjjk,sdfgsf):#type
 	__OLDsdfgsf = sdfgsf
 #debut
-	lire(ghjk)
+	ghjk= input()
 	ghjk <-- ghjk*2
-	retourner
+	return 
 	sdfgsf = __OLDsdfgsf
 #fin
-def nom ():type
+def nom ():#type
 #debut
-	lire(ghjk)
+	ghjk= input()
 	ghjk <-- ghjk*2
-	retourner
+	return dfgh
 #fin
 def nom (willchange1,wontchange1,willchange2,wontchange2):
 	__OLDwontchange1 = wontchange1
 	__OLDwontchange2 = wontchange2
 #debut
-	lire(hghjk)
+	hghjk= input()
 	wontchange1 = __OLDwontchange1
 	wontchange2 = __OLDwontchange2
 #fin
 while b:
-	lire(v)
+	v= input()
 #fintantque
 while True :
-	ecrite(sdfg)
-	if (Vrai):
+	if (True ):
 		break
 #finsi
