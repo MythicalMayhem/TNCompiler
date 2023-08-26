@@ -249,6 +249,8 @@ for i in range(0, len(res)):
             a,b = isFonction(res[i])
             newres.append(a)
             newres.append(b)
+            for l in b:
+                newres.append(l[0]+' = '+l[1])
         else:
             print("fonction invalide ")
     elif re.match("^procedure[ ]+", starter, re.IGNORECASE):
@@ -256,6 +258,8 @@ for i in range(0, len(res)):
             a,b = isProcedure(res[i])
             newres.append(a)
             newres.append(b)
+            for l in b:
+                newres.append(l[0]+' = '+l[1])
         else:
             print("procedure invalide ")
     elif re.match("^tant[ ]?que", starter, re.IGNORECASE):
@@ -281,15 +285,20 @@ for i in range(0, len(res)):
 while "" in newres:
     newres.remove("")
 
+wres=[]
 for i in range(0,len(newres)):
     if newres[i]=='fin':
-        newres.append(newres[i])
         for k in range(i, -1, -1):
-            
             if check(newres[k])==False and  re.match("^def[ ]+", newres[k], re.IGNORECASE):
-                print(newres[k+1])
-                break     
+                botargs= newres[k+1]
+                for l in botargs:
+                    wres.append(l[1]+' = '+l[0])
+                    print(botargs)
 
+                break     
+    
+    wres.append(newres[i])
+ 
 # writing
  
  
@@ -297,24 +306,27 @@ for i in range(0,len(newres)):
         
 
 
-indent = 0
-"""
+indent = 0 
+wres2 = []
 for i in range(0, len(newres)):
     newres[i] = re.sub(" +", " ", str(newres[i]))
     starter = newres[i].strip()
     if re.match("debut", starter, re.IGNORECASE):
-        wres.append("#" + "\t" * (indent - 1) + str(newres[i]) + "\n")
+        wres2.append("#" + "\t" * (indent - 1) + str(newres[i]) + "\n")
     elif re.match("finpour|finsi|fin|fintantque", starter, re.IGNORECASE):
         indent = abs(indent - 1)
-        wres.append("#" + "\t" * (indent) + str(newres[i]) + "\n")
+        wres2.append("#" + "\t" * (indent) + str(newres[i]) + "\n")
     elif re.match("break", starter, re.IGNORECASE):
-        wres.append("\t" * (indent) + str(newres[i]) + "\n")
+        wres2.append("\t" * (indent) + str(newres[i]) + "\n")
         indent = abs(indent - 1)
     elif re.match("if|while|def|for", starter, re.IGNORECASE):
-        wres.append("\t" * indent + str(newres[i]) + "\n")
+        wres2.append("\t" * indent + str(newres[i]) + "\n")
         indent += 1
     elif re.match("elif|else", starter, re.IGNORECASE):
-        wres.append("\t" * (abs(indent - 1)) + str(newres[i]) + "\n")
+        wres2.append("\t" * (abs(indent - 1)) + str(newres[i]) + "\n")
     else:
-        wres.append(("\t" * indent) + str(newres[i]) + "\n")
-"""
+        wres2.append(("\t" * indent) + str(newres[i]) + "\n")
+
+f = open("test.py", "w+")
+for i in wres2:
+    f.write(i)

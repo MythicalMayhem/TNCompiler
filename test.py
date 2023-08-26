@@ -29,20 +29,26 @@ if (g):
 		ecrite(sdfg)
 		if (Vrai):
 			break
-#		finsi
+#	finsi
 elif (g):
 	lire(20)
 else :
 	lire(aaaa)
 #finsi
-def nom (@ghjk:asdfa,@sdfgsf:gsdfgs):
+def nom (@ghjjjk:asdfa,sdfgsf:gsdfgs):type
+	[['__OLDsdfgsf', 'sdfgsf']]
+	__OLDsdfgsf = sdfgsf
 #debut
-	lire(hghjk) 
+	lire(ghjk)
+	ghjk <-- ghjk*2
 	retourner
 #fin
-def nom (@hghjk:asdfa):
+def nom (@willchange1:type,wontchange1,willchange2:type,wontchange2:type):
+	[['__OLDwontchange1', 'wontchange1'], ['__OLDwontchange2', 'wontchange2']]
+	__OLDwontchange1 = wontchange1
+	__OLDwontchange2 = wontchange2
 #debut
-	lire()
+	lire(hghjk)
 #fin
 while b:
 	lire(v)
@@ -51,4 +57,4 @@ while True :
 	ecrite(sdfg)
 	if (Vrai):
 		break
-#	finsi
+#finsi
