@@ -21,7 +21,7 @@ pour y de 0 a 56 faire
 lire(x)
 finpour
 
-si o alors
+si o=a alors
 lire(p)
 si o alors
 lire(h)

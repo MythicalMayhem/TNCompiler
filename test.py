@@ -15,7 +15,7 @@ for i in range(0,10):
 for y in range(0,56):
 	x= input()
 #finpour
-if (o):
+if (o==a):
 	p= input()
 	if (o):
 		h= input()
@@ -38,14 +38,14 @@ def nom (ghjjjk,sdfgsf):#type
 	__OLDsdfgsf = sdfgsf
 #debut
 	ghjk= input()
-	ghjk <-- ghjk*2
-	return 
+	ghjk == ghjk*2
 	sdfgsf = __OLDsdfgsf
+	return 
 #fin
 def nom ():#type
 #debut
 	ghjk= input()
-	ghjk <-- ghjk*2
+	ghjk == ghjk*2
 	return dfgh
 #fin
 def nom (willchange1,wontchange1,willchange2,wontchange2):
