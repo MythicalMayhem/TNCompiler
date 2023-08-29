@@ -109,7 +109,7 @@ def getParams(el):
     alls = []
     unchanges = []
     for i in eltab:
-        i = re.sub(" +", " ", str(i)) 
+        i = re.sub(" +", " ", str(i))
         if i == " ":
             continue
         test = re.match(
@@ -233,20 +233,19 @@ def isRepeter(el):
 for i in range(0, len(res)):
     res[i] = re.sub(" +", " ", res[i])
     starter = res[i].split(" ")[0].lower().strip() + " "
-    
 
-    res[i] = re.sub('<--',' = ' ,res[i],re.IGNORECASE)
-    res[i] = re.sub('=','==' ,res[i],re.IGNORECASE)
-    res[i] = re.sub('====','==' ,res[i],re.IGNORECASE)
-    res[i] = re.sub('div','//' ,res[i],re.IGNORECASE)
-    res[i] = re.sub('\^','**' ,res[i],re.IGNORECASE)
-    res[i] = re.sub('([^a-z0-9])(Vrai)[^a-z0-9]',' True ' ,res[i],re.IGNORECASE)
-    res[i] = re.sub('([^a-z0-9])(Faux)[^a-z0-9]',' False ',res[i],re.IGNORECASE)
-    res[i] = re.sub('([^a-z0-9])(Vrai)$',' True ',res[i],re.IGNORECASE)
-    res[i] = re.sub('^(Vrai)[^a-z0-9]',' True ',res[i],re.IGNORECASE)
-    res[i] = re.sub('([^a-z0-9])(Faux)$',' False ',res[i],re.IGNORECASE)
-    res[i] = re.sub('^(Faux)[^a-z0-9]',' False ',res[i],re.IGNORECASE)
-     
+    res[i] = re.sub("<--", " = ", res[i], re.IGNORECASE)
+    res[i] = re.sub("=", "==", res[i], re.IGNORECASE)
+    res[i] = re.sub("====", "==", res[i], re.IGNORECASE)
+    res[i] = re.sub("div", "//", res[i], re.IGNORECASE)
+    res[i] = re.sub("\^", "**", res[i], re.IGNORECASE)
+    res[i] = re.sub("([^a-z0-9])(Vrai)[^a-z0-9]", " True ", res[i], re.IGNORECASE)
+    res[i] = re.sub("([^a-z0-9])(Faux)[^a-z0-9]", " False ", res[i], re.IGNORECASE)
+    res[i] = re.sub("([^a-z0-9])(Vrai)$", " True ", res[i], re.IGNORECASE)
+    res[i] = re.sub("^(Vrai)[^a-z0-9]", " True ", res[i], re.IGNORECASE)
+    res[i] = re.sub("([^a-z0-9])(Faux)$", " False ", res[i], re.IGNORECASE)
+    res[i] = re.sub("^(Faux)[^a-z0-9]", " False ", res[i], re.IGNORECASE)
+
     if re.match("^pour[ ]+", starter, re.IGNORECASE):
         if isBoucleFor(res[i]):
             newres.append(isBoucleFor(res[i]))
@@ -312,67 +311,69 @@ for i in range(0, len(res)):
             print("repeter invalide ")
     elif re.match("^lire\(.+\)", starter, re.IGNORECASE):
         lire = re.match("^lire\((?P<stuff>.+)\)", res[i], re.IGNORECASE)
-        if lire and lire.group('stuff'):
-            if isVariable(lire.group('stuff')):
+        if lire and lire.group("stuff"):
+            if isVariable(lire.group("stuff")):
                 newres.append(f'{lire.group("stuff")}= input()')
             else:
-                print('lire Invalide') 
-    elif re.match("^ecrire\(.*\)", starter, re.IGNORECASE):
-        ecrit = re.match("^ecrire\(?P<stuff>.*\)", res[i], re.IGNORECASE)
-        if ecrit and ecrit.group('stuff'):
-            newres.append(f'print({ecrit.group("stuff")})')
-
+                print("lire Invalide")
     elif re.match("^retourner[ ]+", starter, re.IGNORECASE):
         test = re.match("^retourner[ ]+(?P<stuff>(.*))", res[i], re.IGNORECASE)
         if test:
-            print(test.groups())
             newres.append(f'return {test.group("stuff")}')
         else:
-            newres.append(f'return ')
+            newres.append(f"return ")
     else:
         newres.append(res[i])
 
+
 while "" in newres:
     newres.remove("")
+
+
 wres = []
 for i in range(0, len(newres)):
     if newres[i] == "fin":
-        forlater = ''
-        if newres[i-1].split(' ')[0]=='return':
-            forlater = newres[i-1]
-            wres.pop()    
+        forlater = ""
+        if newres[i - 1].split(" ")[0] == "return":
+            forlater = newres[i - 1]
+            wres.pop()
         for k in range(i, -1, -1):
             if check(newres[k]) == False and re.match(
                 "^def[ ]+", newres[k], re.IGNORECASE
             ):
                 botargs = newres[k + 1]
                 for l in botargs:
-                    wres.append(l[1] + " = " + l[0]) 
+                    wres.append(l[1] + " = " + l[0])
                 break
-        if forlater!='':
+        if forlater != "":
             wres.append(forlater)
     wres.append(newres[i])
 while True:
     test = True
-    for i in range(0,len(wres)):
+    for i in range(0, len(wres)):
         if check(wres[i]):
             wres.pop(i)
-            test=False
+            test = False
             break
-    if test==True:
+    if test == True:
         break
-
-
-
-                        
 
 
 # writing
 indent = 0
-
 wres2 = []
-for i in range(0, len(wres)):    
-    wres[i] = re.sub(" +", " ", str(wres[i]))
+predef = open("predefined.py", "r").readlines()
+
+while "" in newres:
+    newres.remove("")
+for i in predef:
+    i = i.strip()
+while "" in predef:
+    predef.remove("")
+for i in predef:
+    wres2.append(i)
+for i in range(0, len(wres)):
+    wres[i] = re.sub(" +", " ", str(wres[i])).strip()
     starter = wres[i].strip()
     if re.match("debut", starter, re.IGNORECASE):
         wres2.append("#" + "\t" * (indent - 1) + str(wres[i]) + "\n")
@@ -391,11 +392,5 @@ for i in range(0, len(wres)):
         wres2.append(("\t" * indent) + str(wres[i]) + "\n")
 
 
-
-
-
-
-
 f = open("test.py", "w+")
-for i in wres2:
-    f.write(i)
+f.writelines(wres2)
