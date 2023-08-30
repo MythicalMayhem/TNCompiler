@@ -6,6 +6,7 @@ b:chaine
 
 #TDNT
 tab:tableau de 20 entier
+tab:tableau de 20 eleve
 eleve:enregistrement
 debut
 age:entier

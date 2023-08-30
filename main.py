@@ -475,7 +475,8 @@ for i in predef:
     i = i.strip()
 for i in predef:
     wres2.append(i)
-
+    
+    
 for i in enregistrement:
     wres2.append('\n'.join(i))
 for i,v in enumerate(tableau): 
@@ -500,10 +501,11 @@ for i,v in enumerate(tableau):
             tab.append([])
     elif type in enrnames:
         for j in range(0,tablength+1):
-            tab.append(str(type)+'()')
-    print(f'{tabname} = {tab}')
+            tab.append(type+'()')
+        wres2.append(f'{tabname} = [{",".join(tab)}]\n')   
+        continue
+    wres2.append(f'{tabname} = {tab}\n') 
 
-indent = 0
 for i in range(0, len(wres)):
     wres[i] = re.sub(" +", " ", str(wres[i])).strip()
     starter = wres[i]

@@ -24,9 +24,8 @@ class eleve:
 	nom=None
 	moyenne=None
 	succes=None
+tab = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
 #debut
-while True :
-	x= input()
-	if (x=='a'):
-		break
+tab[0].age = 10
+print(tab[0].age)
 #finsi
