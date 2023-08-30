@@ -14,5 +14,9 @@ def majus(s):return s.upper()
 def minus(s):return s.lower()
 
 def ecrire(*args):print(' '.join(args))
-x= input()
-ecrire(majus(x))
+#debut
+while True :
+	x= input()
+	if (x=='a'):
+		break
+#finsi

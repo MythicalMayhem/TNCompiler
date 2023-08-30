@@ -3,18 +3,37 @@ import re
 
 f = open("test.algo", "r").readlines()
 res = []
-for sub in f:
-    res.append(sub.replace("\n", "").strip())
+for i in f:
+    i = re.sub(" +", " ", i)
+    res.append(i.replace("\n", "").strip())
+
+variables = []
+for i, v in enumerate(res):
+    if re.match("^(algorithme) ", v, re.IGNORECASE):
+        variables = res[0:i]
+        res = res[i::]
+        break
+
+tdo = []
+tdnt = []
+for i, v in enumerate(variables):
+    if v == "#TDNT":
+        tdnt = variables[i + 1 : :]
+        tdo = variables[1:i]
 
 
-if res[0].lower() != "debut":
+if re.match("^(algorithme) .+", res[0], re.IGNORECASE):
+    pass
+else:
+    raise Exception("declaration algorithme invalide")
+if res[1].lower() != "debut":
     raise Exception("debut manquante")
 if res[len(res) - 1].lower() != "fin":
-    raise Exception(f"Debut manquante : ligne {len(res)}")
+    raise Exception(f"fin manquante : ligne {len(res)}")
+
 res.pop(0)
-res.pop(-1)
-while "" in res:
-    res.remove("")
+res.pop(1)
+res.pop()
 
 
 def searchParent(start, name):
@@ -28,10 +47,11 @@ def searchParent(start, name):
         else:
             if items1[0] == name:
                 return k
+    raise Exception(f"extra {name} at {start+1}")
 
 
 # compress
-for i in range(0, len(res) - 1):
+for i in range(0, len(res)):
     items = res[i].split(" ")
     if items[0] == "finpour":
         search = searchParent(i, "pour")
@@ -86,8 +106,6 @@ def arraying(pig):
 
 
 res = arraying(res)
-while "" in res:
-    res.remove("")
 newres = []
 
 
@@ -357,24 +375,23 @@ while True:
             break
     if test == True:
         break
-
+while "" in wres:
+    wres.remove("")
 
 # writing
-indent = 0
 wres2 = []
 predef = open("predefined.py", "r").readlines()
-
-while "" in newres:
-    newres.remove("")
 for i in predef:
     i = i.strip()
 while "" in predef:
     predef.remove("")
 for i in predef:
     wres2.append(i)
+
+indent = 0
 for i in range(0, len(wres)):
     wres[i] = re.sub(" +", " ", str(wres[i])).strip()
-    starter = wres[i].strip()
+    starter = wres[i]
     if re.match("debut", starter, re.IGNORECASE):
         wres2.append("#" + "\t" * (indent - 1) + str(wres[i]) + "\n")
     elif re.match("finpour|finsi|fin|fintantque", starter, re.IGNORECASE):
@@ -390,6 +407,62 @@ for i in range(0, len(wres)):
         wres2.append("\t" * (abs(indent - 1)) + str(wres[i]) + "\n")
     else:
         wres2.append(("\t" * indent) + str(wres[i]) + "\n")
+
+tdo2 = {}
+for i, v in enumerate(tdo):
+    v = re.sub(" +", "", v)
+    if v == "":
+        continue
+    keys = v.split(":")[0]
+    val = v.split(":")[1]
+    for j in keys:
+        tdo2[j] = val
+
+
+tdnt2 = {}
+
+def createClass(enregistrement):
+    classlist = []
+    classlist.append(f'class {list(enregistrement.keys())[0]}:')
+    enrdesc = dict(list(enregistrement.values())[0])
+    for i,v in enumerate(enrdesc):
+        classlist.append('\t'+v+':'+enrdesc[v])
+        
+
+for i, v in enumerate(tdnt):
+    v = v.strip()
+    if v in ["fin", "debut", ""]:
+        continue
+    if (v.find(":") == -1) and (v[0:8] != "tableau "):
+        estr = f"declaration d'objet invalide dans TDNT ligne {i} :{v} "
+        raise Exception(estr)
+
+    key = v.strip().split(":")[0].strip()
+    value = v.strip().split(":")[1].strip()
+
+    if value == "enregistrement":
+        for j in range(i, len(tdnt)):
+            if tdnt[j].strip() == "fin":
+                details = tdnt[i : j + 1][2:-1]
+                for k in details:
+                    ki = k.split(":")[0]
+                    vl = k.split(":")[1]
+                    createClass({[ki] : vl})
+    elif value[0:8] == "tableau ":
+        s = value.split(" ")
+        tdnt2[key] = [s[-2], s[-1]]
+
+print(tdnt2)
+
+
+def createClass(name,*args):
+    classlist = []
+    classlist.append(f'class {name}:')
+    for i in args:
+        for j in i.Keys.split(','):
+            classlist.append('\t'+j+':'+i.Values[0])
+            
+
 
 
 f = open("test.py", "w+")
