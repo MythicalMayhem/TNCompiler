@@ -14,6 +14,16 @@ def majus(s):return s.upper()
 def minus(s):return s.lower()
 
 def ecrire(*args):print(' '.join(args))
+class eleve:
+	age=None
+	nom=None
+	moyenne=None
+	succes=None
+class eleve:
+	age=None
+	nom=None
+	moyenne=None
+	succes=None
 #debut
 while True :
 	x= input()

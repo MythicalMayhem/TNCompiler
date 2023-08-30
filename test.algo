@@ -13,6 +13,15 @@ nom:chaine
 moyenne:reel
 succes:booleen
 fin 
+eleve:enregistrement
+debut
+age:entier
+nom:chaine
+moyenne:reel
+succes:booleen
+fin 
+
+
 
 algorithme nom
 debut

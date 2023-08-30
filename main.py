@@ -1,6 +1,7 @@
 import re
+import os
 
-
+os.system("cls")
 f = open("test.algo", "r").readlines()
 res = []
 for i in f:
@@ -419,16 +420,20 @@ for i, v in enumerate(tdo):
         tdo2[j] = val
 
 
-tdnt2 = {}
-
 def createClass(enregistrement):
     classlist = []
-    classlist.append(f'class {list(enregistrement.keys())[0]}:')
+    classlist.append(f"class {list(enregistrement.keys())[0]}:")
     enrdesc = dict(list(enregistrement.values())[0])
-    for i,v in enumerate(enrdesc):
-        classlist.append('\t'+v+':'+enrdesc[v])
-        
+    for i, v in enumerate(enrdesc):
+        classlist.append("\t" + v + "=" + 'None')
+        #classlist.append("\t" + v + ":" + enrdesc[v])
+    return classlist
 
+
+tableau = []
+enregistrement = []
+enrnames = []
+tabnames = []
 for i, v in enumerate(tdnt):
     v = v.strip()
     if v in ["fin", "debut", ""]:
@@ -444,26 +449,79 @@ for i, v in enumerate(tdnt):
         for j in range(i, len(tdnt)):
             if tdnt[j].strip() == "fin":
                 details = tdnt[i : j + 1][2:-1]
+                detailsdict = {}
                 for k in details:
-                    ki = k.split(":")[0]
-                    vl = k.split(":")[1]
-                    createClass({[ki] : vl})
+                    if k in ["fin", "debut", ""]:
+                        continue
+                    detailsdict[k.split(":")[0]] = k.split(":")[1]
+                enregistrement.append(createClass({key: detailsdict}))
+                enregistrement.append('\n')
+                enrnames.append(key.strip())
+                break
     elif value[0:8] == "tableau ":
         s = value.split(" ")
-        tdnt2[key] = [s[-2], s[-1]]
-
-print(tdnt2)
-
-
-def createClass(name,*args):
-    classlist = []
-    classlist.append(f'class {name}:')
-    for i in args:
-        for j in i.Keys.split(','):
-            classlist.append('\t'+j+':'+i.Values[0])
-            
+        tabnames.append(key.strip())
+        tableau.append({key: [s[-2], s[-1]]})
 
 
+# writing
+wres2 = []
+
+
+
+
+predef = open("predefined.py", "r").readlines()
+for i in predef:
+    i = i.strip()
+for i in predef:
+    wres2.append(i)
+
+for i in enregistrement:
+    wres2.append('\n'.join(i))
+for i,v in enumerate(tableau): 
+    tab = [] 
+    tabname = list(tableau[i].keys())[0]
+    tablength  = int(list(tableau[i].values())[0][0].strip())
+    type = list(tableau[i].values())[0][1].strip()
+    if type=='entier':
+        for j in range(0,tablength+1):
+            tab.append(0)
+    elif type in ['chaine','caractere'] :
+        for j in range(0,tablength+1):
+            tab.append('')
+    elif type=='reel':
+        for j in range(0,tablength+1):
+            tab.append(0.0)
+    elif type =='booleen':
+        for j in range(0,tablength+1):
+            tab.append(False)
+    elif type in tabnames:
+        for j in range(0,tablength+1):
+            tab.append([])
+    elif type in enrnames:
+        for j in range(0,tablength+1):
+            tab.append(str(type)+'()')
+    print(f'{tabname} = {tab}')
+
+indent = 0
+for i in range(0, len(wres)):
+    wres[i] = re.sub(" +", " ", str(wres[i])).strip()
+    starter = wres[i]
+    if re.match("debut", starter, re.IGNORECASE):
+        wres2.append("#" + "\t" * (indent - 1) + str(wres[i]) + "\n")
+    elif re.match("finpour|finsi|fin|fintantque", starter, re.IGNORECASE):
+        indent = abs(indent - 1)
+        wres2.append("#" + "\t" * (indent) + str(wres[i]) + "\n")
+    elif re.match("break", starter, re.IGNORECASE):
+        wres2.append("\t" * (indent) + str(wres[i]) + "\n")
+        indent = abs(indent - 1)
+    elif re.match("if|while|def|for", starter, re.IGNORECASE):
+        wres2.append("\t" * indent + str(wres[i]) + "\n") 
+        indent += 1
+    elif re.match("elif|else", starter, re.IGNORECASE):
+        wres2.append("\t" * (abs(indent - 1)) + str(wres[i]) + "\n")
+    else:
+        wres2.append(("\t" * indent) + str(wres[i]) + "\n")
 
 f = open("test.py", "w+")
 f.writelines(wres2)
