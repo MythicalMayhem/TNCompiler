@@ -362,7 +362,6 @@ while True:
 
 
 # tdnt
-
 tabtemplates = {}
 enregistrement = []
 enrnames = []
