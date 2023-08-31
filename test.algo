@@ -28,37 +28,9 @@ fin
 
 algorithme nom
 debut
-repeter
-    pour i de 0 a 1 faire
-        lire(a)
-    finpour
-    lire(x)
-    repeter
-        lire(x)
 
-
-
-
-
-        
-    jusqu'a x='a' 
-
-
-
-
-
-
-
-
-
-    repeter
-        lire(x)
-    jusqu'a x='a' 
-    repeter
-        lire(x)
-    jusqu'a x='a' 
-jusqu'a x='sdfsdf' 
-lire(ok) 
-
-
+lire(a)
+si a=='a' alors
+    ecrire('adsgsdfh')
+fin_si
 fin

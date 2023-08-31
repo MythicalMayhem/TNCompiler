@@ -1,7 +1,7 @@
 import re
 import os
+import subprocess
 
-os.system("cls")
 f = open("test.algo", "r").readlines()
 res = []
 for i in f:
@@ -43,9 +43,7 @@ def searchParent(start, name):
     estr = f"extra {name} at {start+1}"
     raise Exception(estr)
 
-
-def compressor(LIST):
-    def compressionalgo(items): 
+def compressionalgo(items): 
         if re.match("finpour",items,re.IGNORECASE): 
             return searchParent(i, "^pour[ ]+")
         elif re.match("finsi",items,re.IGNORECASE):
@@ -56,7 +54,9 @@ def compressor(LIST):
             return searchParent(i, "^tant[ ]?que")
         elif re.match("fin",items,re.IGNORECASE):
             return searchParent(i, "^(fonction|proc(e|é)dure) ")   
-    compressed = LIST.copy()
+        
+def compressor(LIST):
+    compressed = LIST.copy() 
     for i in range(0, len(compressed)-1):
         search = compressionalgo(compressed[i].strip())
         if search:
@@ -246,17 +246,20 @@ for i in range(0, len(res)):
     if re.match("^pour[ ]+", starter, re.IGNORECASE):
         if isBoucleFor(res[i]):
             newres.append(isBoucleFor(res[i]))
+            newres.append('pass')
         else:
             print("pour invalide")
     elif re.match("^si[ ]+", starter, re.IGNORECASE):
         if isSi(res[i]):
             newres.append(isSi(res[i]))
+            newres.append('pass')
         else:
             print("si invalide ")
     elif re.match("^sinonsi[ ]+", starter, re.IGNORECASE):
         try:
             if searchParent(i, "si") or (searchParent(i, "sinonsi")):
                 newres.append(isSinonsi(res[i]))
+                newres.append('pass')
             else:
                 print("sinon invalide")
         except:
@@ -267,6 +270,7 @@ for i in range(0, len(res)):
                 res[i]
             ):
                 newres.append(isSinon(res[i]))
+                newres.append('pass')
             else:
                 print("sinon invalide")
         except:
@@ -275,6 +279,7 @@ for i in range(0, len(res)):
         a, b = isFonction(res[i])
         if a:
             newres.append(a)
+            newres.append('pass')
             newres.append(b)
             for l in b:
                 newres.append(l[0] + " = " + l[1])
@@ -284,6 +289,7 @@ for i in range(0, len(res)):
         a, b = isProcedure(res[i])
         if a and b:
             newres.append(a)
+            newres.append('pass')
             newres.append(b)
             for l in b:
                 newres.append(l[0] + " = " + l[1])
@@ -292,6 +298,7 @@ for i in range(0, len(res)):
     elif re.match("^tant[ ]?que", starter, re.IGNORECASE):
         if isTantque(res[i]):
             newres.append(isTantque(res[i]))
+            newres.append('pass')
         else:
             print("tantque invalide ")
     elif re.match("^jusqu'?(a|à)", starter, re.IGNORECASE):
@@ -304,6 +311,7 @@ for i in range(0, len(res)):
     elif re.match("^R(e|é)p(e|é)ter[ ]*", starter, re.IGNORECASE):
         if isRepeter(res[i]):
             newres.append(isRepeter(res[i]))
+            newres.append('pass')
         else:
             print("repeter invalide ")
     elif re.match("^lire\(.+\)", starter, re.IGNORECASE):
@@ -464,4 +472,7 @@ final += tdo3
 final += wres2
 
 f = open("test.py", "w+")
-f.writelines(final)
+f.writelines(final) 
+f.close()
+
+subprocess.call("python test.py", shell=True)

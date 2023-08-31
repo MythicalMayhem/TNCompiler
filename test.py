@@ -33,45 +33,10 @@ d = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),ele
 e = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
 #algorithme nom
 #debut
-while True :
-	for i in range(0,1):
-		a= input()
-#	finpour
-	x= input()
-	while True :
-		x= input()
-		
-		
-		
-		
-		
-		
-		if (x=='a'):
-			break
-#	finsi
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	while True :
-		x= input()
-		if (x=='a'):
-			break
-#	finsi
-	while True :
-		x= input()
-		if (x=='a'):
-			break
-#	finsi
-	if (x=='sdfsdf'):
-		break
-#finsi
-ok= input()
 
-
+a= input()
+if (a=='a'):
+	pass
+	ecrire('adsgsdfh')
+#fin_si
 #	fin
