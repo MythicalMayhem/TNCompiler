@@ -19,13 +19,21 @@ class eleve:
 	nom=None
 	moyenne=None
 	succes=None
+
 class eleve:
 	age=None
 	nom=None
 	moyenne=None
 	succes=None
-tab = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
+
+a=None
+b=None
+c = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+d = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
+e = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
 #debut
-tab[0].age = 10
-print(tab[0].age)
+while True :
+	x= input()
+	if (x=='a'):
+		break
 #finsi

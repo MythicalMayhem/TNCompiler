@@ -1,12 +1,14 @@
 #TDO
 a:entier
 b:chaine
-
+c:tab
+d:tab1
+e:tableau de 20 eleve
 
 
 #TDNT
 tab:tableau de 20 entier
-tab:tableau de 20 eleve
+tab1:tableau de 20 eleve
 eleve:enregistrement
 debut
 age:entier
