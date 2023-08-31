@@ -8,23 +8,22 @@ for i in f:
     i = re.sub(" +", " ", i)
     res.append(i.replace("\n", "").strip())
 
-variables = []
+tdo = []
+tdnt = []
+
 for i, v in enumerate(res):
     if re.match("^(algorithme) ", v, re.IGNORECASE):
         variables = res[0:i]
         res = res[i::]
+        for i, v in enumerate(variables):
+            if v == "#TDNT":
+                tdnt = variables[i + 1 : :]
+                tdo = variables[1:i]
         break
-
-tdo = []
-tdnt = []
-for i, v in enumerate(variables):
-    if v == "#TDNT":
-        tdnt = variables[i + 1 : :]
-        tdo = variables[1:i]
 
 
 if re.match("^(algorithme) .+", res[0], re.IGNORECASE):
-    pass
+    res[0] = '#'+res[0]
 else:
     raise Exception("declaration algorithme invalide")
 if res[1].lower() != "debut":
@@ -32,53 +31,39 @@ if res[1].lower() != "debut":
 if res[len(res) - 1].lower() != "fin":
     raise Exception(f"fin manquante : ligne {len(res)}")
 
-res.pop(0)
-res.pop(1)
-res.pop()
+ 
 
-
+# compress
 def searchParent(start, name):
     for k in range(start, -1, -1):
         if str(res[k]).startswith("["):
-            continue
-        items1 = res[k].split(" ")
-        if name == "fonction":
-            if items1[0] == "procedure" or items1[0] == "fonction":
-                return k
-        else:
-            if items1[0] == name:
-                return k
-    raise Exception(f"extra {name} at {start+1}")
+            continue 
+        if re.match(name,res[k],re.IGNORECASE):
+            return k    
+    estr = f"extra {name} at {start+1}"
+    raise Exception(estr)
 
 
-# compress
-for i in range(0, len(res)):
-    items = res[i].split(" ")
-    if items[0] == "finpour":
-        search = searchParent(i, "pour")
-        res[search] = res[search : i + 1]
-        for j in range(search + 1, i + 1):
-            res[j] = ""
-    elif items[0] == "finsi":
-        search = searchParent(i, "si")
-        res[search] = res[search : i + 1]
-        for j in range(search + 1, i + 1):
-            res[j] = ""
-    elif items[0] == "Jusqu'a":
-        search = searchParent(i, "Repeter")
-        res[search] = res[search : i + 1]
-        for j in range(search + 1, i + 1):
-            res[j] = ""
-    elif items[0] == "fintantque":
-        search = searchParent(i, "tantque")
-        res[search] = res[search : i + 1]
-        for j in range(search + 1, i + 1):
-            res[j] = ""
-    elif items[0] == "fin":
-        search = searchParent(i, "fonction")
-        res[search] = res[search : i + 1]
-        for j in range(search + 1, i + 1):
-            res[j] = ""
+def compressor(LIST):
+    def compressionalgo(items): 
+        if re.match("finpour",items,re.IGNORECASE): 
+            return searchParent(i, "^pour[ ]+")
+        elif re.match("finsi",items,re.IGNORECASE):
+            return searchParent(i, "^si[ ]+")   
+        elif re.match("^jusqu'?(a|à)",items,re.IGNORECASE):
+            return searchParent(i, "^R(e|é)p(e|é)ter[ ]*")
+        elif re.match("fin[-_]?tant[-_]?que",items,re.IGNORECASE):
+            return searchParent(i, "^tant[ ]?que")
+        elif re.match("fin",items,re.IGNORECASE):
+            return searchParent(i, "^(fonction|proc(e|é)dure) ")   
+    compressed = LIST.copy()
+    for i in range(0, len(compressed)-1):
+        search = compressionalgo(compressed[i].strip())
+        if search:
+            compressed[search] = compressed[search : i + 1]
+            for j in range(search + 1, i + 1):
+                compressed[j] = ""
+
 
 
 def check(arr):
@@ -86,8 +71,6 @@ def check(arr):
         return True
     else:
         return False
-
-
 def arraying(pig):
     L = pig
     while check(L):
@@ -104,9 +87,9 @@ def arraying(pig):
         if test:
             break
     return L
-
-
+ 
 res = arraying(res)
+ 
 newres = []
 
 
@@ -252,18 +235,13 @@ def isRepeter(el):
 for i in range(0, len(res)):
     res[i] = re.sub(" +", " ", res[i])
     starter = res[i].split(" ")[0].lower().strip() + " "
-
     res[i] = re.sub("<--", " = ", res[i], re.IGNORECASE)
     res[i] = re.sub("=", "==", res[i], re.IGNORECASE)
     res[i] = re.sub("====", "==", res[i], re.IGNORECASE)
-    res[i] = re.sub("div", "//", res[i], re.IGNORECASE)
+    res[i] = re.sub(" div ", " // ", res[i], re.IGNORECASE)
     res[i] = re.sub("\^", "**", res[i], re.IGNORECASE)
-    res[i] = re.sub("([^a-z0-9])(Vrai)[^a-z0-9]", " True ", res[i], re.IGNORECASE)
-    res[i] = re.sub("([^a-z0-9])(Faux)[^a-z0-9]", " False ", res[i], re.IGNORECASE)
-    res[i] = re.sub("([^a-z0-9])(Vrai)$", " True ", res[i], re.IGNORECASE)
-    res[i] = re.sub("^(Vrai)[^a-z0-9]", " True ", res[i], re.IGNORECASE)
-    res[i] = re.sub("([^a-z0-9])(Faux)$", " False ", res[i], re.IGNORECASE)
-    res[i] = re.sub("^(Faux)[^a-z0-9]", " False ", res[i], re.IGNORECASE)
+    res[i] = re.sub("^(Vrai)[^a-z0-9_]|(([^a-z0-9_])(Vrai)[^a-z0-9_]|([^a-z0-9_])(Vrai)$)", " True ", res[i], re.IGNORECASE)
+    res[i] = re.sub("^(Faux)[^a-z0-9_]|(([^a-z0-9_])(Faux)[^a-z0-9_]|([^a-z0-9_])(Faux)$)", " False ", res[i], re.IGNORECASE)
 
     if re.match("^pour[ ]+", starter, re.IGNORECASE):
         if isBoucleFor(res[i]):
@@ -372,9 +350,7 @@ while True:
             test = False
             break
     if test == True:
-        break
-while "" in wres:
-    wres.remove("")
+        break 
 
 
 # tdnt
@@ -382,8 +358,6 @@ while "" in wres:
 tabtemplates = {}
 enregistrement = []
 enrnames = []
-
-
 def createClass(enregistrement):
     classlist = []
     classlist.append(f"class {list(enregistrement.keys())[0]}:\n")
@@ -391,10 +365,7 @@ def createClass(enregistrement):
     for i, v in enumerate(enrdesc):
         classlist.append("\t" + v + "=" + "None\n")
     classlist.append("\n")
-    # classlist.append("\t" + v + ":" + enrdesc[v])
     return classlist
-
-
 def createTable(name, length, type):
     tab = []
     if type == "entier":
@@ -470,9 +441,9 @@ for i in range(0, len(wres)):
     starter = wres[i]
     if re.match("debut", starter, re.IGNORECASE):
         wres2.append("#" + "\t" * (indent - 1) + str(wres[i]) + "\n")
-    elif re.match("finpour|finsi|fin|fintantque", starter, re.IGNORECASE):
+    elif re.match("fin[-_ ]?pour|fin[-_ ]?si|fin|fin[-_ ]?tant[-_ ]?que", starter, re.IGNORECASE):
         indent = abs(indent - 1)
-        wres2.append("#" + "\t" * (indent) + str(wres[i]) + "\n")
+        wres2.append("#" + "\t" * (indent) + str(wres[i]) + "\n") 
     elif re.match("break", starter, re.IGNORECASE):
         wres2.append("\t" * (indent) + str(wres[i]) + "\n")
         indent = abs(indent - 1)

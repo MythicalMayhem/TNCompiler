@@ -31,9 +31,47 @@ b=None
 c = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 d = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
 e = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
+#algorithme nom
 #debut
 while True :
+	for i in range(0,1):
+		a= input()
+#	finpour
 	x= input()
-	if (x=='a'):
+	while True :
+		x= input()
+		
+		
+		
+		
+		
+		
+		if (x=='a'):
+			break
+#	finsi
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	while True :
+		x= input()
+		if (x=='a'):
+			break
+#	finsi
+	while True :
+		x= input()
+		if (x=='a'):
+			break
+#	finsi
+	if (x=='sdfsdf'):
 		break
 #finsi
+ok= input()
+
+
+#	fin
