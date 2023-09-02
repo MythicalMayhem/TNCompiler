@@ -33,4 +33,15 @@ lire(a)
 si a=='a' alors
     ecrire('adsgsdfh')
 fin_si
+
+fonction nom(@parametres_formels:sex,@kys,sex,haherhdfsfg):entier
+debut 
+    ecrire('sex')
+    
+fin
+
+fonction nom(parametres_formels):entier
+début
+    
+fin
 fin

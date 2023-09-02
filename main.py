@@ -2,11 +2,20 @@ import re
 import os
 import subprocess
 
+os.system('cls')
 f = open("test.algo", "r").readlines()
 res = []
-for i in f:
-    i = re.sub(" +", " ", i)
-    res.append(i.replace("\n", "").strip())
+for i in f:     
+    
+    i = re.sub("è|é|ê|ë", "e", i)
+    i = re.sub("à", "a", i)
+    res.append(re.sub(" +", " ", i).replace("\n", "").strip())
+ 
+
+for i in range(len(res)-1,-1,-1):
+    if res[i].strip()=='fin':
+        res = res[0:i+1]
+        break
 
 tdo = []
 tdnt = []
@@ -26,12 +35,16 @@ if re.match("^(algorithme) .+", res[0], re.IGNORECASE):
     res[0] = '#'+res[0]
 else:
     raise Exception("declaration algorithme invalide")
+
 if res[1].lower() != "debut":
     raise Exception("debut manquante")
 if res[len(res) - 1].lower() != "fin":
     raise Exception(f"fin manquante : ligne {len(res)}")
 
- 
+
+res.pop(0) 
+res.pop(0) 
+res.pop() 
 
 # compress
 def searchParent(start, name):
@@ -110,12 +123,13 @@ def getParams(el):
         eltab.remove("")
     alls = []
     unchanges = []
+    changes = []
     for i in eltab:
         i = re.sub(" +", " ", str(i))
         if i == " ":
             continue
         test = re.match(
-            "(?P<name>@?[a-z]+([a-z]|[0-9]))*(:[a-z]+([a-z]|[0-9])*)?", i, re.IGNORECASE
+            "(?P<name>^@?[a-z_]+([a-z0-9_]))*(:[a-z_]+([a-z0-9_])*)?$", i, re.IGNORECASE
         )
         name = test.group("name")
         if test and name:
@@ -123,10 +137,11 @@ def getParams(el):
                 unchanges.append(["__OLD" + test.group("name"), test.group("name")])
                 alls.append(name)
             else:
+                changes.append(test.group("name")[1::])
                 alls.append(name[1::])
         else:
-            return False, False
-    return alls, unchanges
+            return False,False, False
+    return alls, unchanges,changes
 
 
 def isBoucleFor(el):
@@ -173,22 +188,22 @@ def isSinon(el):
 
 def isFonction(el):
     newel = re.match(
-        "fonction[ ]+(?P<name>[a-z]([a-z]|[0-9])*)[ ]*\((?P<arguments>.*)\):(?P<returntype>[a-z]+[0-9]*)",
+        "fonction[ ]+(?P<name>[a-z]([a-z]|[0-9])*)[ ]*\((?P<arguments>.*)\)[ ]*:[ ]*(?P<returntype>[a-z]+[0-9]*)",
         el,
         re.IGNORECASE,
     )
     if newel:
-        alls, unchages = getParams(newel.group("arguments"))
+        alls, unchanges,changes = getParams(newel.group("arguments"))
         if alls == []:
-            return f"def {newel.group('name')} ():#{newel.group('returntype')}", []
-        if unchages:
+            return f"def {newel.group('name')} ():#{newel.group('returntype')}",[],[]
+        if unchanges or changes:
             return (
                 f"def {newel.group('name')} ({','.join(alls)}):#{newel.group('returntype')}",
-                unchages,
+                unchanges,changes
             )
         else:
-            return False, False
-    return False, False
+            return False, False, False
+    return False, False, False
 
 
 def isProcedure(el):
@@ -198,14 +213,14 @@ def isProcedure(el):
         re.IGNORECASE,
     )
     if newel:
-        alls, unchages = getParams(newel.group("arguments"))
+        alls, unchanges,changes = getParams(newel.group("arguments"))
         if alls == []:
-            return f"def {newel.group('name')} ():", []
-        if unchages:
-            return f"def {newel.group('name')} ({','.join(alls)}):", unchages
+            return f"def {newel.group('name')} ():", [], []
+        if unchanges or changes:
+            return f"def {newel.group('name')} ({','.join(alls)}):", unchanges,changes
         else:
-            return False, False
-    return False, False
+            return False, False, False
+    return False, False, False
 
 
 def isTantque(el):
@@ -276,23 +291,27 @@ for i in range(0, len(res)):
         except:
             print("sinon invalide")
     elif re.match("^fonction[ ]+", starter, re.IGNORECASE):
-        a, b = isFonction(res[i])
+        a, b,c = isFonction(res[i])
         if a:
             newres.append(a)
             newres.append('pass')
             newres.append(b)
+            newres.append(c)
             for l in b:
                 newres.append(l[0] + " = " + l[1])
+            
         else:
             print("fonction invalide ")
     elif re.match("^procedure[ ]+", starter, re.IGNORECASE):
-        a, b = isProcedure(res[i])
-        if a and b:
+        a, b, c = isProcedure(res[i])
+        if a:
             newres.append(a)
             newres.append('pass')
             newres.append(b)
+            newres.append(c)
             for l in b:
-                newres.append(l[0] + " = " + l[1])
+                newres.append(l[0] + " = " + l[1]) 
+                
         else:
             print("procedure invalide ")
     elif re.match("^tant[ ]?que", starter, re.IGNORECASE):
@@ -343,13 +362,18 @@ for i in range(0, len(newres)):
             if check(newres[k]) == False and re.match(
                 "^def[ ]+", newres[k], re.IGNORECASE
             ):
-                botargs = newres[k + 1]
+                botargs = newres[k + 2]
                 for l in botargs:
                     wres.append(l[1] + " = " + l[0])
+            
+                botargs2 = newres[k + 3]
+                for l in botargs2:
+                    wres.append(f'globals()[str("{l}")]='+l)
                 break
         if forlater != "":
             wres.append(forlater)
     wres.append(newres[i])
+
 while True:
     test = True
     for i in range(0, len(wres)):
