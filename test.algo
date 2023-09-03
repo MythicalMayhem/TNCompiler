@@ -1,30 +1,31 @@
+#TDNT
+mat:tableau de 20 colonnes * 10 lignes entier
+
+tab:tableau de 20 entier
+tab1:tableau de 20 eleve
+
+eleve:enregistrement
+debut
+age:entier
+nom:chaine
+moyenne:reel
+succes:booleen
+fin 
+eleve:enregistrement
+debut
+age:entier
+nom:chaine
+moyenne:reel
+succes:booleen
+fin 
+
 #TDO
 a:entier
 b:chaine
 c:tab
 d:tab1
 e:tableau de 20 eleve
-
-
-#TDNT
-tab:tableau de 20 entier
-tab1:tableau de 20 eleve
-eleve:enregistrement
-debut
-age:entier
-nom:chaine
-moyenne:reel
-succes:booleen
-fin 
-eleve:enregistrement
-debut
-age:entier
-nom:chaine
-moyenne:reel
-succes:booleen
-fin 
-
-
+f:mat
 
 algorithme nom
 debut

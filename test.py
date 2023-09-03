@@ -35,7 +35,7 @@ b = ""
 c = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 d = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
 e = [eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve(),eleve()]
-
+f = np.array([([int()]*20)]*10)
 if type(a) is bool :
 	a= bool(input())
 elif type(a) is float:

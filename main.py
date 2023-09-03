@@ -24,9 +24,9 @@ for i, v in enumerate(res):
         variables = res[0:i]
         res = res[i::]
         for i, v in enumerate(variables):
-            if v == "#TDNT":
-                tdnt = variables[i + 1 : :]
-                tdo = variables[1:i]
+            if v == "#TDO":
+                tdo = variables[i + 1 : :]
+                tdnt = variables[1:i]
         break
 
 
@@ -422,6 +422,7 @@ while True:
 
 # tdnt
 tabtemplates = {}
+mattemplates = {}
 enregistrement = []
 enrnames = []
 
@@ -471,7 +472,21 @@ def createTable(name, length, type):
             tab.append(type + "()")
     return f"{name} = [{','.join(tab)}]\n"
 
-
+def createMatrix(name,row,col,type):
+    if type == "entier":
+        return f"{name} = np.array([([int()]*{col})]*{row})"
+    elif type in ["chaine", "caractere"]:
+        return f"{name} = np.array([([str()]*{col})]*{row})"
+    elif type == "reel":
+        return f"{name} = np.array([([float()]*{col})]*{row})"
+    elif type == "booleen":
+        return f"{name} = np.array([([bool()]*{col})]*{row})" 
+    elif type in enrnames:
+        return f"{name} = np.array([([{type}()]*{col})]*{row})" 
+    else :
+        return f"{name} = np.array([([{type}]*{col})]*{row})" 
+    
+ 
 for i, v in enumerate(tdnt):
     v = v.strip()
     if v in ["fin", "debut", ""]:
@@ -493,9 +508,19 @@ for i, v in enumerate(tdnt):
                 enregistrement.append(createClass({key: detailsdict}))
                 enrnames.append(key.strip())
                 break
-    elif value[0:8] == "tableau ":
-        s = value.split(" ")
-        tabtemplates[key] = [s[-2], s[-1]]
+    elif re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)[ ]+(?P<type>[0-9a-z]+)$',value.strip(),re.IGNORECASE) :
+        s = re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)[ ]+(?P<type>[0-9a-z]+)$',value,re.IGNORECASE) 
+        if s and s.group('long') and s.group('type'):
+            tabtemplates[key] = [int(s.group('long')), s.group('type')]
+    elif re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',value.strip(),re.IGNORECASE) :
+        s = re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',value.strip(),re.IGNORECASE)
+        if s :
+            if s.group('rows1') and s.group('cols1') and s.group('type') :
+                mattemplates[key] = [int(s.group('rows1')),int(s.group('cols1')),s.group('type')]
+            elif s.group('rows2') and s.group('cols2') and s.group('type') :
+                mattemplates[key] = [int(s.group('rows2')),int(s.group('cols2')),s.group('type')]
+
+            
 # tdo
 tdo2 = {}
 for i, v in enumerate(tdo):
@@ -511,14 +536,30 @@ for i in tdo2:
     if tdo2[i] in list(tabtemplates.keys()):
         tbl = createTable(i, int(tabtemplates[tdo2[i]][0]), tabtemplates[tdo2[i]][1])
         tdo3.append(tbl)
-    elif tdo2[i][0:8] == "tableau ":
-        tbl = createTable(i, int(tdo2[i].split(" ")[2]), tdo2[i].split(" ")[3])
+    elif tdo2[i] in list(mattemplates.keys()): 
+        tbl = createMatrix(i, int(mattemplates[tdo2[i]][0]), int(mattemplates[tdo2[i]][1]),mattemplates[tdo2[i]][2])
         tdo3.append(tbl)
+    elif re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$',tdo2[i],re.IGNORECASE):
+        s = re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$',tdo2[i],re.IGNORECASE) 
+        if s and s.group('long') and s.group('type'):
+            tbl = createTable(i, int(s.group('long')), s.group('type')) 
+            tdo3.append(tbl)
+    elif re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',tdo2[i].strip(),re.IGNORECASE) :
+ 
+        s = re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',tdo2[i].strip(),re.IGNORECASE)
+        if s :
+            if (s.group('rows1') and s.group('cols1')) and s.group('type') :
+                tbl = createMatrix(int(s.group('rows1')),int(s.group('cols1')),s.group('type'))
+                tdo3.append(tbl)
+            elif (s.group('rows2') and s.group('cols2')) and s.group('type') :
+                tbl = createMatrix(int(s.group('rows2')),int(s.group('cols2')),s.group('type'))
+                tdo3.append(tbl)
     else:
         if createVar(i.strip(), tdo2[i].strip()):
             tdo3.append(createVar(i.strip(), tdo2[i].strip()) + "\n")
         else:
             tdo3.append(i + f"={tdo2[i]}\n")
+
 # writing
 wres2 = []
 indent = 0
