@@ -31,20 +31,16 @@ algorithme nom
 debut
 
 lire(a)
-si a=='a' alors
-    ecrire('adsgsdfh')
-fin_si
 
-selon b :
-    cas 'ss':
-        lire(a)
-    cas 'bb':
-        lire(a)
-finselon
-fonction nom(@parametres_formels,@kys,sex,haherhdfsfg):entier
+ecrire(a,"oldA") 
+fonction nom(@a):entier
 debut 
-    ecrire('sex')
+a <-- 'v'
+ecrire(a,"dans fonction")
 fin
+
+nom(a)
+ecrire(a,"outside fonction")
 
 fonction nom(parametres_formels):entier
 début

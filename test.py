@@ -16,8 +16,14 @@ def racine_carree(n):return math.sqrt(n)
 def arrondi(n):return round(n)
 def alea(min,max):return random.randint(min,max)
 
-def ecrire(*args):print(' '.join(args))
-def ecrire_nl(*args):print(' '.join(args)+'\n')
+def ecrire(*args):
+    L = []
+    for i in args:L.append(str(i));print(' '.join(L))
+def ecrire_nl(*args):
+    L = []
+    for i in args:L.append(str(i));print(' '.join(L)+'\n')
+vrai = Vrai = True
+faux = Faux = False
 class eleve:
 	age = 0 
 	nom = "" 
@@ -45,44 +51,18 @@ elif type(a) is int:
 else:
 	a= str(input())
 #finsi
-if (a=='a'):
-	pass
-	ecrire('adsgsdfh')
-#fin_si
 
-match b :
-	case'ss':
-		if type(a) is bool :
-			a= bool(input())
-		elif type(a) is float:
-			a= float(input())
-		elif type(a) is int:
-			a= int(input())
-		else:
-			a= str(input())
-#		finsi
-	case'bb':
-		if type(a) is bool :
-			a= bool(input())
-		elif type(a) is float:
-			a= float(input())
-		elif type(a) is int:
-			a= int(input())
-		else:
-			a= str(input())
-#		finsi
-#finselon
-def nom (parametres_formels,kys,sex,haherhdfsfg):#entier
+ecrire(a,"oldA")
+def nom (a):#entier
 	pass
-	__OLDsex = sex
-	__OLDhaherhdfsfg = haherhdfsfg
 #debut
-	ecrire('sex')
-	sex = __OLDsex
-	haherhdfsfg = __OLDhaherhdfsfg
-	globals()[str("parametres_formels")]=parametres_formels
-	globals()[str("kys")]=kys
+	a = 'v'
+	ecrire(a,"dans fonction")
+	globals()[str("a")]=a
 #fin
+
+nom(a)
+ecrire(a,"outside fonction")
 
 def nom (parametres_formels):#entier
 	pass

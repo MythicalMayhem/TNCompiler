@@ -133,8 +133,8 @@ def getParams(el):
         if i == " ":
             continue
         test = re.match(
-            "(?P<name>^@?[a-z_]+([a-z0-9_]))*(:[a-z_]+([a-z0-9_])*)?$", i, re.IGNORECASE
-        )
+            "(?P<name>^@?[a-z_]+([a-z0-9_])*)(:[a-z_]+([a-z0-9_])*)?$", i, re.IGNORECASE
+        ) 
         name = test.group("name")
         if test and name:
             if name[0] != "@":
@@ -255,21 +255,18 @@ def isRepeter(el):
 def isLire(el):
     lire = re.match("^lire\((?P<stuff>.+)\)", res[i], re.IGNORECASE)
     if lire and lire.group("stuff"):
-        if isVariable(lire.group("stuff")):
-            inptstr = [
-                f'if type({lire.group("stuff")}) is bool :',
-                f'{lire.group("stuff")}= bool(input())',
-                f'elif type({lire.group("stuff")}) is float:',
-                f'{lire.group("stuff")}= float(input())',
-                f'elif type({lire.group("stuff")}) is int:',
-                f'{lire.group("stuff")}= int(input())',
-                f"else:",
-                f'{lire.group("stuff")}= str(input())',
-                f"finsi",
-            ]
-            return inptstr
-        else:
-            return False
+        inptstr = [
+            f'if type({lire.group("stuff")}) is bool :',
+            f'{lire.group("stuff")}= bool(input())',
+            f'elif type({lire.group("stuff")}) is float:',
+            f'{lire.group("stuff")}= float(input())',
+            f'elif type({lire.group("stuff")}) is int:',
+            f'{lire.group("stuff")}= int(input())',
+            f"else:",
+            f'{lire.group("stuff")}= str(input())',
+            f"finsi",
+        ]
+        return inptstr
     else:
         return False
 
@@ -286,31 +283,24 @@ def getSpanTable(start, ende):
 
 for i in range(0, len(res)):
     res[i] = re.sub("([^:]*)(:+)$", r"\1", res[i])
-    res[i] = re.sub("\[A\.\.Z\]", f" {getSpanTable('A','Z')} ", res[i])
-    res[i] = re.sub("\[a\.\.z\]", f" {getSpanTable('a','z')} ", res[i])
-    res[i] = re.sub("\[0\.\.9\]", f" {getSpanTable('0','9')} ", res[i])
-    res[i] = re.sub("selon (.+)", r"match \1 :", res[i],re.IGNORECASE)
-    res[i] = re.sub("[^a-z0-9_]non[^a-z0-9_]", " not ", res[i], re.IGNORECASE)
-    res[i] = re.sub("[^a-z0-9_]dans[^a-z0-9_]", " in ", res[i], re.IGNORECASE)
-    res[i] = re.sub(" +", " ", res[i])
-    res[i] = re.sub("<--", " = ", res[i], re.IGNORECASE)
-    res[i] = re.sub("=", "==", res[i], re.IGNORECASE)
-    res[i] = re.sub("====", "==", res[i], re.IGNORECASE)
-    res[i] = re.sub(" div ", " // ", res[i], re.IGNORECASE)
-    res[i] = re.sub("\^", "**", res[i], re.IGNORECASE)
-    res[i] = re.sub(
-        "^(Vrai)[^a-z0-9_]|(([^a-z0-9_])(Vrai)[^a-z0-9_]|([^a-z0-9_])(Vrai)$)",
-        " True ",
-        res[i],
-        re.IGNORECASE,
-    )
-    res[i] = re.sub(
-        "^(Faux)[^a-z0-9_]|(([^a-z0-9_])(Faux)[^a-z0-9_]|([^a-z0-9_])(Faux)$)",
-        " False ",
-        res[i],
-        re.IGNORECASE,
-    )
-
+    res[i] = re.sub("selon (.+)", r"match \1 :",res[i], re.IGNORECASE)
+    kids = res[i].strip().split('"') 
+    
+    for j in range(0,len(kids),2): 
+        kids[j] = re.sub("\[A\.\.Z\]", f" {getSpanTable('A','Z')} ", kids[j])
+        kids[j] = re.sub("\[a\.\.z\]", f" {getSpanTable('a','z')} ", kids[j])
+        kids[j] = re.sub("\[0\.\.9\]", f" {getSpanTable('0','9')} ", kids[j])
+        kids[j] = re.sub("[^a-z0-9_]non[^a-z0-9_]", " not ", kids[j], re.IGNORECASE)
+        kids[j] = re.sub("[^a-z0-9_]et[^a-z0-9_]", " and ",  kids[j], re.IGNORECASE)
+        kids[j] = re.sub("[^a-z0-9_]ou[^a-z0-9_]", " or ",   kids[j], re.IGNORECASE)
+        kids[j] = re.sub("[^a-z0-9_]dans[^a-z0-9_]", " in ", kids[j], re.IGNORECASE)
+        kids[j] = re.sub(" +", " ",      kids[j])
+        kids[j] = re.sub("=", "==",      kids[j], re.IGNORECASE)
+        kids[j] = re.sub("====", "==",   kids[j], re.IGNORECASE)
+        kids[j] = re.sub(" div ", " // ",kids[j], re.IGNORECASE)
+        kids[j] = re.sub("\^", "**",     kids[j], re.IGNORECASE)
+        kids[j] = re.sub("<--", " = ",   kids[j], re.IGNORECASE)
+    res[i] = '"'.join(kids)
     starter = res[i].split(" ")[0].lower().strip() + " "
     if re.match("^pour[ ]+", starter, re.IGNORECASE):
         if isBoucleFor(res[i]):
@@ -345,12 +335,13 @@ for i in range(0, len(res)):
         except:
             print("sinon invalide")
     elif re.match("^((cas[ ])+(?P<start>.+)):?(?P<other>)?", res[i], re.IGNORECASE):
-        temp = re.match("^((cas[ ])+(?P<start>.+)+):?(?P<other>)?", res[i], re.IGNORECASE)
-        if temp and temp.group('start') :
-            print(temp.groups())
-            newres.append('case'+temp.group('start')+':')
-        if temp.group('other'):
-            newres.append(temp.group('other'))
+        temp = re.match(
+            "^((cas[ ])+(?P<start>.+)+):?(?P<other>)?", res[i], re.IGNORECASE
+        )
+        if temp and temp.group("start"):
+            newres.append("case" + temp.group("start") + ":")
+        if temp.group("other"):
+            newres.append(temp.group("other"))
     elif re.match("^fonction[ ]+", starter, re.IGNORECASE):
         a, b, c = isFonction(res[i])
         if a:
@@ -636,10 +627,14 @@ for i in tdo2:
 # writing
 wres2 = []
 indent = 0
+
+
 def zeroclamp(n):
-    if n<0:
+    if n < 0:
         return 0
     return n
+
+
 for i in range(0, len(wres)):
     wres[i] = re.sub(" +", " ", str(wres[i])).strip()
     starter = wres[i].strip()
@@ -655,7 +650,7 @@ for i in range(0, len(wres)):
     ):
         indent = zeroclamp(indent - 1)
         wres2.append("#" + "\t" * (indent) + str(wres[i]) + "\n")
-  
+
     elif re.match("break", starter, re.IGNORECASE):
         wres2.append("\t" * (indent) + str(wres[i]) + "\n")
         indent = zeroclamp(indent - 1)

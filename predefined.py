@@ -16,5 +16,11 @@ def racine_carree(n):return math.sqrt(n)
 def arrondi(n):return round(n)
 def alea(min,max):return random.randint(min,max)
 
-def ecrire(*args):print(' '.join(args))
-def ecrire_nl(*args):print(' '.join(args)+'\n')
+def ecrire(*args):
+    L = []
+    for i in args:L.append(str(i));print(' '.join(L))
+def ecrire_nl(*args):
+    L = []
+    for i in args:L.append(str(i));print(' '.join(L)+'\n')
+vrai = Vrai = True
+faux = Faux = False
