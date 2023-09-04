@@ -35,6 +35,12 @@ si a=='a' alors
     ecrire('adsgsdfh')
 fin_si
 
+selon b :
+    cas 'ss':
+        lire(a)
+    cas 'bb':
+        lire(a)
+finselon
 fonction nom(@parametres_formels,@kys,sex,haherhdfsfg):entier
 debut 
     ecrire('sex')

@@ -263,9 +263,9 @@ def isLire(el):
                 f'{lire.group("stuff")}= float(input())',
                 f'elif type({lire.group("stuff")}) is int:',
                 f'{lire.group("stuff")}= int(input())',
-                f'else:',
+                f"else:",
                 f'{lire.group("stuff")}= str(input())',
-                f'finsi',
+                f"finsi",
             ]
             return inptstr
         else:
@@ -274,9 +274,25 @@ def isLire(el):
         return False
 
 
+def getSpanTable(start, ende):
+    begin = int(ord(start))
+    ender = int(ord(ende))
+    count = int(begin)
+    tab = []
+    for i in range(begin, ender + 1):
+        tab.append(chr(i))
+    return tab
+
+
 for i in range(0, len(res)):
+    res[i] = re.sub("([^:]*)(:+)$", r"\1", res[i])
+    res[i] = re.sub("\[A\.\.Z\]", f" {getSpanTable('A','Z')} ", res[i])
+    res[i] = re.sub("\[a\.\.z\]", f" {getSpanTable('a','z')} ", res[i])
+    res[i] = re.sub("\[0\.\.9\]", f" {getSpanTable('0','9')} ", res[i])
+    res[i] = re.sub("selon (.+)", r"match \1 :", res[i],re.IGNORECASE)
+    res[i] = re.sub("[^a-z0-9_]non[^a-z0-9_]", " not ", res[i], re.IGNORECASE)
+    res[i] = re.sub("[^a-z0-9_]dans[^a-z0-9_]", " in ", res[i], re.IGNORECASE)
     res[i] = re.sub(" +", " ", res[i])
-    starter = res[i].split(" ")[0].lower().strip() + " "
     res[i] = re.sub("<--", " = ", res[i], re.IGNORECASE)
     res[i] = re.sub("=", "==", res[i], re.IGNORECASE)
     res[i] = re.sub("====", "==", res[i], re.IGNORECASE)
@@ -295,6 +311,7 @@ for i in range(0, len(res)):
         re.IGNORECASE,
     )
 
+    starter = res[i].split(" ")[0].lower().strip() + " "
     if re.match("^pour[ ]+", starter, re.IGNORECASE):
         if isBoucleFor(res[i]):
             newres.append(isBoucleFor(res[i]))
@@ -327,6 +344,13 @@ for i in range(0, len(res)):
                 print("sinon invalide")
         except:
             print("sinon invalide")
+    elif re.match("^((cas[ ])+(?P<start>.+)):?(?P<other>)?", res[i], re.IGNORECASE):
+        temp = re.match("^((cas[ ])+(?P<start>.+)+):?(?P<other>)?", res[i], re.IGNORECASE)
+        if temp and temp.group('start') :
+            print(temp.groups())
+            newres.append('case'+temp.group('start')+':')
+        if temp.group('other'):
+            newres.append(temp.group('other'))
     elif re.match("^fonction[ ]+", starter, re.IGNORECASE):
         a, b, c = isFonction(res[i])
         if a:
@@ -472,7 +496,8 @@ def createTable(name, length, type):
             tab.append(type + "()")
     return f"{name} = [{','.join(tab)}]\n"
 
-def createMatrix(name,row,col,type):
+
+def createMatrix(name, row, col, type):
     if type == "entier":
         return f"{name} = np.array([([int()]*{col})]*{row})"
     elif type in ["chaine", "caractere"]:
@@ -480,13 +505,13 @@ def createMatrix(name,row,col,type):
     elif type == "reel":
         return f"{name} = np.array([([float()]*{col})]*{row})"
     elif type == "booleen":
-        return f"{name} = np.array([([bool()]*{col})]*{row})" 
+        return f"{name} = np.array([([bool()]*{col})]*{row})"
     elif type in enrnames:
-        return f"{name} = np.array([([{type}()]*{col})]*{row})" 
-    else :
-        return f"{name} = np.array([([{type}]*{col})]*{row})" 
-    
- 
+        return f"{name} = np.array([([{type}()]*{col})]*{row})"
+    else:
+        return f"{name} = np.array([([{type}]*{col})]*{row})"
+
+
 for i, v in enumerate(tdnt):
     v = v.strip()
     if v in ["fin", "debut", ""]:
@@ -508,19 +533,43 @@ for i, v in enumerate(tdnt):
                 enregistrement.append(createClass({key: detailsdict}))
                 enrnames.append(key.strip())
                 break
-    elif re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)[ ]+(?P<type>[0-9a-z]+)$',value.strip(),re.IGNORECASE) :
-        s = re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)[ ]+(?P<type>[0-9a-z]+)$',value,re.IGNORECASE) 
-        if s and s.group('long') and s.group('type'):
-            tabtemplates[key] = [int(s.group('long')), s.group('type')]
-    elif re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',value.strip(),re.IGNORECASE) :
-        s = re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',value.strip(),re.IGNORECASE)
-        if s :
-            if s.group('rows1') and s.group('cols1') and s.group('type') :
-                mattemplates[key] = [int(s.group('rows1')),int(s.group('cols1')),s.group('type')]
-            elif s.group('rows2') and s.group('cols2') and s.group('type') :
-                mattemplates[key] = [int(s.group('rows2')),int(s.group('cols2')),s.group('type')]
+    elif re.match(
+        "^tableau[ ]+de[ ]+(?P<long>[0-9]+)[ ]+(?P<type>[0-9a-z]+)$",
+        value.strip(),
+        re.IGNORECASE,
+    ):
+        s = re.match(
+            "^tableau[ ]+de[ ]+(?P<long>[0-9]+)[ ]+(?P<type>[0-9a-z]+)$",
+            value,
+            re.IGNORECASE,
+        )
+        if s and s.group("long") and s.group("type"):
+            tabtemplates[key] = [int(s.group("long")), s.group("type")]
+    elif re.match(
+        "^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$",
+        value.strip(),
+        re.IGNORECASE,
+    ):
+        s = re.match(
+            "^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$",
+            value.strip(),
+            re.IGNORECASE,
+        )
+        if s:
+            if s.group("rows1") and s.group("cols1") and s.group("type"):
+                mattemplates[key] = [
+                    int(s.group("rows1")),
+                    int(s.group("cols1")),
+                    s.group("type"),
+                ]
+            elif s.group("rows2") and s.group("cols2") and s.group("type"):
+                mattemplates[key] = [
+                    int(s.group("rows2")),
+                    int(s.group("cols2")),
+                    s.group("type"),
+                ]
 
-            
+
 # tdo
 tdo2 = {}
 for i, v in enumerate(tdo):
@@ -536,23 +585,47 @@ for i in tdo2:
     if tdo2[i] in list(tabtemplates.keys()):
         tbl = createTable(i, int(tabtemplates[tdo2[i]][0]), tabtemplates[tdo2[i]][1])
         tdo3.append(tbl)
-    elif tdo2[i] in list(mattemplates.keys()): 
-        tbl = createMatrix(i, int(mattemplates[tdo2[i]][0]), int(mattemplates[tdo2[i]][1]),mattemplates[tdo2[i]][2])
+    elif tdo2[i] in list(mattemplates.keys()):
+        tbl = createMatrix(
+            i,
+            int(mattemplates[tdo2[i]][0]),
+            int(mattemplates[tdo2[i]][1]),
+            mattemplates[tdo2[i]][2],
+        )
         tdo3.append(tbl)
-    elif re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$',tdo2[i],re.IGNORECASE):
-        s = re.match('^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$',tdo2[i],re.IGNORECASE) 
-        if s and s.group('long') and s.group('type'):
-            tbl = createTable(i, int(s.group('long')), s.group('type')) 
+    elif re.match(
+        "^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$",
+        tdo2[i],
+        re.IGNORECASE,
+    ):
+        s = re.match(
+            "^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$",
+            tdo2[i],
+            re.IGNORECASE,
+        )
+        if s and s.group("long") and s.group("type"):
+            tbl = createTable(i, int(s.group("long")), s.group("type"))
             tdo3.append(tbl)
-    elif re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',tdo2[i].strip(),re.IGNORECASE) :
- 
-        s = re.match('^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$',tdo2[i].strip(),re.IGNORECASE)
-        if s :
-            if (s.group('rows1') and s.group('cols1')) and s.group('type') :
-                tbl = createMatrix(int(s.group('rows1')),int(s.group('cols1')),s.group('type'))
+    elif re.match(
+        "^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$",
+        tdo2[i].strip(),
+        re.IGNORECASE,
+    ):
+        s = re.match(
+            "^(tableau|matrice)[ ]+de[ ]+(((?P<rows1>[0-9]+)[ ]+lignes \* (?P<cols1>[0-9]+)[ ]+colonnes)|((?P<cols2>[0-9]+)[ ]+colonnes) \* (?P<rows2>[0-9]+)[ ]+lignes)[ ]*(?P<type>[a-z][0-9a-z]*)$",
+            tdo2[i].strip(),
+            re.IGNORECASE,
+        )
+        if s:
+            if (s.group("rows1") and s.group("cols1")) and s.group("type"):
+                tbl = createMatrix(
+                    int(s.group("rows1")), int(s.group("cols1")), s.group("type")
+                )
                 tdo3.append(tbl)
-            elif (s.group('rows2') and s.group('cols2')) and s.group('type') :
-                tbl = createMatrix(int(s.group('rows2')),int(s.group('cols2')),s.group('type'))
+            elif (s.group("rows2") and s.group("cols2")) and s.group("type"):
+                tbl = createMatrix(
+                    int(s.group("rows2")), int(s.group("cols2")), s.group("type")
+                )
                 tdo3.append(tbl)
     else:
         if createVar(i.strip(), tdo2[i].strip()):
@@ -563,24 +636,37 @@ for i in tdo2:
 # writing
 wres2 = []
 indent = 0
+def zeroclamp(n):
+    if n<0:
+        return 0
+    return n
 for i in range(0, len(wres)):
     wres[i] = re.sub(" +", " ", str(wres[i])).strip()
-    starter = wres[i]
-    if re.match("debut", starter, re.IGNORECASE):
+    starter = wres[i].strip()
+    if re.match("d.but", starter, re.IGNORECASE):
         wres2.append("#" + "\t" * (indent - 1) + str(wres[i]) + "\n")
-    elif re.match(
-        "fin[-_ ]?pour|fin[-_ ]?si|fin|fin[-_ ]?tant[-_ ]?que", starter, re.IGNORECASE
-    ):
-        indent = abs(indent - 1)
+    elif re.match("^(fin[-_ ]?selon)", starter, re.IGNORECASE):
+        indent = zeroclamp(indent - 2)
         wres2.append("#" + "\t" * (indent) + str(wres[i]) + "\n")
+    elif re.match(
+        "^((fin[-_ ]?pour)|(fin[-_ ]?si)|(fin)|(fin[-_ ]?tant[-_ ]?que))",
+        starter,
+        re.IGNORECASE,
+    ):
+        indent = zeroclamp(indent - 1)
+        wres2.append("#" + "\t" * (indent) + str(wres[i]) + "\n")
+  
     elif re.match("break", starter, re.IGNORECASE):
         wres2.append("\t" * (indent) + str(wres[i]) + "\n")
-        indent = abs(indent - 1)
-    elif re.match("if|while|def|for", starter, re.IGNORECASE):
+        indent = zeroclamp(indent - 1)
+    elif re.match("^(if|while|def|for)", starter, re.IGNORECASE):
         wres2.append("\t" * indent + str(wres[i]) + "\n")
         indent += 1
-    elif re.match("elif|else", starter, re.IGNORECASE):
-        wres2.append("\t" * (abs(indent - 1)) + str(wres[i]) + "\n")
+    elif re.match("^match", starter, re.IGNORECASE):
+        wres2.append("\t" * indent + str(wres[i]) + "\n")
+        indent += 2
+    elif re.match("elif|else|case", starter, re.IGNORECASE):
+        wres2.append("\t" * (zeroclamp(indent - 1)) + str(wres[i]) + "\n")
     else:
         wres2.append(("\t" * indent) + str(wres[i]) + "\n")
 

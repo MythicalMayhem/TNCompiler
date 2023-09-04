@@ -50,6 +50,28 @@ if (a=='a'):
 	ecrire('adsgsdfh')
 #fin_si
 
+match b :
+	case'ss':
+		if type(a) is bool :
+			a= bool(input())
+		elif type(a) is float:
+			a= float(input())
+		elif type(a) is int:
+			a= int(input())
+		else:
+			a= str(input())
+#		finsi
+	case'bb':
+		if type(a) is bool :
+			a= bool(input())
+		elif type(a) is float:
+			a= float(input())
+		elif type(a) is int:
+			a= int(input())
+		else:
+			a= str(input())
+#		finsi
+#finselon
 def nom (parametres_formels,kys,sex,haherhdfsfg):#entier
 	pass
 	__OLDsex = sex

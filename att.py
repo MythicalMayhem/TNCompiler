@@ -1,11 +1,15 @@
-import numpy as np
+import re
+def getSpanTable(start,ende):
+    begin = int(ord(start))
+    ender = int(ord(ende))
+    count = int(begin)
+    tab = []
+    print(count,ender)
+    for i in range(begin,ender+1):
+        tab.append(chr(i))
+    return tab
 
+x = 'as:dff:ii::'
+x = re.sub("([^:]*)(:+)$",r"\1", x)
 
-class obj:
-    t = "x"
-
-t = [1,2,654]
-mat=np.array([([t]*3)]*2)
-
-print(mat)
- 
+print(x)
