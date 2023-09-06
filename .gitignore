@@ -1,0 +1,5 @@
+/.vscode
+/.pytest_cache 
+test1.algo
+test.py
+decompose.py

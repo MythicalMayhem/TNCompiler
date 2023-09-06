@@ -1,0 +1,21 @@
+#TDNT
+tab:tableau de 20 entier
+
+#TDO
+x:entier
+T:tab
+
+algorithme test
+debut
+repeter 
+ecrire('saisir x')
+lire(x)
+jusqua 10<x<20 
+
+pour i de 0 a x faire
+    ecrire('T['+convch(i)+']')
+    lire(T[i])
+fin_pour
+
+ecrire(T)
+fin
