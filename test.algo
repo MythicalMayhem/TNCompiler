@@ -1,6 +1,11 @@
 #TDNT
-tab:tableau de 20 entier
-
+tab:tableau de 20 booleen
+test:enregistrement
+debut
+x:entier
+a:tab
+fin
+tab1:tableau de 7 test
 #TDO
 x:entier
 T:tab

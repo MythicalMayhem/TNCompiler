@@ -21,36 +21,38 @@ def ecrire_nl(*args):
     for i in args:L.append(str(i));print(' '.join(L)+'\n')
 vrai = Vrai = True
 faux = Faux = False
+class test:
+	x = 0 
+	tab = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False] 
+
 x = 0
-T = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-while True :
-	pass
-	ecrire('saisir x')
-	if type(x) is bool :
-		x= bool(input())
-	elif type(x) is float:
-		x= float(input())
-	elif type(x) is int:
-		x= int(input())
-	else:
-		x= str(input())
-#	finsi
-	if (10<x<20):
-		break
-#finsi
-
-for i in range(0,x):
-	pass
-	ecrire('T['+convch(i)+']')
-	if type(T[i]) is bool :
-		T[i]= bool(input())
-	elif type(T[i]) is float:
-		T[i]= float(input())
-	elif type(T[i]) is int:
-		T[i]= int(input())
-	else:
-		T[i]= str(input())
-#	finsi
-#fin_pour
-
-ecrire(T)
+T = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]#debut#14
+while True :#15
+	pass#15
+	ecrire('saisir x')#16
+	if type(x) is bool :#17
+		x= bool(input())#17
+	elif type(x) is float:#17
+		x= float(input())#17
+	elif type(x) is int:#17
+		x= int(input())#17
+	else:#17
+		x= str(input())#17
+#	finsi#17
+	if (10<x<20):#18
+		break#18
+#finsi#18
+for i in range(0,x):#20
+	pass#20
+	ecrire('T['+convch(i)+']')#21
+	if type(T[i]) is bool :#22
+		T[i]= bool(input())#22
+	elif type(T[i]) is float:#22
+		T[i]= float(input())#22
+	elif type(T[i]) is int:#22
+		T[i]= int(input())#22
+	else:#22
+		T[i]= str(input())#22
+#	finsi#22
+#fin_pour#23
+ecrire(T)#25
