@@ -5,4 +5,5 @@ __pycache__
 test.algo 
 src/cache.py
 src/__pycache__
-.gitignore
+website
+index.html
