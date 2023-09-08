@@ -3,5 +3,6 @@ __pycache__
 .vscode
 .LICENSE
 test.algo 
-src/__pycache__
 src/cache.py
+src/__pycache__
+.gitignore

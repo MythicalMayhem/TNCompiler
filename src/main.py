@@ -6,9 +6,9 @@ import convert
 import write  
 os.system("cls")
 
-def execute(workFilePath,cacheFilePath=str(os.getcwd())+'/src/cache.py'):
+def createCache(workFilePath,cacheFilePath=str(os.getcwd())+'/src/cache.py'):
     if os.path.isfile(cacheFilePath)==False:
-        print("file does not exist\n default path dir/cache.py")
+        print(f"file does not exist\n default cache path {str(os.getcwd())+'/src/cache.py'}")
         cacheFilePath=str(os.getcwd())+'/src/cache.py'
 
     res = getComponents.get(workFilePath)
@@ -21,6 +21,19 @@ def execute(workFilePath,cacheFilePath=str(os.getcwd())+'/src/cache.py'):
     translated = convert.translateLines(algo)
     indented = write.indent(translated)
     write.commit(TDO,TDNT,indented,cacheFilePath)
-    
-execute(r'C:\Users\ameur\Desktop\AlgorithmicLanguageCompiler\test.algo')
-os.system('python src/cache.py')
+    return cacheFilePath
+
+def execute(workFilePath,cacheFilePath=str(os.getcwd())+'/src/cache.py'):
+    if os.path.isfile(cacheFilePath)==False:
+        print(f"file does not exist\n default cache path {str(os.getcwd())+'/src/cache.py'}") 
+        cacheFilePath=str(os.getcwd())+'/src/cache.py'
+    createCache(workFilePath,cacheFilePath)
+    os.system(f'python {cacheFilePath}')
+     
+def execCache(cacheFilePath=str(os.getcwd())+'/src/cache.py'):
+    if os.path.isfile(cacheFilePath)==False:
+        print(f"file does not exist\n default cache path {str(os.getcwd())+'/src/cache.py'}") 
+        cacheFilePath=str(os.getcwd())+'/src/cache.py'
+    os.system(f'python {cacheFilePath}')
+
+execute(r'C:\Users\ameur\Desktop\AlgorithmicLanguageCompiler\test.algo','sdfgsdfg')
