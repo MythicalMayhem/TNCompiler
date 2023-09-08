@@ -1,7 +1,7 @@
 import re 
-import subprocess
-
+import os
 from compress import arraying
+
 def zeroclamp(n):
     if n < 0:
         return 0
@@ -42,14 +42,15 @@ def indent(translated):
     return result
 
 def commit(tdo,tdnt,indented,where):
-    predef = open("predefined.py", "r").readlines()
+    predef = open(r"C:\Users\ameur\Desktop\AlgorithmicLanguageCompiler\src\predefined.py", "r")
     final = []
-    final += predef
+    final += predef.readlines()
+    predef.close()
     final += arraying(tdnt.classes)
     final += tdo
     final += indented
     f = open(where, "w+")
     f.writelines(final)
     f.close()
-def run(what):
-    subprocess.call(what, shell=True)
+    return where 
+    

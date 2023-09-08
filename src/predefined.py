@@ -1,7 +1,6 @@
 import random
 import math
 import numpy as np
-
 def estnum(n):return n.isnumeric()
 def majus(s):return s.upper()
 def minus(s):return s.lower()

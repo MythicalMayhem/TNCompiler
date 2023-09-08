@@ -154,7 +154,7 @@ def isLire(el,key):
             f'elif type({lire.group("stuff")}) is int:',
             f'{lire.group("stuff")}= int(input())',
             f"else:",
-            f'{lire.group("stuff")}= str(input())',
+            f'{lire.group("stuff")}= input()',
             f"finsi",
         ]
         return inptstr

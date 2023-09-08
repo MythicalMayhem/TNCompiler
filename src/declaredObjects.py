@@ -39,13 +39,13 @@ def createClass(enregistrement, template):
 def createTable(name, length, type, templates):
     tab = []
     if type == "entier":
-        tab = ["0"]
+        tab = [0]
         return f"{name} = {str(tab*length)}"
     elif type in ["chaine", "caractere"]:
         tab = [""]
         return f"{name} = {str(tab*length)}"
     elif type == "reel":
-        tab = ["0.0"]
+        tab = [0.0]
         return f"{name} = {str(tab*length)}"
     elif type == "booleen":
         tab = [False]
