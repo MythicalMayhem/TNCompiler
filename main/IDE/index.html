@@ -7,6 +7,13 @@
     <title>Algorithm</title>
     <link rel="stylesheet" href="../default.css">
     <link rel="stylesheet" href="index.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "convert": "./mods/convert.js"
+          }
+        }
+    </script>
 </head>
 
 <body>
@@ -44,14 +51,17 @@
                 <legend>Algorithme <input type="text"></legend>
                 <textarea type="text" spellcheck="false"></textarea>
             </fieldset>
+            <button>Run</button>
         </div>
     </div>
     <footer>
         <span>Made By <a href="https://www.github.com/MythicalMayhem">@MythicalMayhem</a></span>
         <span>Check repository on GitHub
-            <a href="https: //github.com/MythicalMayhem/AlgorithmicLanguageCompiler">HERE</a>
+            <a href="https://github.com/MythicalMayhem/AlgorithmicLanguageCompiler">HERE</a>
         </span>
     </footer>
+    <script src="convert.js"  ></script>
+    <script src="./index.js"></script>
 </body>
 
 </html>
