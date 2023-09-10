@@ -3,7 +3,4 @@ __pycache__
 .vscode
 .LICENSE
 test.algo 
-src/cache.py
-src/__pycache__
-website
-index.html
+src 
