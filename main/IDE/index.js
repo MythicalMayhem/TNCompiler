@@ -47,7 +47,8 @@ function run() {
     output = Write.join('').replace(/\/\//, '')
 }
 convertbtn.addEventListener('click', () => {
-    terminalText.innerText = Convert.join('\n')
+    terminalText.innerText = Write.join('')
+    navigator.clipboard.writeText(Write.join(''))
 })
 writebtn.addEventListener('click', () => {
     terminalText.innerText = Write.join('\n')

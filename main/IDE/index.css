@@ -189,7 +189,7 @@ legend {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
-	overflow: scroll;
+	overflow: auto;
 	padding: 25px 20px;
 	color: white;
 	font-family: "Courier New", Courier, monospace;
