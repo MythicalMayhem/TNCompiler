@@ -1,7 +1,6 @@
 function INDENT(translated) {
     result = []
     for (let i = 0; i < translated.length; i++) {
-
         starter = String(translated[i]).replace(/ +/, " ",).trim()
         if (starter.match(/d.but/i)) {
             result.push("/*" + String(starter) + "*/")

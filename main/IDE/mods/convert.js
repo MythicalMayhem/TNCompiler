@@ -33,7 +33,7 @@ function isBoucleFor(el) {
         if (el[i].trim() == "a") { start = i }
     }
 
-    return `for (let ${el.slice(0, index)}=${el.slice(index + 1, start).join(" ")};i<${el.slice(start + 1, el.length).join(" ")}),i++){`
+    return `for (let ${el.slice(0, index)}=${el.slice(index + 1, start).join(" ")};i<(${el.slice(start + 1, el.length).join(" ")}),i++){`
 }
 function isSi(el) {
     let newel = el.match(/si[ ]+(?<arguments>.+)?[ ]+alors:?/i)
@@ -163,9 +163,13 @@ function replaceInString(el) {
 function translateLines(res) {
     let newres = []
     for (const [i, v] of Object.entries(res)) {
-        key = Object.keys(res[i])[0]
+        key = Object.keys(res[i])[0] 
+        if (res[i]=='') {
+            continue
+        }
         res[i][key] = replaceInString(res[i][key])
         res[i][key] = res[i][key].replace(/([^:]*)(:+)$/, /$1/)
+        res[i][key] = res[i][key].replace(/([^;]*)(;+)$/, /$1/)
         res[i][key] = res[i][key].replace(/^(selon) (.+)/, "switch $2{")
         let starter = res[i][key].split(' ')[0].toLowerCase().trim() + ' '
         if (starter.match(/^(pour)[ ]+/i)) {

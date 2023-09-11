@@ -167,6 +167,8 @@ legend {
 #main #terminal {
 	height: fit-content;
 	width: 100%;
+	min-width: 250px;
+	max-width: 800px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -181,6 +183,8 @@ legend {
 	box-sizing: border-box;
 	background: #101010;
 	width: 100%;
+	min-width: 250px;
+	max-width: 800px;
 	height: 180px;
 	display: flex;
 	flex-direction: column;
@@ -189,8 +193,7 @@ legend {
 	padding: 25px 20px;
 	color: white;
 	font-family: "Courier New", Courier, monospace;
-	font-weight: bolder;
-	font-size: large;
+	font-weight: bolder; 
 }
 #terminal #browse {
 	color: whitesmoke;
@@ -229,13 +232,7 @@ fieldset p[contenteditable="true"]::-webkit-scrollbar-thumb,
 #terminal #runtimeButtons #format{
 	background:  rgb(32, 132, 190);
 }
-#terminal #browse #convert,
-#terminal #browse #write,
-#terminal #browse #output {
-	/*background-color: rgb(32, 132, 190);*/
-	background: none;
-	border: 2px solid rgb(32, 132, 190);
-} 
+
  
 #terminal #browse button {
 	box-sizing: border-box;
@@ -248,6 +245,15 @@ fieldset p[contenteditable="true"]::-webkit-scrollbar-thumb,
 	cursor: pointer;
 	border: none;
 }
+#terminal #browse #convert,
+#terminal #browse #write,
+#terminal #browse #output {
+	/*background-color: rgb(32, 132, 190);*/
+	margin: 0;
+	padding: 2px 4px;
+	background: none;
+	border: 1px solid rgb(32, 132, 190);
+} 
 @media (max-width: 930px) {
 	#IDE {
 		height: 100%;
