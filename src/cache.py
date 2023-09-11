@@ -28,7 +28,7 @@ x = 0
 T = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]#debut#14
 while True :#15
 	pass#15
-	ecrire('saisir x')#16
+	ecrire('sai'gdf'sdfg'dfg'k'jfgh'dsg'dsfg'sir x')#16
 	if type(x) is bool :#17
 		x= bool(input())#17
 	elif type(x) is float:#17

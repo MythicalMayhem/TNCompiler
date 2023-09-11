@@ -169,30 +169,66 @@ def getSpanTable(start, ende):
         tab.append(chr(i))
     return tab
 
+
+def replacement(el): 
+    el1=el
+    el1 = re.sub("\[A\.\.Z\]", f" {getSpanTable('A','Z')} ", el1)
+    el1 = re.sub("\[a\.\.z\]", f" {getSpanTable('a','z')} ", el1)
+    el1 = re.sub("\[0\.\.9\]", f" {getSpanTable('0','9')} ", el1)
+    el1 = re.sub("[^a-z0-9_]non[^a-z0-9_]", " not ", el1, re.IGNORECASE)
+    el1 = re.sub("[^a-z0-9_]et[^a-z0-9_]", " and ",  el1, re.IGNORECASE)
+    el1 = re.sub("[^a-z0-9_]ou[^a-z0-9_]", " or ",   el1, re.IGNORECASE)
+    el1 = re.sub("[^a-z0-9_]dans[^a-z0-9_]", " in ", el1, re.IGNORECASE)
+    el1 = re.sub(" +", " ",      el1)
+    el1 = re.sub("=", "==",      el1, re.IGNORECASE)
+    el1 = re.sub("====", "==",   el1, re.IGNORECASE)
+    el1 = re.sub(" div ", " // ",el1, re.IGNORECASE)
+    el1 = re.sub(" mod ", " % ", el1, re.IGNORECASE)
+    el1 = re.sub("\^", "**",     el1, re.IGNORECASE)
+    el1 = re.sub("<--", " = ",   el1, re.IGNORECASE)
+    return el1
+
+def replaceInString(el) :
+    opened = None
+    start = 0
+    end = len(el)
+    quoted = []
+    legit = []
+    full = ''
+    for i in range(0,len(el)) :
+        item = el[i].strip()
+        before =0
+        if (i > 0) :
+            before = i - 1 
+
+        if ((item == '"' or item == "'") and el[before] != '\\') :
+            if (opened == None):
+                opened = i
+                end = i - 1
+                full += replacement(el[start:end + 1])
+            elif(el[opened] == item) :
+                quoted.append([opened, i])
+                legit.append([start, end])
+                full += el[opened:i + 1]
+                start = i + 1
+                end = len(el) - 1
+                opened = None 
+    legit.append([start, end])
+    full += replacement(el[start:end + 1])
+    if (opened != None) :
+        print('unformatted String ')
+    
+    return full
+
 def translateLines(res):
     newres = []
     for i,v in enumerate(res): 
         key = list(res[i].keys())[0] 
+        if (res[i][key]=='') :
+            continue
+        res[i][key] = replaceInString(res[i][key])
         res[i][key] = re.sub("([^:]*)(:+)$", r"\1", res[i][key])
         res[i][key] = re.sub("selon (.+)", r"match \1 :",res[i][key], re.IGNORECASE)
-        kids = res[i][key].strip().split('"') 
-        
-        for j in range(0,len(kids),2): 
-            kids[j] = re.sub("\[A\.\.Z\]", f" {getSpanTable('A','Z')} ", kids[j])
-            kids[j] = re.sub("\[a\.\.z\]", f" {getSpanTable('a','z')} ", kids[j])
-            kids[j] = re.sub("\[0\.\.9\]", f" {getSpanTable('0','9')} ", kids[j])
-            kids[j] = re.sub("[^a-z0-9_]non[^a-z0-9_]", " not ", kids[j], re.IGNORECASE)
-            kids[j] = re.sub("[^a-z0-9_]et[^a-z0-9_]", " and ",  kids[j], re.IGNORECASE)
-            kids[j] = re.sub("[^a-z0-9_]ou[^a-z0-9_]", " or ",   kids[j], re.IGNORECASE)
-            kids[j] = re.sub("[^a-z0-9_]dans[^a-z0-9_]", " in ", kids[j], re.IGNORECASE)
-            kids[j] = re.sub(" +", " ",      kids[j])
-            kids[j] = re.sub("=", "==",      kids[j], re.IGNORECASE)
-            kids[j] = re.sub("====", "==",   kids[j], re.IGNORECASE)
-            kids[j] = re.sub(" div ", " // ",kids[j], re.IGNORECASE)
-            kids[j] = re.sub(" mod ", " % ",kids[j], re.IGNORECASE)
-            kids[j] = re.sub("\^", "**",     kids[j], re.IGNORECASE)
-            kids[j] = re.sub("<--", " = ",   kids[j], re.IGNORECASE)
-        res[i][key] = '"'.join(kids)
         starter = res[i][key].split(" ")[0].lower().strip() + " "
         if re.match("^pour[ ]+", starter, re.IGNORECASE):
             test = isBoucleFor(res[i][key])
