@@ -23,7 +23,7 @@
         <a href="../IDE/index.html">Code</a>
         <a href="https://github.com/MythicalMayhem/AlgorithmicLanguageCompiler" target="_blank">GitHub</a>
     </nav>
-    <div id="body">
+    <div id="IDE">
         <div id="objects">
             <fieldset id="tdnt">
                 <legend>TDNT</legend>
@@ -49,9 +49,24 @@
         <div id="main">
             <fieldset id="inner">
                 <legend>Algorithme <input type="text"></legend>
-                <textarea type="text" spellcheck="false"></textarea>
+                <textarea type="text" spellcheck="false">
+function name():entier
+debut
+lire(x)
+fin
+                </textarea>
             </fieldset>
-            <button>Run</button>
+            <div id="terminal">
+                <div id="browse">
+
+                    <div id="runtimeButtons"><button id="run">Run</button><button id="format">Format</button></div>
+                    <div id="terminalPages">
+                        <h6 style="padding: 0;margin: 0;">Debug</h6><button id="convert">convert.js</button><button id="write">write.js</button>
+                    </div>
+                </div>
+                <div id="innerTerminal"> 
+                </div>
+            </div>
         </div>
     </div>
     <footer>
@@ -59,9 +74,9 @@
         <span>Check repository on GitHub
             <a href="https://github.com/MythicalMayhem/AlgorithmicLanguageCompiler">HERE</a>
         </span>
-    </footer> 
-    <script src="mods/convert.js" ></script>
-    <script src="mods/write.js" ></script>
+    </footer>
+    <script src="mods/convert.js"></script>
+    <script src="mods/write.js"></script>
     <script src="./index.js"></script>
 </body>
 

@@ -2,14 +2,18 @@
 	width: 0;
 }
 
-body {height: unset;}
-#body {
+body {
+	height: unset;
+}
+#IDE {
+	min-height: 600px;
 	display: flex;
 	flex-direction: row-reverse;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: space-between;
 	padding: 10px;
 	gap: 25px;
+	height: fit-content;
 }
 
 input,
@@ -54,7 +58,7 @@ legend {
 		rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 	box-sizing: border-box;
 	height: fit-content;
-	min-width: 300px; 
+	min-width: 300px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -85,12 +89,12 @@ legend {
 	gap: 5px;
 }
 #tdnt div input,
-#tdo  div input {
-width: 100%;
+#tdo div input {
+	width: 100%;
 }
 #tdnt div input:nth-child(2),
-#tdo  div input:nth-child(2) {
-width: 30%;
+#tdo div input:nth-child(2) {
+	width: 30%;
 }
 #tdnt div span,
 #tdo div span {
@@ -107,13 +111,13 @@ width: 30%;
 	border: none;
 	font-weight: bolder;
 	font-size: 15px;
-} 
- 
+}
+
 #main {
 	box-sizing: border-box;
 	min-width: 280px;
 	min-height: 500px;
-	height: 70vh;
+	height: 98vh;
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
@@ -146,9 +150,70 @@ width: 30%;
 	width: 100%;
 	resize: none;
 	font-size: 20px;
-} 
-#main button {
+}
+
+#main #terminal {
+	height: 350px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	gap: 20px;
+	justify-content: center;
+	align-items: flex-start;
+}
+#terminal #innerTerminal::-webkit-scrollbar {
+	color: #2c313a;
+}
+#terminal #innerTerminal {
+	box-sizing: border-box;
+	background: #101010;
+	width: 100%;
+	height: 180px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	overflow: scroll;
+	padding: 25px 20px;
+	color: white;
+	font-family: "Courier New", Courier, monospace;
+	font-weight: bolder;
+	font-size: large;
+}
+#terminal #browse {
+	color: whitesmoke;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: space-between;
+	align-items: center;
+}
+#terminal #browse #runtimeButtons,
+#terminal #browse #terminalPages {
+	width: fit-content;
+	padding: 0 20px;
+	display: flex;
+	flex-direction: row;
+	gap: 15px;
+	justify-content: center;
+	align-items: center;
+}
+#terminal #runtimeButtons #run {
 	background-color: rgb(32, 190, 79);
+}
+#terminal #runtimeButtons #format {
+	background-color: rgb(32, 132, 190);
+}
+#terminal #browse #convert {
+	background-color: rgb(32, 132, 190);
+}
+#terminal #browse #write {
+	background-color: rgb(32, 132, 190);
+}
+#terminal #runtimeButtons button,
+#terminal #browse button {
 	border: none;
 	color: white;
 	border-radius: 3px;
@@ -159,14 +224,17 @@ width: 30%;
 	cursor: pointer;
 	border: none;
 }
-
-
 @media (max-width: 900px) {
-	#body {
+	#IDE {
 		flex-direction: column;
 		flex-wrap: nowrap;
 	}
 	#objects {
 		max-width: 50%;
 	}
-} 
+}
+@media (max-width: 500px) {
+	#main fieldset textarea {
+		font-size: 15px;
+	}
+}

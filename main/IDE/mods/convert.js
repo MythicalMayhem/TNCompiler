@@ -156,12 +156,12 @@ function replaceInString(el) {
     legit.push([start, end])
     full += el.substring(start, end + 1)
     if (opened != null) {
-        console.error('unformattedStringing')
+        console.error('unformatted String ')
     }
     return full
 }
 function translateLines(res) {
-    newres = []
+    let newres = []
     for (const [i, v] of Object.entries(res)) {
         key = Object.keys(res[i])[0]
         res[i][key] = replaceInString(res[i][key])
@@ -307,7 +307,6 @@ function translateLines(res) {
             }
         }
         if (test == true) { break }
-    }
-    console.log(wres)
+    } 
     return wres
 }
