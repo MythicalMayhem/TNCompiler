@@ -3,17 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algorithm</title>
     <link rel="stylesheet" href="../default.css">
     <link rel="stylesheet" href="index.css">
-    <script type="importmap">
-        {
-          "imports": {
-            "convert": "./mods/convert.js"
-          }
-        }
-    </script>
+ 
 </head>
 
 <body>
@@ -49,22 +42,19 @@
         <div id="main">
             <fieldset id="inner">
                 <legend>Algorithme <input type="text"></legend>
-                <textarea type="text" spellcheck="false">
-function name():entier
-debut
-lire(x)
-fin
-                </textarea>
+                <p contenteditable="true" type="text" spellcheck="false"></p>
             </fieldset>
             <div id="terminal">
                 <div id="browse">
-
                     <div id="runtimeButtons"><button id="run">Run</button><button id="format">Format</button></div>
                     <div id="terminalPages">
-                        <h6 style="padding: 0;margin: 0;">Debug</h6><button id="convert">convert.js</button><button id="write">write.js</button>
+                        <h6 style="padding: 0;margin: 0;">Debug</h6>
+                        <button id="output">output</button>
+                        <button id="convert">convert.js</button>
+                        <button id="write">write.js</button>
                     </div>
                 </div>
-                <div id="innerTerminal"> 
+                <div id="innerTerminal">
                 </div>
             </div>
         </div>

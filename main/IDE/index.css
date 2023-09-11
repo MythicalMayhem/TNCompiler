@@ -1,43 +1,42 @@
-::-webkit-scrollbar {
-	width: 0;
+html,
+body {
+	height: 100%;
 }
-
 body {
 	height: unset;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 #IDE {
+	box-sizing: border-box;
+	width: 100%;
 	min-height: 600px;
 	display: flex;
 	flex-direction: row-reverse;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	padding: 10px;
-	gap: 25px;
 	height: fit-content;
+	gap: 25px;
 }
 
-input,
-textarea {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
+input {
+	overflow: auto;
 	background-color: #1e1e1e;
 	border: none;
+	outline: none;
+	text-indent: 10px;
 	height: 25px;
 	border-radius: 3px;
 	color: white;
 }
 input:focus,
-textarea:focus {
+p[contenteditable="true"]:focus {
 	outline: none;
 	border-bottom: 2px solid #1978c0;
 }
-input {
-	text-indent: 10px;
-}
-textarea {
-	padding: 15px;
-}
+
 fieldset {
 	box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
 		rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -58,7 +57,7 @@ legend {
 		rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 	box-sizing: border-box;
 	height: fit-content;
-	min-width: 300px;
+	min-width: 280px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -116,17 +115,20 @@ legend {
 #main {
 	box-sizing: border-box;
 	min-width: 280px;
-	min-height: 500px;
-	height: 98vh;
+	max-width: 800px;
+	min-height: 800px;
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 15px;
 }
 #main fieldset {
+	min-width: 250px;
+	max-width: 800px;
+	min-height: 650px;
+	overflow: hidden;
 	border-top: #2c313a solid 45px;
 	height: 100%;
-	width: 100%;
 }
 
 #main fieldset legend {
@@ -138,22 +140,32 @@ legend {
 	gap: 10px;
 }
 #main fieldset legend input,
-#main fieldset textarea {
-	width: 100%;
+#main fieldset p[contenteditable="true"] {
 	font-family: monospace;
 	font-size: larger;
+	width: 100%;
 }
-#main fieldset textarea {
+#main fieldset p[contenteditable="true"] {
+	min-width: 250px;
+	max-width: 800px;
+	height: 650px;
+	padding: 0;
+	margin: 0;
+	white-space: nowrap;
+	color: white;
+	box-sizing: border-box;
+	background-color: #1e1e1e;
+	border: none;
+	padding: 15px;
+	text-overflow: clip;
+	overflow: auto;
 	text-align: start;
 	box-sizing: border-box;
-	height: 100%;
-	width: 100%;
-	resize: none;
 	font-size: 20px;
 }
 
 #main #terminal {
-	height: 350px;
+	height: fit-content;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -190,33 +202,45 @@ legend {
 	justify-content: space-between;
 	align-items: center;
 }
+fieldset p[contenteditable="true"]::-webkit-scrollbar,
+fieldset p[contenteditable="true"]::-webkit-scrollbar-corner,
+#terminal #innerTerminal::-webkit-scrollbar,
+#terminal #innerTerminal::-webkit-scrollbar-corner {
+	background-color: #181818;
+	width: 10px;
+	height: 10px;
+}
+fieldset p[contenteditable="true"]::-webkit-scrollbar-thumb,
+#terminal #innerTerminal::-webkit-scrollbar-thumb {
+	background-color: rgb(56, 56, 56);
+}
 #terminal #browse #runtimeButtons,
 #terminal #browse #terminalPages {
 	width: fit-content;
 	padding: 0 20px;
 	display: flex;
-	flex-direction: row;
-	gap: 15px;
+	flex-direction: row; 
 	justify-content: center;
 	align-items: center;
 }
 #terminal #runtimeButtons #run {
 	background-color: rgb(32, 190, 79);
 }
-#terminal #runtimeButtons #format {
-	background-color: rgb(32, 132, 190);
+#terminal #runtimeButtons #format{
+	background:  rgb(32, 132, 190);
 }
-#terminal #browse #convert {
-	background-color: rgb(32, 132, 190);
-}
-#terminal #browse #write {
-	background-color: rgb(32, 132, 190);
-}
-#terminal #runtimeButtons button,
+#terminal #browse #convert,
+#terminal #browse #write,
+#terminal #browse #output {
+	/*background-color: rgb(32, 132, 190);*/
+	background: none;
+	border: 2px solid rgb(32, 132, 190);
+} 
+ 
 #terminal #browse button {
+	box-sizing: border-box;
 	border: none;
 	color: white;
-	border-radius: 3px;
 	padding: 8px 15px;
 	font-size: 100%;
 	justify-self: flex-end;
@@ -224,8 +248,9 @@ legend {
 	cursor: pointer;
 	border: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 930px) {
 	#IDE {
+		height: 100%;
 		flex-direction: column;
 		flex-wrap: nowrap;
 	}
@@ -234,7 +259,7 @@ legend {
 	}
 }
 @media (max-width: 500px) {
-	#main fieldset textarea {
-		font-size: 15px;
+	#main fieldset p[contenteditable="true"] {
+		font-size: 14px;
 	}
 }
