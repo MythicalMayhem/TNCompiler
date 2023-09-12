@@ -163,7 +163,7 @@ function replaceInString(el) {
 function translateLines(res) {
     let newres = []
     for (const [i, v] of Object.entries(res)) {
-        key = Object.keys(res[i])[0] 
+        let key = Object.keys(res[i])[0] 
         if (res[i]=='') {
             continue
         }
@@ -195,7 +195,7 @@ function translateLines(res) {
                 console.error("sinonsi invalide ")
             }
         } else if (starter.match(/^(sinon)[ ]*:?/)) {
-            test = isSinon(res[i][key])
+            let test = isSinon(res[i][key])
             if (test) {
 
                 newres.push(test + '/*' + String(key) + '*/')
@@ -203,7 +203,7 @@ function translateLines(res) {
                 console.error("sinon invalide ")
             }
         } else if (res[i][key].match(/^((cas[ ])+(?<start>.+)):?(?<other>)?/)) {
-            temp = res[i][key].match(/^((cas[ ])+(?<start>.+)+):?(?<other>)?/i)
+            let temp = res[i][key].match(/^((cas[ ])+(?<start>.+)+):?(?<other>)?/i)
             if (temp && temp.groups.start) {
                 newres.push("case" + temp.groups.start + ":" + '/*' + String(key) + '*/')
             }
@@ -211,7 +211,7 @@ function translateLines(res) {
                 newres.push(temp.groups.other + '/*' + String(key) + '*/')
             }
         } else if (starter.match("^tant[ ]?que")) {
-            test = isTantque(res[i][key])
+            let test = isTantque(res[i][key])
             if (test) {
                 newres.push(test + '/*' + String(key) + '*/')
             }
@@ -220,7 +220,7 @@ function translateLines(res) {
             }
         }
         else if (starter.match("^jusqu'?(a|à)")) {
-            test = isJusqua(res[i][key])
+            let test = isJusqua(res[i][key])
             if (test) {
                 newres.push(test + '/*' + String(key) + '*/')
                 newres.push("break" + '/*' + String(key) + '*/')
@@ -230,7 +230,7 @@ function translateLines(res) {
                 console.error(" Jusqu'a invalide ")
             }
         } else if (starter.match("^R(e|é)p(e|é)ter[ ]*")) {
-            test = isRepeter(res[i][key])
+            let test = isRepeter(res[i][key])
             if (test) {
                 newres.push(test + '/*' + String(key) + '*/')
             } else {
@@ -263,7 +263,7 @@ function translateLines(res) {
                 console.error("procedure invalide ")
             }
         } else if (starter.match("^retourner[ ]+")) {
-            test = res[i][key].match(/^retourner[ ]+(?<stuff>(.*))/)
+            let test = res[i][key].match(/^retourner[ ]+(?<stuff>(.*))/)
             if (test) {
                 newres.push(`return ${test[1]}` + '/*' + String(key) + '*/')
             } else {
@@ -276,20 +276,20 @@ function translateLines(res) {
     }
     let wres = []
     for (let i = 0; i < newres.length; i++) {
-        if (newres[i] == "fin") {
-            forlater = ""
+        if (newres[i].startsWith("/*fin")) {
+            let forlater = ""
             if (newres[i - 1].split(" ")[0] == "return") {
                 forlater = newres[i - 1]
                 wres.pop()
             }
             for (let k = i; k > -1; k--) {
                 if ((Array.isArray(newres[k], list) == false) && newres[k].match(/^function[ ]+/i)) {
-                    botargs = newres[k + 2]
-                    for (l in botargs) {
+                    let botargs = newres[k + 2]
+                    for (let l in botargs) {
                         wres.push(botargs[l][1] + " = " + botargs[l][0])
                     }
-                    botargs2 = newres[k + 3]
-                    for (l in botargs2) {
+                    let botargs2 = newres[k + 3]
+                    for (let l in botargs2) {
                         //wres.push(`globals()[str("${botargs2[l]}")]=` + botargs2[l])
                     }
                     break
@@ -302,7 +302,7 @@ function translateLines(res) {
         wres.push(newres[i])
     }
     while (true) {
-        test = true
+        let test = true
         for (let i = 0; i < wres.length; i++) {
             if (Array.isArray(wres[i])) {
                 wres.pop(i)

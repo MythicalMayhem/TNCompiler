@@ -5,7 +5,7 @@ function INDENT(translated) {
         if (starter.match(/d.but/i)) {
             result.push("/*" + String(starter) + "*/")
         } else if (starter.match(/^((fin[-_ ]?pour)|(fin[-_ ]?si)|(fin)|fin[-_ ]?selon|(fin[-_ ]?tant[-_ ]?que))/i)) {
-            result.push("};/*" + String(starter) + "*/")
+            result.push("};/*" + String(starter) )
         } else if (starter.match(/^(if|while|function|for|switch)/)) {
             result.push(String(translated[i]))
         } else {
