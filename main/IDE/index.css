@@ -32,7 +32,7 @@ input {
 	color: white;
 }
 input:focus,
-p[contenteditable="true"]:focus {
+#textarea:focus {
 	outline: none;
 	border-bottom: 2px solid #1978c0;
 }
@@ -142,12 +142,12 @@ legend {
 	gap: 10px;
 }
 #main fieldset legend input,
-#main fieldset p[contenteditable="true"] {
+#main fieldset #textarea {
 	font-family: monospace;
 	font-size: larger;
 	width: 100%;
 }
-#main fieldset p[contenteditable="true"] {
+#main fieldset #textarea {
 	min-width: 250px;
 	max-width: 800px;
 	height: 500px; 
@@ -207,15 +207,15 @@ legend {
 	justify-content: space-between;
 	align-items: center;
 }
-fieldset p[contenteditable="true"]::-webkit-scrollbar,
-fieldset p[contenteditable="true"]::-webkit-scrollbar-corner,
+fieldset #textarea::-webkit-scrollbar,
+fieldset #textarea::-webkit-scrollbar-corner,
 #terminal #innerTerminal::-webkit-scrollbar,
 #terminal #innerTerminal::-webkit-scrollbar-corner {
 	background-color: #181818;
 	width: 10px;
 	height: 10px;
 }
-fieldset p[contenteditable="true"]::-webkit-scrollbar-thumb,
+fieldset #textarea::-webkit-scrollbar-thumb,
 #terminal #innerTerminal::-webkit-scrollbar-thumb {
 	background-color: rgb(56, 56, 56);
 }
@@ -267,7 +267,7 @@ fieldset p[contenteditable="true"]::-webkit-scrollbar-thumb,
 	}
 }
 @media (max-width: 500px) {
-	#main fieldset p[contenteditable="true"] {
+	#main fieldset #textarea {
 		font-size: 14px;
 	}
 }
