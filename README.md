@@ -4,10 +4,10 @@
   <div align="center">
       <h3>Algorithmic Language Compiler</h3>
       <br>
-      <img src="https://img.shields.io/github/contributors/MythicalMayhem/ALCompiler" alt='contributors'/>
-      <img src="https://img.shields.io/github/stars/MythicalMayhem/ALCompiler" alt='stars'/>
-      <img src="https://img.shields.io/website/http/mythicalmayhem.github.io/ALCompiler" alt='website'/>
-      <img src="https://img.shields.io/github/license/MythicalMayhem/ALCompiler" alt='license'/>
+      <img src="https://img.shields.io/github/contributors/MythicalMayhem/ALCompiler?color=blue" alt='contributors'/>
+      <img src="https://img.shields.io/github/stars/MythicalMayhem/ALCompiler?color=yellow" alt='stars'/>
+      <img src="https://img.shields.io/github/license/MythicalMayhem/ALCompiler?color=green" alt='license'/>
+      <img src="https://img.shields.io/website/http/mythicalmayhem.github.io/ALCompiler/main/IDE/index.html" alt='website'/>
       <img src="https://img.shields.io/badge/python-%3E%3D%20v3.10-blue" alt='python version'/>  
   </div>
 </div> 
