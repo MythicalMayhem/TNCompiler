@@ -20,15 +20,8 @@ function run() {
     if (codeArea.hasChildNodes()) {
         let children = codeArea.childNodes;
         for (const node of children) {
-            if (node.innerText) {
-                for (const iter of node.innerText.split('\n')) {
-                    f.push(iter)
-                }
-            } else {
-                for (const iter of node.textContent.split('\n')) {
-                    f.push(iter)
-                }
-            }
+            let text = node.textContent.trim() || node.innerText.trim() 
+            f.push(text)
         }
     } else {
         f = [codeArea.innerText]
@@ -40,20 +33,23 @@ function run() {
         item[key] = line
         lines.push(item)
     }
-
-    console.log(lines)
-    Convert = translateLines(f)
+    console.log(f)
+    Convert = translateLines(lines)
     Write = INDENT(translateLines(lines))
-    output = Write.join('').replace(/\/\//, '')
+    output = Write.join('')
 }
 convertbtn.addEventListener('click', () => {
     terminalText.innerText = Write.join('')
     navigator.clipboard.writeText(Write.join(''))
 })
+outputtbtn.addEventListener('click', () => {
+    terminalText.innerText = output
+})
 writebtn.addEventListener('click', () => {
     terminalText.innerText = Write.join('\n')
 })
-runbtn.addEventListener('click', () => { 
+runbtn.addEventListener('click', () => {
     run()
-    terminalText.innerText = Write.join('\n')
+    terminalText.innerText = output
+    eval(output)
 })

@@ -33,7 +33,7 @@ function isBoucleFor(el) {
         if (el[i].trim() == "a") { start = i }
     }
 
-    return `for (let ${el.slice(0, index)}=${el.slice(index + 1, start).join(" ")};i<(${el.slice(start + 1, el.length).join(" ")}),i++){`
+    return `for (let ${el.slice(0, index)}=${el.slice(index + 1, start).join(" ")};i<(${el.slice(start + 1, el.length).join(" ")});i++){`
 }
 function isSi(el) {
     let newel = el.match(/si[ ]+(?<arguments>.+)?[ ]+alors:?/i)
@@ -163,8 +163,8 @@ function replaceInString(el) {
 function translateLines(res) {
     let newres = []
     for (const [i, v] of Object.entries(res)) {
-        let key = Object.keys(res[i])[0] 
-        if (res[i]=='') {
+        let key = Object.keys(res[i])[0]
+        if (res[i] == '') {
             continue
         }
         res[i][key] = replaceInString(res[i][key])
@@ -274,33 +274,33 @@ function translateLines(res) {
             newres.push(res[i][key] + '/*' + String(key) + '*/')
         }
     }
+
     let wres = []
     for (let i = 0; i < newres.length; i++) {
-        if (newres[i].startsWith("/*fin")) {
-            let forlater = ""
-            if (newres[i - 1].split(" ")[0] == "return") {
-                forlater = newres[i - 1]
-                wres.pop()
-            }
-            for (let k = i; k > -1; k--) {
-                if ((Array.isArray(newres[k], list) == false) && newres[k].match(/^function[ ]+/i)) {
-                    let botargs = newres[k + 2]
-                    for (let l in botargs) {
-                        wres.push(botargs[l][1] + " = " + botargs[l][0])
+        if (Array.isArray(newres[i])) {
+            continue
+        }
+        if (newres[i].split(" ")[0] in ["return", "fin"]) {
+            for (let k = i; i < -1; i--) {
+                if (Array.isArray(newres[k], lizst)) {
+                    continue
+                }
+                if (newres[k].split(" ")[0] == 'def') {
+                    botargs = newres[k + 2]
+                    for (l of botargs) {
+                        wres.push(l[1] + " = " + l[0])
                     }
-                    let botargs2 = newres[k + 3]
-                    for (let l in botargs2) {
-                        //wres.push(`globals()[str("${botargs2[l]}")]=` + botargs2[l])
+                    botargs2 = newres[k + 3]
+                    for (l of botargs2) {
+                        //wres.push('globals()[str("{l}")]=' + l) 
                     }
                     break
                 }
             }
-            if (forlater != "") {
-                wres.push(forlater)
-            }
         }
         wres.push(newres[i])
     }
+
     while (true) {
         let test = true
         for (let i = 0; i < wres.length; i++) {
