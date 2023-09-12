@@ -19,6 +19,9 @@ def get(filePath: str):
             continue
         res.append({i + 1: re.sub(" +", " ", v).replace("\n", "").strip()})
     result = dissect
+    result.tdo  = []
+    result.tdnt = []
+
     for i, v in enumerate(res):
         if re.match("^(algorithme) ", list(res[i].values())[0], re.IGNORECASE):
             result.algo = res[i+1:-1]

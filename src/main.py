@@ -17,7 +17,7 @@ def createCache(workFilePath,cacheFilePath=str(os.getcwd())+'/src/cache.py'):
     tdnt = res.tdnt
     #compress.run(algo) 
     TDNT = objs.formatTDNT(tdnt)
-    TDO = objs.formatTDO(tdo,tdnt)
+    TDO  = objs.formatTDO(tdo,tdnt)
     translated = convert.translateLines(algo)
     indented = write.indent(translated)
     write.commit(TDO,TDNT,indented,cacheFilePath)
@@ -36,4 +36,4 @@ def execCache(cacheFilePath=str(os.getcwd())+'/src/cache.py'):
         cacheFilePath=str(os.getcwd())+'/src/cache.py'
     os.system(f'python {cacheFilePath}')
 
-execute(r'C:\Users\ameur\Desktop\AlgorithmicLanguageCompiler\test.algo','sdfgsdfg')
+execute(r'C:\Users\ameur\Desktop\ALCompiler\test.algo','sdfgsdfg')

@@ -42,14 +42,14 @@ def indent(translated):
     return result
 
 def commit(tdo,tdnt,indented,where):
-    predef = open(r"C:\Users\ameur\Desktop\AlgorithmicLanguageCompiler\src\predefined.py", "r")
+    predef = open(r"C:\Users\ameur\Desktop\ALCompiler\src\predefined.py", "r")
     final = []
     final += predef.readlines()
     predef.close()
     final += arraying(tdnt.classes)
     final += tdo
     final += indented
-    f = open(where, "w+")
+    f = open(where, "w+",encoding="utf-8")
     f.writelines(final)
     f.close()
     return where 
