@@ -33,7 +33,7 @@ function run() {
     }  
     Convert = translateLines(lines)
     Write = INDENT(translateLines(lines))
-    output = Write.join('')
+    output = Write.join(';')
 }
 convertbtn.addEventListener('click', () => {
     terminalText.innerText = Write.join('')

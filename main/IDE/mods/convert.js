@@ -308,7 +308,7 @@ function translateLines(res) {
         }
         if (newres[i].split(" ")[0] in ["return", "fin"]) {
             for (let k = i; i < -1; i--) {
-                if (Array.isArray(newres[k], lizst)) {
+                if (Array.isArray(newres[k])) {
                     continue
                 }
                 if (newres[k].split(" ")[0] == 'def') {
