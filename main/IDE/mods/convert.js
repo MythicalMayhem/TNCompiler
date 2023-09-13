@@ -104,6 +104,25 @@ function isJusqua(el) {
         return `if (${newel.groups.arguments}){ `
     } else { return False }
 }
+function isLire(el, key) {
+    lire = el.match(/^(lire)\((?<stuff>.+)\)/i)
+    if (lire && lire[2]) {
+        inptstr = [ 
+            `if ((typeof ${lire[2]}) === 'boolean') {`,
+            `${lire[2]} = Boolean(input('${lire[2]}'))`,
+            `}else if ( typeof ${lire[2]} === 'number' && !Number.isNaN(${lire[2]}) && !Number.isInteger(${lire[2]}) ){`,
+            `${lire[2]}= parseFloat(input('${lire[2]}'))`,
+            `}else if (typeof ${lire[2]} === 'number' && !Number.isNaN(${lire[2]}) && Number.isInteger(${lire[2]})){`,
+            `${lire[2]}= parseInt(input('${lire[2]}'))`,
+            `}else{`,
+            `${lire[2]}= input('${lire[2]}')`,
+            `}`, 
+        ]
+        return inptstr 
+    } else {
+        return False
+    }
+}
 function getSpanTable(start, enD) {
     let begin = Number(start.charCodeAt(0))
     let ender = Number(enD.charCodeAt(0))
@@ -269,6 +288,13 @@ function translateLines(res) {
             } else {
                 newres.push("return ")
             }
+        } else if (starter.match(/^lire\(.+\)/i)) {
+            let test = isLire(res[i][key], String(key))
+            if (test) {
+                newres.push(test.join('') + '/*' + String(key) + '*/')
+            } else {
+                console.error("lire invalide ")
+            }
         }
         else {
             newres.push(res[i][key] + '/*' + String(key) + '*/')
@@ -311,6 +337,6 @@ function translateLines(res) {
             }
         }
         if (test == true) { break }
-    } 
+    }
     return wres
 }

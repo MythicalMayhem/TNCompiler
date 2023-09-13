@@ -2,10 +2,18 @@
 //import math
 //import numpy as np
 function __writeinterminal(s) {
-    //write in terminal
+    let parent = document.getElementById('innerTerminal')
+    let node = document.createElement('div')
+    node.innerText = s
+    parent.appendChild(node)
 }
-function input() {
-    //write in terminal
+function input(name) {
+    let terminal = document.getElementById('innerTerminal')
+    let x = prompt(`${name} = `)
+    let wrapper = document.createElement('div')  
+    wrapper.innerText = `${name} = ${x}`
+    terminal.appendChild(wrapper)
+    return x
 }
 
 function estnum(n) { return !isNaN(parseFloat(n)) && isFinite(n); }
@@ -20,22 +28,22 @@ function puissance(x, y) { return math.pow(x, y) }
 function arrondi(n) { return math.round(n) }
 function alea(min, max) {
     min = Math.ceil(min);
-    max = Math.floor(max)+1;
+    max = Math.floor(max) + 1;
     return Math.floor(Math.random() * (max - min) + min)
 }
 function ecrire() {
     L = []
     for (i of arguments) {
-        L.push(str(i))
-        __writeinterminal(' '.join(L))
+        L.push(String(i))
     }
+    __writeinterminal(L.join(' '))
 }
-function ecrire_nl() { 
+function ecrire_nl() {
     L = []
     for (i of arguments) {
-        L.push(str(i));
-        __writeinterminal(' '.join(L) + '\n')
+        L.push(String(i));
     }
+    __writeinterminal(L.join(' ') + '\n')
 }
 vrai = Vrai = true
 faux = Faux = false

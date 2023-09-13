@@ -1,5 +1,3 @@
-
-
 let codeArea = document.querySelector('#main').querySelector('#textarea')
 let outputtbtn = document.getElementById('output')
 let convertbtn = document.getElementById('convert')
@@ -32,8 +30,7 @@ function run() {
         let item = {}
         item[key] = line
         lines.push(item)
-    }
-    console.log(f)
+    }  
     Convert = translateLines(lines)
     Write = INDENT(translateLines(lines))
     output = Write.join('')
@@ -49,7 +46,9 @@ writebtn.addEventListener('click', () => {
     terminalText.innerText = Write.join('\n')
 })
 runbtn.addEventListener('click', () => {
-    run()
-    terminalText.innerText = output
+    run() 
+    const d = new Date(); 
+    const time = new Intl.DateTimeFormat('fr-fr',{timeStyle:'medium'}).format(d)
+    terminalText.innerText = time+'\n'
     eval(output)
 })
