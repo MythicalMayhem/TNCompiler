@@ -36,4 +36,4 @@ def execCache(cacheFilePath=str(os.getcwd())+'/src/cache.py'):
         cacheFilePath=str(os.getcwd())+'/src/cache.py'
     os.system(f'python {cacheFilePath}')
 
-execute(r'C:\Users\ameur\Desktop\ALCompiler\test.algo','sdfgsdfg')
+execute(r'C:\Users\ameur\Desktop\ALCompiler\test.algo')

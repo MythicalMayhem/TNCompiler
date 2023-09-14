@@ -20,11 +20,4 @@ def ecrire_nl(*args):
     for i in args:L.append(str(i));print(' '.join(L)+'\n')
 vrai = Vrai = True
 faux = Faux = False
-#debut#2
-def nom (parametres_formels):#entier#4
-	pass#4
-	__OLDparametres_formels = parametres_formels#4
-#début#5
-	parametres_formels = __OLDparametres_formels
-	return 'E'#6
-#fin#7
+a = np.array([([[0, 0]]*5)]*5)#debut#7

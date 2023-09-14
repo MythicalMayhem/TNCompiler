@@ -1,9 +1,10 @@
+#TDNT
+tab:tableau de 2 entier
+mat:tableau de 5 lignes * 5 colones tab
+#TDO
+a:mat
 algorithme test
 debut
-
-fonction nom(parametres_formels):entier
-début
-    retourner 'E'
-fin
+ 
 
 fin
