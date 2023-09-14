@@ -11,14 +11,13 @@ let Write = []
 let output = []
 
 
-
 function run() {
     let f = []
     let lines = []
     if (codeArea.hasChildNodes()) {
         let children = codeArea.childNodes;
         for (const node of children) {
-            let text = node.textContent.trim() || node.innerText.trim() 
+            let text = node.textContent.trim() || node.innerText.trim()
             f.push(text)
         }
     } else {
@@ -30,7 +29,7 @@ function run() {
         let item = {}
         item[key] = line
         lines.push(item)
-    }  
+    }
     Convert = translateLines(lines)
     Write = INDENT(translateLines(lines))
     output = Write.join(';')
@@ -46,9 +45,9 @@ writebtn.addEventListener('click', () => {
     terminalText.innerText = Write.join('\n')
 })
 runbtn.addEventListener('click', () => {
-    run() 
-    const d = new Date(); 
-    const time = new Intl.DateTimeFormat('fr-fr',{timeStyle:'medium'}).format(d)
-    terminalText.innerText = time+'\n'
+    run()
+    const d = new Date();
+    const time = new Intl.DateTimeFormat('fr-fr', { timeStyle: 'medium' }).format(d)
+    terminalText.innerText = time + '\n'
     eval(output)
 })

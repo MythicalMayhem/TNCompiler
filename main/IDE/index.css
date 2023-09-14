@@ -24,19 +24,18 @@ body {
 input {
 	overflow: auto;
 	background-color: #1e1e1e;
+	text-indent: 10px;
+	height: 27px;
 	border: none;
 	outline: none;
-	text-indent: 10px;
-	height: 25px;
-	border-radius: 3px;
+	padding: 0;
 	color: white;
 }
 input:focus,
 #textarea:focus {
 	outline: none;
 	border-bottom: 2px solid #1978c0;
-}
-
+} 
 fieldset {
 	box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
 		rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -65,31 +64,48 @@ legend {
 	border-bottom: 3px solid #ffffff1e;
 	border-radius: 10px;
 	padding: 8px;
-	max-width: 30%;
+	flex-grow: 0.5;
+	max-width: 350px;
+	overflow: auto;
 }
 #tdnt,
 #tdo {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
-	width: 100%;
 }
 
 #tdnt div,
 #tdo div {
-	height: fit-content;
-	width: fit-content;
+	height: 100%;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
-	align-items: center;
-	width: 100%;
+	align-items: flex-start;
+	overflow-x: hidden;
 	gap: 5px;
+}
+#tdnt div #textarea,
+#tdo div #textarea { 
+	text-overflow: ellipsis;
+	width: 65%;
+	margin: 0;
+	padding: 5px;
+	flex-grow: 1;
+	border: none;
+	outline: none;
+	min-height: 25px;
+	resize: vertical !important;
+	background-color: #1e1e1e;
+	border: none;
+	outline: none;
+	border-radius: 3px;
+	color: white;
 }
 #tdnt div input,
 #tdo div input {
-	width: 100%;
+	width: 35%;
 }
 #tdnt div input:nth-child(2),
 #tdo div input:nth-child(2) {
@@ -118,7 +134,7 @@ legend {
 	max-width: 800px;
 	min-height: 800px;
 	height: fit-content;
-	flex-grow: 1;
+	flex-grow: 0.75;
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
@@ -126,11 +142,9 @@ legend {
 #main fieldset {
 	min-width: 250px;
 	max-width: 800px;
-	min-height: 500px;
-	height: fit-content;
-	overflow: hidden;
-	border-top: #2c313a solid 45px;
+	min-height: 500px;  
 	height: 100%;
+	border-top: #2c313a solid 45px;
 }
 
 #main fieldset legend {
@@ -150,7 +164,7 @@ legend {
 #main fieldset #textarea {
 	min-width: 250px;
 	max-width: 800px;
-	height: 500px; 
+	height: 500px;
 	padding: 0;
 	margin: 0;
 	white-space: nowrap;
@@ -170,7 +184,7 @@ legend {
 	height: fit-content;
 	min-width: 250px;
 	max-width: 800px;
-	max-height: 500px; 
+	max-height: 500px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -195,7 +209,7 @@ legend {
 	padding: 25px 20px;
 	color: white;
 	font-family: "Courier New", Courier, monospace;
-	font-weight: bolder; 
+	font-weight: bolder;
 }
 #terminal #browse {
 	color: whitesmoke;
@@ -207,8 +221,8 @@ legend {
 	justify-content: space-between;
 	align-items: center;
 }
-fieldset #textarea::-webkit-scrollbar,
-fieldset #textarea::-webkit-scrollbar-corner,
+#main fieldset #textarea::-webkit-scrollbar,
+#main fieldset #textarea::-webkit-scrollbar-corner,
 #terminal #innerTerminal::-webkit-scrollbar,
 #terminal #innerTerminal::-webkit-scrollbar-corner {
 	background-color: #181818;
@@ -224,18 +238,17 @@ fieldset #textarea::-webkit-scrollbar-thumb,
 	width: fit-content;
 	padding: 0 20px;
 	display: flex;
-	flex-direction: row; 
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 }
 #terminal #runtimeButtons #run {
 	background-color: rgb(32, 190, 79);
 }
-#terminal #runtimeButtons #format{
-	background:  rgb(32, 132, 190);
+#terminal #runtimeButtons #format {
+	background: rgb(32, 132, 190);
 }
 
- 
 #terminal #browse button {
 	box-sizing: border-box;
 	border: none;
@@ -247,7 +260,7 @@ fieldset #textarea::-webkit-scrollbar-thumb,
 	cursor: pointer;
 	border: none;
 }
-#terminal #browse #clear{
+#terminal #browse #clear {
 	background: none;
 }
 #terminal #browse #convert,
@@ -258,17 +271,14 @@ fieldset #textarea::-webkit-scrollbar-thumb,
 	padding: 2px 4px;
 	background: none;
 	border: 1px solid rgb(32, 132, 190);
-} 
+}
 @media (max-width: 930px) {
 	#IDE {
 		height: fit-content;
 		flex-direction: column;
 		flex-wrap: nowrap;
 	}
-	#objects {
-		max-width: 50%;
-	}
-}
+ }
 @media (max-width: 500px) {
 	#main fieldset #textarea {
 		font-size: 14px;
