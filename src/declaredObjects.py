@@ -42,18 +42,14 @@ def createClass(enregistrement, template):
 
 def createTable(length, type, templates):
     tab = []
-    if type == "entier":
-        tab = [0]
-        return f"{str(tab*length)}"
-    elif type in ["chaine", "caractere"]:
-        tab = [""]
-        return f"{str(tab*length)}"
-    elif type == "reel":
-        tab = [0.0]
-        return f"{str(tab*length)}"
-    elif type == "booleen":
-        tab = [False]
-        return f"{str(tab*length)}"
+    if type == "entier": 
+        return f"{str([0]*length)}"
+    elif type in ["chaine", "caractere"]: 
+        return f"{str([""]*length)}"
+    elif type == "reel": 
+        return f"{str([0.0]*length)}"
+    elif type == "booleen": 
+        return f"{str([False]*length)}"
     elif type in list(templates.tables.values()):
         return f"{str([]*length)}"
     elif type in templates.classes:
