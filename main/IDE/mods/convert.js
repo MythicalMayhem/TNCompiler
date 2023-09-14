@@ -107,7 +107,7 @@ function isJusqua(el) {
 function isLire(el, key) {
     lire = el.match(/^(lire)\((?<stuff>.+)\)/i)
     if (lire && lire[2]) {
-        inptstr = [ 
+        inptstr = [
             `if ((typeof ${lire[2]}) === 'boolean') {`,
             `${lire[2]} = Boolean(input('${lire[2]}'))`,
             `}else if ( typeof ${lire[2]} === 'number' && !Number.isNaN(${lire[2]}) && !Number.isInteger(${lire[2]}) ){`,
@@ -116,9 +116,9 @@ function isLire(el, key) {
             `${lire[2]}= parseInt(input('${lire[2]}'))`,
             `}else{`,
             `${lire[2]}= input('${lire[2]}')`,
-            `}`, 
+            `}`,
         ]
-        return inptstr 
+        return inptstr
     } else {
         return False
     }
@@ -182,10 +182,11 @@ function replaceInString(el) {
 function translateLines(res) {
     let newres = []
     for (const [i, v] of Object.entries(res)) {
-        let key = Object.keys(res[i])[0]
-        if (res[i] == '') {
+        if (res[i] == undefined) {
+            console.error(`line ${i} malformed`)
             continue
         }
+        let key = Object.keys(res[i])[0]
         res[i][key] = replaceInString(res[i][key])
         res[i][key] = res[i][key].replace(/([^:]*)(:+)$/, /$1/)
         res[i][key] = res[i][key].replace(/([^;]*)(;+)$/, /$1/)

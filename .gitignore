@@ -2,5 +2,4 @@ __pycache__
 .pytest_cache
 .vscode
 .LICENSE
-test.algo 
-src 
+test.algo  
