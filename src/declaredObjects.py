@@ -40,18 +40,18 @@ def createClass(enregistrement, template):
     return classlist
 
 
-def createTable(length, type, templates): 
-    if type == "entier": 
+def createTable(length, type, templates):
+    if type == "entier":
         return f"{str([0]*length)}"
-    elif type in ["chaine", "caractere"]: 
-        return f"{str([""]*length)}"
-    elif type == "reel": 
+    elif type in ["chaine", "caractere"]:
+        return f"{str(['']*length)}"
+    elif type == "reel":
         return f"{str([0.0]*length)}"
-    elif type == "booleen": 
+    elif type == "booleen":
         return f"{str([False]*length)}"
     elif type in templates.classes:
         return f"{str((type + '()')*length)}"
-    else :
+    else:
         return f"{str([]*length)}"
 
 

@@ -15,6 +15,7 @@ def createCache(workFilePath,cacheFilePath=str(os.getcwd())+'/src/cache.py'):
     algo = res.algo  
     tdo  = res.tdo
     tdnt = res.tdnt
+    print(tdo,tdnt)
     #compress.run(algo) 
     TDNT = objs.formatTDNT(tdnt)
     TDO  = objs.formatTDO(tdo,tdnt)
