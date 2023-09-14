@@ -96,7 +96,7 @@ function formatTDO(tdo, tdnt) {
     let template = formatTDNT(tdnt)
     let tdoDict = {}
     for (const [i, v] of Object.entries(tdo)) {
-        let v = Object.values(v)[0].trim()
+        v = Object.values(v)[0].trim()
         if (v == "") { continue }
         let keys = v.split(":")[0].trim()
         let val = v.split(":")[1].trim()
