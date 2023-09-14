@@ -40,8 +40,7 @@ def createClass(enregistrement, template):
     return classlist
 
 
-def createTable(length, type, templates):
-    tab = []
+def createTable(length, type, templates): 
     if type == "entier": 
         return f"{str([0]*length)}"
     elif type in ["chaine", "caractere"]: 
@@ -50,11 +49,10 @@ def createTable(length, type, templates):
         return f"{str([0.0]*length)}"
     elif type == "booleen": 
         return f"{str([False]*length)}"
-    elif type in list(templates.tables.values()):
-        return f"{str([]*length)}"
     elif type in templates.classes:
         return f"{str((type + '()')*length)}"
-    return f"[{','.join(tab)}]\n"
+    else :
+        return f"{str([]*length)}"
 
 
 def createMatrix(row, col, type, templates):
