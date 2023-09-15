@@ -284,7 +284,7 @@ fieldset #textarea::-webkit-scrollbar-thumb,
 #terminal #browse #clear {
 	background: none;
 }
-#terminal #browse #convert,
+#terminal #browse #copy,
 #terminal #browse #write,
 #terminal #browse #output {
 	/*background-color: rgb(32, 132, 190);*/

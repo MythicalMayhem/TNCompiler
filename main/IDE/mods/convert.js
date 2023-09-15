@@ -133,6 +133,7 @@ function getSpanTable(start, enD) {
     return tab
 }
 function replacement(el) {
+
     return L = el.replace(/\[A\.\.Z\]/, `${getSpanTable('A', 'Z')}`)
         .replace(/\[a\.\.z\]/, `${getSpanTable('a', 'z')}`)
         .replace(/\[0\.\.9\]/, `${getSpanTable('0', '9')}`)
@@ -142,7 +143,6 @@ function replacement(el) {
         .replace(/[^a-z0-9_]dans[^a-z0-9_]/i, " in ")
         .replace(/ +/, " ")
         .replace(/=/, "==")
-        .replace(/====/, "==")
         .replace(/ div /, " // ")
         .replace(/ mod /, " % ")
         .replace(/\^/, " ** ")
@@ -172,14 +172,14 @@ function replaceInString(el) {
             }
         }
     }
-    legit.push([start, end])
-    full += el.substring(start, end + 1)
-    if (opened != null) {
-        console.error('unformatted String ')
-    }
+    console.log(replacement(el.substring(start, end + 1)), el.substring(start, end + 1)) 
+    full += replacement(el.substring(start, end + 1))
+    if (opened != null) { console.error('unformatted String ') }
     return full
 }
-function translateLines(res) {
+
+function translateLines(r) {
+    let res = [...r]
     let newres = []
     for (const [i, v] of Object.entries(res)) {
         if (res[i] == undefined) {
@@ -188,12 +188,9 @@ function translateLines(res) {
         }
         let key = Object.keys(res[i])[0]
         res[i][key] = replaceInString(res[i][key])
-        res[i][key] = res[i][key].replace(/([^:]*)(:+)$/, /$1/)
-        res[i][key] = res[i][key].replace(/([^;]*)(;+)$/, /$1/)
-        res[i][key] = res[i][key].replace(/^(selon) (.+)/, "switch $2{")
+            .replace(/([^:]*)(:+)$/, /$1/).replace(/([^;]*)(;+)$/, /$1/).replace(/^(selon) (.+)/, "switch $2{")
         let starter = res[i][key].split(' ')[0].toLowerCase().trim() + ' '
         if (starter.match(/^(pour)[ ]+/i)) {
-            console.log(starter)
             let test = isBoucleFor(res[i][key])
             if (test) {
                 newres.push(test + '/*' + String(key) + '*/')

@@ -30,16 +30,16 @@ function createClass(enregistrement, template) {
     return classlist
 }
 
-function createArray(item, length) { let tea = []; for (let i = 0; i < length + 1; i++) { tea.push(item) } return tea }
+function createArray(item, length) { let tea = []; for (let i = 0; i < length; i++) { tea.push(item) } return tea }
 
 function createTable(length, type, templates) {
-    if (type == "entier") { return `${String(createArray(0, length))}` }
-    else if (type == "reel") { return `${String(createArray(0.0, length))}` }
-    else if (type == "booleen") { return `${String(createArray(false, length))}` }
-    else if (templates.classNames.includes(type)) { return `${String(createArray('new ' + type + '()', length))}` }
-    else if (Object.keys(templates.Matrices).includes(type)) { return `${String(createMatrix(templates.Matrices[key][0], templates.Matrices[key][1], templates.Matrices[key][2], templates))}` }
-    else if (Object.keys(templates.tables).includes(type)) { return `${String(createArray(createTable(templates.tables[key][0], templates.tables[key][1], templates), length))}` }
-    else { return `${String(createArray([""], length))}` }
+    if (type == "entier") { return `[${String(createArray(0, length))}]` }
+    else if (type == "reel") { return `[${String(createArray(0.0, length))}]` }
+    else if (type == "booleen") { return `[${String(createArray(false, length))}]` }
+    else if (templates.classNames.includes(type)) { return `[${String(createArray('new ' + type + '()', length))}]` }
+    else if (Object.keys(templates.Matrices).includes(type)) { return `[${String(createMatrix(templates.Matrices[key][0], templates.Matrices[key][1], templates.Matrices[key][2], templates))}]` }
+    else if (Object.keys(templates.tables).includes(type)) { return `[${String(createArray(createTable(templates.tables[type][0], templates.tables[type][1], templates), length))}]` }
+    else { return `[${String(createArray("", length))}]` }
 
 }
 function createMatrix(row, col, type, templates) {
@@ -56,7 +56,6 @@ function createMatrix(row, col, type, templates) {
 function formatTDNT(tdnt) {
     let newObjects = new TDNTtamplates()
     for (const [i, V] of Object.entries(tdnt)) {
-        console.log(V,Object.keys(V))
         let k = Object.keys(V)[0].trim()
         let v = Object.values(V)[0].trim()
 
@@ -73,9 +72,6 @@ function formatTDNT(tdnt) {
             for (let j = i; j < tdnt.length; j++) {
                 if (Object.values(tdnt[j])[0].trim() == "fin") {
                     let details = tdnt.slice(i, j + 1).slice(2, -1)
-                    console.log(i, j + 1)
-                    console.log(tdnt[i])
-                    console.log(tdnt[j])
                     for (let exp = 0; exp < (j + 1); exp++) {
                         tdnt[exp] = { k: '__SKIP__' };
                     }
@@ -99,21 +95,20 @@ function formatTDNT(tdnt) {
         }
     }
 
-    console.log(newObjects)
     return newObjects
 }
 function formatTDO(tdo, tdnt) {
     let template = formatTDNT(tdnt)
     let tdoDict = {}
-    for (const [i, v] of Object.entries(tdo)) {
+    for (let [i, v] of Object.entries(tdo)) {
         v = Object.values(v)[0]
-        if (v == "") { continue }
+        if (v.length === 0) { continue }
         let keys = v.split(":")[0].trim()
         let val = v.split(":")[1].trim()
         for (let j of keys.split(",")) { tdoDict[j] = val }
     }
     let tdoResult = []
-    for (const i of tdoDict) {
+    for (const i of Object.keys(tdoDict)) {
         let s1 = tdoDict[i].trim().match(/^tableau[ ]+de[ ]+(?<long>[0-9]+)+[ ]+(?<type>[0-9a-z]+)$/i)
         let s2 = tdoDict[i].trim().match(/^(tableau|matrice)[ ]+de[ ]+(((?<rows1>[0-9]+)[ ]+lignes \* (?<cols1>[0-9]+)[ ]+colon?nes)|((?<cols2>[0-9]+)[ ]+colon?nes) \* (?<rows2>[0-9]+)[ ]+lignes)[ ]*(?<type>[a-z][0-9a-z]*)$/i)
         if (Object.keys(template.tables).includes(tdoDict[i])) {
@@ -122,15 +117,17 @@ function formatTDO(tdo, tdnt) {
             tdoResult.push(`${i} = ` + createMatrix(parseInt(template.Matrices[tdoDict[i]][0]), parseInt(template.Matrices[tdoDict[i]][1]), template.Matrices[tdoDict[i]][2], template))
         } else if (s1 && s1.groups["long"] && s1.groups["type"]) {
             tdoResult.push(`${i} = ` + createTable(parseInt(s1.groups["long"].trim()), s1.groups["type"].trim()))
-        } else if (s2.groups["rows1"] && s2.groups["cols1"] && s2.groups["type"]) {
+        } else if (s2 && s2.groups["rows1"] && s2.groups["cols1"] && s2.groups["type"]) {
             tdoResult.push(`${i} = ` + createMatrix(parseInt(s2.groups["rows1"].trim()), parseInt(s2.groups["cols1"].trim()), s2.groups["type"], template))
-        } else if (s2.groups["rows2"] && s2.groups["cols2"] && s2.groups["type"]) {
+        } else if (s2 && s2.groups["rows2"] && s2.groups["cols2"] && s2.groups["type"]) {
             tdoResult.push(`${i} = ` + createMatrix(parseInt(s2.groups["rows2"].trim()), parseInt(s2.groups["cols2"].trim()), s2.groups["type"].trim(), template))
         } else {
-            if (createVar(tdoDict[i].trim(), template)) { tdoResult.push(`${i.trim()} = ` + createVar(tdoDict[i].trim(), template) + "\n") }
-            else { tdoResult.push(i + `= ${tdoDict[i]}\n`) }
+            if (createVar(tdoDict[i].trim(), template)) { tdoResult.push(`${i.trim()} = ` + createVar(tdoDict[i].trim(), template)) }
+            else { tdoResult.push(i + `= ${tdoDict[i]}`) }
         }
     }
-    console.log(tdoResult)
+    for (let i in tdoResult) {
+        tdoResult[i] = tdoResult[i] + ';'
+    }
     return tdoResult
 }

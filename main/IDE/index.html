@@ -25,7 +25,7 @@
             </fieldset>
             <fieldset id="tdo">
                 <legend>TDO</legend>
-                <button id="adder" onclick="addObjectField(this.parentNode)">+</button> 
+                <button id="adder" onclick="addObjectField(this.parentNode)">+</button>
             </fieldset>
         </div>
         <div id="main">
@@ -39,7 +39,7 @@
                     <div id="terminalPages">
                         <h6 style="padding: 0;margin: 0;">Debug</h6>
                         <button id="output">output</button>
-                        <button id="convert">COPY txt</button>
+                        <button id="copy">COPY txt</button>
                         <button id="write">write.js</button>
                     </div>
                 </div>
@@ -61,9 +61,8 @@
             let input = document.createElement('input')
             let span = document.createElement('span')
             let p = document.createElement('p')
-
             button.id = "deleter"
-            button.addEventListener('click',delObjectField) 
+            button.addEventListener('click', delObjectField)
             button.innerText = 'X'
             input.id = "name"
             input.type = "text"
@@ -80,9 +79,7 @@
         }
         addObjectField(document.getElementById('tdo'))
         addObjectField(document.getElementById('tdnt'))
-        function delObjectField() {
-            this.parentNode.remove()
-        }
+        function delObjectField() { this.parentNode.remove() }
     </script>
     <script src="mods/declaredObjects.js"></script>
     <script src="mods/convert.js"></script>

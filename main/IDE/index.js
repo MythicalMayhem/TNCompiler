@@ -2,18 +2,17 @@ let codeArea = document.querySelector('#main').querySelector('#textarea')
 let tdo = document.getElementById('tdo')
 let tdnt = document.getElementById('tdnt')
 let outputtbtn = document.getElementById('output')
-let convertbtn = document.getElementById('convert')
+let copybtn = document.getElementById('copy')
 let writebtn = document.getElementById('write')
 let runbtn = document.getElementById('run')
 let terminalText = document.getElementById('innerTerminal')
 
 
-let Convert = []
 let Write = []
 let output = []
 
-function getTDNT(el) {
-    let kids = document.getElementById(el).children
+function getTDNT() {
+    let kids = document.getElementById('tdnt').children
     let TABLE = []
     for (const i in kids) {
         if (String(kids[i].tagName) == 'DIV') {
@@ -23,21 +22,28 @@ function getTDNT(el) {
                 if (j.id == 'name') { k = j.value.trim() }
                 if (j.id == 'textarea') { v = j.innerText.trim() }
             }
-            let splitVals = v.split('\n')
-            splitVals[0] = k + ':' + splitVals[0]
-            splitVals.forEach(el => {
-                let TD = {}
-                TD[String(i)] = el
-                TABLE.push(TD)
-            });
+            if (k.length == 0 && v.length == 0) {
+                continue
+            } else if (k.length == 0 || v.length == 0) {
+                console.error(`TDNT ${i} not valid`)
+                continue
+            } else {
+                let splitVals = v.split('\n')
+                splitVals[0] = k + ':' + splitVals[0]
+                splitVals.forEach(el => {
+                    let TD = {}
+                    TD[String(i)] = el
+                    TABLE.push(TD)
+                });
+            }
         }
     }
     return TABLE
 }
 // ? add counter for each line passed for error checking if necessary 
 
-function getTDO(el) {
-    let kids = document.getElementById(el).children
+function getTDO() {
+    let kids = document.getElementById('tdo').children
     let TABLE = []
     for (const i in kids) {
         if (String(kids[i].tagName) == 'DIV') {
@@ -47,8 +53,16 @@ function getTDO(el) {
                 if (j.id == 'name') { k = j.value.trim() }
                 if (j.id == 'textarea') { v = j.innerText.trim() }
             }
-            let temp = {}
-            temp[i] = k + ':' + v
+            if (k.length == 0 && v.length == 0) {
+                continue
+            } else if (k.length == 0 || v.length == 0) {
+                console.error(`TDNT ${i} not valid`)
+                continue
+            } else {
+                let temp = {}
+                temp[i] = `${k}:${v}`
+                TABLE.push(temp)
+            }
         }
     }
     return TABLE
@@ -72,18 +86,17 @@ function run() {
         item[key] = line
         lines.push(item)
     }
-
-    Convert = translateLines(lines)
+    let objs = formatTDO(getTDO(), getTDNT())
     Write = INDENT(translateLines(lines))
-    output = Write.join(';')
+    output = objs.join('') + Write.join(';')
+
 }
 
-convertbtn.addEventListener('click', () => { terminalText.innerText = Write.join(''); navigator.clipboard.writeText(Write.join('')) })
+copybtn.addEventListener('click', () => { terminalText.innerText = Write.join(''); navigator.clipboard.writeText(Write.join('')) })
 outputtbtn.addEventListener('click', () => { terminalText.innerText = output })
 writebtn.addEventListener('click', () => { terminalText.innerText = Write.join('\n') })
 runbtn.addEventListener('click', () => {
-
-    formatTDO(getTDO('tdo'), formatTDNT(getTDNT('tdnt')))
+    formatTDO(getTDO(), getTDNT())
     run()
     const time = new Intl.DateTimeFormat('fr-fr', { timeStyle: 'medium' }).format(new Date())
     terminalText.innerText = time + '\n'
