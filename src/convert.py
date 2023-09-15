@@ -224,7 +224,8 @@ def replaceInString(el):
     return full
 
 
-def translateLines(res):
+def translateLines(r):
+    res = r.copy()
     newres = []
     for i, v in enumerate(res):
         key = list(res[i].keys())[0]

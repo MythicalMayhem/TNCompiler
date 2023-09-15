@@ -20,4 +20,4 @@ def ecrire_nl(*args):
     for i in args:L.append(str(i));print(' '.join(L)+'\n')
 vrai = Vrai = True
 faux = Faux = False
-a = np.array([([[0, 0]]*5)]*5)#debut#7
+a = np.array([([[0, 0]]*5)]*5)#debut#13

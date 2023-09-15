@@ -33,7 +33,7 @@ def createVar(type, templates):
 def createClass(enregistrement, template):
     classlist = []
     classlist.append(f"class {list(enregistrement.keys())[0]}:\n")
-    enrdesc = dict(list(enregistrement.values())[0])
+    enrdesc = list(enregistrement.values())[0] 
     for i, v in enumerate(enrdesc):
         classlist.append(f"\t {v} = {createVar(enrdesc[v],template)} \n")
     classlist.append("\n")
@@ -90,7 +90,7 @@ def formatTDNT(tdnt):
         key = v.strip().split(":")[0].strip()
         Ivalue = v.strip().split(":")[1].strip()
         s1 = re.match(
-            "^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$",
+            "^(tableau)[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$",
             Ivalue.strip(),
             re.IGNORECASE,
         )
@@ -139,9 +139,11 @@ def formatTDNT(tdnt):
                     ]
     return newObjects
 
+# !! template and newObjects arent similar
 
 def formatTDO(tdo, tdnt):
     template = formatTDNT(tdnt)
+    print(template.classNames)
     tdoDict = {}
     for i, v in enumerate(tdo):
         v = list(v.values())[0].strip()
@@ -152,7 +154,9 @@ def formatTDO(tdo, tdnt):
         for j in keys.split(","):
             tdoDict[j] = val
     tdoResult = []
+    print(tdoDict)
     for i in tdoDict:
+        print(i,tdoDict[i])
         s1 = re.match(
             "^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$",
             tdoDict[i],

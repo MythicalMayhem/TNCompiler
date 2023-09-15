@@ -45,8 +45,7 @@ def commit(tdo,tdnt,indented,where):
     predef = open(r"C:\Users\ameur\Desktop\ALCompiler\src\predefined.py", "r")
     final = []
     final += predef.readlines()
-    predef.close()
-    final += arraying(tdnt.classes)
+    predef.close() 
     final += tdo
     final += indented
     f = open(where, "w+",encoding="utf-8")

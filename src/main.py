@@ -14,11 +14,10 @@ def createCache(workFilePath,cacheFilePath=str(os.getcwd())+'/src/cache.py'):
     res = getComponents.get(workFilePath)
     algo = res.algo  
     tdo  = res.tdo
-    tdnt = res.tdnt
-    print(tdo,tdnt)
+    tdnt = res.tdnt 
     #compress.run(algo) 
     TDNT = objs.formatTDNT(tdnt)
-    TDO  = objs.formatTDO(tdo,tdnt)
+    TDO  = objs.formatTDO(tdo,tdnt) 
     translated = convert.translateLines(algo)
     indented = write.indent(translated)
     write.commit(TDO,TDNT,indented,cacheFilePath)
