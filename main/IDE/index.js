@@ -1,4 +1,6 @@
 let codeArea = document.querySelector('#main').querySelector('#textarea')
+let tdo = document.getElementById('tdo')
+let tdnt = document.getElementById('tdnt')
 let outputtbtn = document.getElementById('output')
 let convertbtn = document.getElementById('convert')
 let writebtn = document.getElementById('write')
@@ -10,6 +12,30 @@ let Convert = []
 let Write = []
 let output = []
 
+function getObjectTable(el) {
+    let kids = document.getElementById(el).children
+    let TABLE = []
+    for (const i in kids) {
+        if (String(kids[i].tagName) == 'DIV') {
+            let kids1 = kids[i].children
+            let k, v
+            for (const j of kids1) {
+                if (j.id == 'name') { k = j.value.trim() }
+                if (j.id == 'textarea') { v = j.innerText.trim() }
+            }
+            k = 'g'
+            v = 'tableau de 10 colonnes * 5 lignes entier'
+            let splitVals = v.split('\n')
+            splitVals[0] = k + ':' + splitVals[0]
+            splitVals.forEach(el => {
+                let TD = {}
+                TD[String(i)] = el
+                TABLE.push(TD)
+            });
+        }
+    }
+    return TABLE
+}
 
 function run() {
     let f = []
@@ -25,29 +51,28 @@ function run() {
     }
     for (const i in f) {
         let line = f[i]
-        key = `${(i.toString())}`
+        let key = `${(i.toString())}`
         let item = {}
         item[key] = line
         lines.push(item)
     }
+
     Convert = translateLines(lines)
     Write = INDENT(translateLines(lines))
     output = Write.join(';')
 }
-convertbtn.addEventListener('click', () => {
-    terminalText.innerText = Write.join('')
-    navigator.clipboard.writeText(Write.join(''))
-})
-outputtbtn.addEventListener('click', () => {
-    terminalText.innerText = output
-})
-writebtn.addEventListener('click', () => {
-    terminalText.innerText = Write.join('\n')
-})
+
+convertbtn.addEventListener('click', () => { terminalText.innerText = Write.join(''); navigator.clipboard.writeText(Write.join('')) })
+outputtbtn.addEventListener('click', () => { terminalText.innerText = output })
+writebtn.addEventListener('click', () => { terminalText.innerText = Write.join('\n') })
 runbtn.addEventListener('click', () => {
+    formatTDNT(getObjectTable('tdnt'))
     run()
-    const d = new Date();
-    const time = new Intl.DateTimeFormat('fr-fr', { timeStyle: 'medium' }).format(d)
+    const time = new Intl.DateTimeFormat('fr-fr', { timeStyle: 'medium' }).format(new Date())
     terminalText.innerText = time + '\n'
-    eval(output)
+    try {
+        eval(output)
+    } catch (error) {
+        terminalText.innerText = time + '\n' + error
+    }
 })
