@@ -1,12 +1,13 @@
-<!DOCTYPE html >
-<html lang="en">  
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Editor</title>
     <link rel="stylesheet" href="../default.css">
     <link rel="stylesheet" href="index.css">
- 
+
 </head>
 
 <body>
@@ -20,30 +21,11 @@
         <div id="objects">
             <fieldset id="tdnt">
                 <legend>TDNT</legend>
-                <div>
-                    <button>X</button>
-                    <input id="name" type="text" spellcheck="false">
-                    <span>:</span>
-                    <p id="textarea" contenteditable="true" type="text" spellcheck="false">
-enregistrement<br>
-debut<br>
-a:entier<br>
-b:entier<br>
-c:entier<br>
-fin<br>
-                    </p>
-                </div>
+                <button onclick="addObjectField(this.parentNode)" id="adder">+</button>
             </fieldset>
             <fieldset id="tdo">
                 <legend>TDO</legend>
-                <div>
-                    <button>X</button>
-                    <input id="name" spellcheck="false" type="text">
-                    <span>:</span>
-                    <p id="textarea" contenteditable="true"  type="text" spellcheck="false"></p>
-                </div>
-
-
+                <button id="adder" onclick="addObjectField(this.parentNode)">+</button> 
             </fieldset>
         </div>
         <div id="main">
@@ -61,7 +43,7 @@ fin<br>
                         <button id="write">write.js</button>
                     </div>
                 </div>
-                <div id="innerTerminal"> 
+                <div id="innerTerminal">
                 </div>
             </div>
         </div>
@@ -72,6 +54,36 @@ fin<br>
             <a href="https://github.com/MythicalMayhem/AlgorithmicLanguageCompiler">HERE</a>
         </span>
     </footer>
+    <script>
+        function addObjectField(the) {
+            let div = document.createElement('div')
+            let button = document.createElement('button')
+            let input = document.createElement('input')
+            let span = document.createElement('span')
+            let p = document.createElement('p')
+
+            button.id = "deleter"
+            button.addEventListener('click',delObjectField) 
+            button.innerText = 'X'
+            input.id = "name"
+            input.type = "text"
+            input.spellcheck = "false"
+            span.innerText = ':'
+            p.id = "textarea"
+            p.contentEditable = "true"
+            p.spellcheck = "false"
+            div.appendChild(button)
+            div.appendChild(input)
+            div.appendChild(span)
+            div.appendChild(p)
+            the.appendChild(div)
+        }
+        addObjectField(document.getElementById('tdo'))
+        addObjectField(document.getElementById('tdnt'))
+        function delObjectField() {
+            this.parentNode.remove()
+        }
+    </script>
     <script src="mods/declaredObjects.js"></script>
     <script src="mods/convert.js"></script>
     <script src="mods/write.js"></script>

@@ -23,10 +23,10 @@ function createVar(type, templates) {
 
 function createClass(enregistrement, template) {
     let classlist = []
-    classlist.push(`class ${Object.keys(enregistrement)[0]} {`)
     let enrdesc = Object(Object.values(enregistrement)[0])
     for (const [i, v] of Object.entries(enrdesc)) { classlist.push(`${v} = ${createVar(enrdesc[v], template)}`) }
-    classlist.push("}")
+    classlist = classlist.join(';')
+        `class ${Object.keys(enregistrement)[0]} {` + classlist.join(';') + "}"
     return classlist
 }
 
@@ -55,8 +55,8 @@ function createMatrix(row, col, type, templates) {
 
 function formatTDNT(tdnt) {
     let newObjects = new TDNTtamplates()
-    console.log(tdnt)
     for (const [i, V] of Object.entries(tdnt)) {
+        console.log(V,Object.keys(V))
         let k = Object.keys(V)[0].trim()
         let v = Object.values(V)[0].trim()
 
@@ -106,7 +106,7 @@ function formatTDO(tdo, tdnt) {
     let template = formatTDNT(tdnt)
     let tdoDict = {}
     for (const [i, v] of Object.entries(tdo)) {
-        v = Object.values(v)[0].trim()
+        v = Object.values(v)[0]
         if (v == "") { continue }
         let keys = v.split(":")[0].trim()
         let val = v.split(":")[1].trim()
@@ -131,5 +131,6 @@ function formatTDO(tdo, tdnt) {
             else { tdoResult.push(i + `= ${tdoDict[i]}\n`) }
         }
     }
+    console.log(tdoResult)
     return tdoResult
 }

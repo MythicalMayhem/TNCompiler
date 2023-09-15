@@ -41,8 +41,7 @@ fieldset {
 		rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
 		rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 	background-color: #2c313a;
-	border: none;
-	border-top: #2c313a solid 35px;
+	border: none; 
 	box-sizing: border-box;
 	margin: 0;
 	border-radius: 5px;
@@ -66,7 +65,7 @@ legend {
 	border-radius: 10px;
 	padding: 8px;
 	flex-grow: 0.5;
-	max-width: 500px;
+	max-width: 350px;
 	overflow: auto;
 }
 #tdnt,
@@ -74,10 +73,13 @@ legend {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
+	
+	gap: 20px; 
 }
 
+ 
 #tdnt div,
-#tdo div {
+#tdo  div {
 	height: 100%;
 	display: flex;
 	flex-direction: row;
@@ -120,8 +122,8 @@ legend {
 	font-size: 25px;
 	cursor: default;
 }
-#tdnt div button,
-#tdo div button {
+#tdnt div #deleter,
+#tdo div #deleter {
 	cursor: pointer;
 	background: none;
 	color: rgb(221, 49, 84);
@@ -130,7 +132,23 @@ legend {
 	font-weight: bolder;
 	font-size: 15px;
 }
+#tdnt #adder,
+#tdo #adder {
+	cursor: pointer;
+	background: rgb(14, 109, 104);
+	color: white;
+	width: fit-content;
+	justify-self: flex-end;
+	align-self: flex-end;
+	border-radius: 10%;
+	border: none;
+	padding: 5px 10px;
+	font-weight: bolder;
+	font-size: 20px; 
+	position: relative;
+	top: 0;
 
+}
 #main {
 	box-sizing: border-box;
 	min-width: 280px;
