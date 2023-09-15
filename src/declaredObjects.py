@@ -33,7 +33,7 @@ def createVar(type, templates):
 def createClass(enregistrement, template):
     classlist = []
     classlist.append(f"class {list(enregistrement.keys())[0]}:\n")
-    enrdesc = list(enregistrement.values())[0] 
+    enrdesc = list(enregistrement.values())[0]
     for i, v in enumerate(enrdesc):
         classlist.append(f"\t {v} = {createVar(enrdesc[v],template)} \n")
     classlist.append("\n")
@@ -49,8 +49,12 @@ def createTable(length, type, templates):
         return f"{str([0.0]*length)}"
     elif type == "booleen":
         return f"{str([False]*length)}"
-    elif type in templates.classes:
+    elif type in templates.classesNames:
         return f"{str((type + '()')*length)}"
+    elif type in list(templates.Matrices.keys()):
+        return f"{str([createMatrix(int(templates.Matrices[type][0]),int(templates.Matrices[type][1]),templates.Matrices[type][2],templates,)]*length)}"
+    elif type in templates.tables.keys():
+        return f"{str([createTable(int(templates.tables[type][0]),int(templates.tables[type][1]),templates)]*length)}"
     else:
         return f"{str([]*length)}"
 
@@ -139,7 +143,9 @@ def formatTDNT(tdnt):
                     ]
     return newObjects
 
+
 # !! template and newObjects arent similar
+
 
 def formatTDO(tdo, tdnt):
     template = formatTDNT(tdnt)
@@ -156,7 +162,7 @@ def formatTDO(tdo, tdnt):
     tdoResult = []
     print(tdoDict)
     for i in tdoDict:
-        print(i,tdoDict[i])
+        print(i, tdoDict[i])
         s1 = re.match(
             "^tableau[ ]+de[ ]+(?P<long>[0-9]+)+[ ]+(?P<type>[0-9a-z]+)$",
             tdoDict[i],

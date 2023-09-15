@@ -182,8 +182,7 @@ def replacement(el):
     el1 = re.sub("[^a-z0-9_]ou[^a-z0-9_]", " or ", el1, re.IGNORECASE)
     el1 = re.sub("[^a-z0-9_]dans[^a-z0-9_]", " in ", el1, re.IGNORECASE)
     el1 = re.sub(" +", " ", el1)
-    el1 = re.sub("=", "==", el1, re.IGNORECASE)
-    el1 = re.sub("====", "==", el1, re.IGNORECASE)
+    el1 = re.sub("=", "==", el1, re.IGNORECASE) 
     el1 = re.sub(" div ", " // ", el1, re.IGNORECASE)
     el1 = re.sub(" mod ", " % ", el1, re.IGNORECASE)
     el1 = re.sub("\^", "**", el1, re.IGNORECASE)
@@ -202,8 +201,7 @@ def replaceInString(el):
         item = el[i].strip()
         before = 0
         if i > 0:
-            before = i - 1
-
+            before = i - 1 
         if (item == '"' or item == "'") and el[before] != "\\":
             if opened == None:
                 opened = i
