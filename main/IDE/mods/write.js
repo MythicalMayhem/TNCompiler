@@ -12,5 +12,6 @@ function INDENT(translated) {
             result.push(String(starter) + ";")
         }
     } 
+    console.log(result)
     return result
 }

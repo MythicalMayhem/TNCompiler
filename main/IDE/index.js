@@ -100,6 +100,7 @@ runbtn.addEventListener('click', () => {
     run()
     const time = new Intl.DateTimeFormat('fr-fr', { timeStyle: 'medium' }).format(new Date())
     terminalText.innerText = time + '\n'
-    try { eval(output) }
+    console.log(output)
+    try { eval(output ) }
     catch (error) { terminalText.innerText = time + '\n' + error }
 })

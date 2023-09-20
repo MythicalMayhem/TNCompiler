@@ -27,13 +27,21 @@ function getParams(el) {
 function isBoucleFor(el) {
     el = el.replace(/[ ]+/, ' ')
     el = el.split(" ").slice(1, -1)
-    var index, start, end = 0
+    var index, start, pas = 0
     for (let i = 0; i < el.length; i++) {
         if (el[i].trim() == "de") { index = i }
         if (el[i].trim() == "a") { start = i }
+        if (el[i].trim() == "pas") { pas = i }
     }
-
-    return `for (let ${el.slice(0, index)}=${el.slice(index + 1, start).join(" ")};i<(${el.slice(start + 1, el.length).join(" ")});i++){`
+    let test = el.slice(0, pas).match(/pas[ ]*=(?<amount>[0-9]+)/)
+    try {
+        pas = parseInt(test.groups.amount)
+    } catch (error) {
+        
+        pas = 1
+    }
+ 
+    return `for (let ${el.slice(0, index)}=${el.slice(index + 1, start).join(" ")};${el.slice(0, index)}<(${el.slice(start + 1, el.length).join(" ")});${el.slice(0, index)}+=${pas}){`
 }
 function isSi(el) {
     let newel = el.match(/si[ ]+(?<arguments>.+)?[ ]+alors:?/i)
@@ -172,7 +180,7 @@ function replaceInString(el) {
             }
         }
     }
-    console.log(replacement(el.substring(start, end + 1)), el.substring(start, end + 1)) 
+    console.log(replacement(el.substring(start, end + 1)), el.substring(start, end + 1))
     full += replacement(el.substring(start, end + 1))
     if (opened != null) { console.error('unformatted String ') }
     return full
