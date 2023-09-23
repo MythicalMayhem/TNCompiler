@@ -8,10 +8,9 @@ function INDENT(translated) {
             result.push("};/*" + String(starter) )
         } else if (starter.match(/^(if|while|function|for|switch)/)) {
             result.push(String(translated[i]))
-        } else {
+        } else { 
             result.push(String(starter) + ";")
         }
-    } 
-    console.log(result)
+    }  
     return result
 }

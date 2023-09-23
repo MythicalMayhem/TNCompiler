@@ -37,10 +37,10 @@ function isBoucleFor(el) {
     try {
         pas = parseInt(test.groups.amount)
     } catch (error) {
-        
+
         pas = 1
     }
- 
+
     return `for (let ${el.slice(0, index)}=${el.slice(index + 1, start).join(" ")};${el.slice(0, index)}<(${el.slice(start + 1, el.length).join(" ")});${el.slice(0, index)}+=${pas}){`
 }
 function isSi(el) {
@@ -85,8 +85,7 @@ function isFonction(el) {
 function isProcedure(el) {
     newel = el.match(/procedure[ ]+(?<name>[a-z]([a-z0-9_])*)[ ]*\((?<arguments>.*)\)[ ]*:?/i)
     if (newel) {
-        let [alls, unchanges, changes] = getParams(newel[3])
-        console.log(alls, unchanges, changes)
+        let [alls, unchanges, changes] = getParams(newel[3]) 
         if (alls == []) {
             return [`function ${newel.groups.name} (){`, [], []]
         }
@@ -180,7 +179,6 @@ function replaceInString(el) {
             }
         }
     }
-    console.log(replacement(el.substring(start, end + 1)), el.substring(start, end + 1))
     full += replacement(el.substring(start, end + 1))
     if (opened != null) { console.error('unformatted String ') }
     return full

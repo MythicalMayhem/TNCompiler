@@ -7,6 +7,11 @@ let writebtn = document.getElementById('write')
 let runbtn = document.getElementById('run')
 let terminalText = document.getElementById('innerTerminal')
 
+codeArea.addEventListener("paste", (e) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text/plain');
+    document.execCommand("insertHTML", false, text);
+  });
 
 let Write = []
 let output = []
@@ -75,15 +80,15 @@ function run() {
         for (const node of children) {
             let text = node.textContent.trim() || node.innerText.trim()
             f.push(text)
+            console.log(text)
         }
     } else {
         f = [codeArea.innerText]
     }
     for (const i in f) {
-        let line = f[i]
         let key = `${(i.toString())}`
         let item = {}
-        item[key] = line
+        item[key] = f[i]
         lines.push(item)
     }
     let objs = formatTDO(getTDO(), getTDNT())
@@ -100,7 +105,6 @@ runbtn.addEventListener('click', () => {
     run()
     const time = new Intl.DateTimeFormat('fr-fr', { timeStyle: 'medium' }).format(new Date())
     terminalText.innerText = time + '\n'
-    console.log(output)
-    try { eval(output ) }
+    try { eval(output) }
     catch (error) { terminalText.innerText = time + '\n' + error }
 })
