@@ -1,8 +1,8 @@
  
 <div align="center">
-  <h1 align="center">ALCompiler</h1>
+  <h1 align="center">TNCompiler</h1>
   <div align="center">
-      <h3>Algorithmic Language Compiler</h3>
+      <h3>Tunisian Algorithmic Language / Pseudo code Compiler</h3>
       <br>
       <img src="https://img.shields.io/github/contributors/MythicalMayhem/ALCompiler?color=blue" alt='contributors'/>
       <img src="https://img.shields.io/github/stars/MythicalMayhem/ALCompiler?color=yellow" alt='stars'/>
