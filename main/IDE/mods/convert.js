@@ -85,7 +85,7 @@ function isFonction(el) {
 function isProcedure(el) {
     newel = el.match(/procedure[ ]+(?<name>[a-z]([a-z0-9_])*)[ ]*\((?<arguments>.*)\)[ ]*:?/i)
     if (newel) {
-        let [alls, unchanges, changes] = getParams(newel[3]) 
+        let [alls, unchanges, changes] = getParams(newel[3])
         if (alls == []) {
             return [`function ${newel.groups.name} (){`, [], []]
         }
@@ -140,7 +140,6 @@ function getSpanTable(start, enD) {
     return tab
 }
 function replacement(el) {
-
     return L = el.replace(/\[A\.\.Z\]/, `${getSpanTable('A', 'Z')}`)
         .replace(/\[a\.\.z\]/, `${getSpanTable('a', 'z')}`)
         .replace(/\[0\.\.9\]/, `${getSpanTable('0', '9')}`)
@@ -150,8 +149,8 @@ function replacement(el) {
         .replace(/[^a-z0-9_]dans[^a-z0-9_]/i, " in ")
         .replace(/ +/, " ")
         .replace(/=/, "==")
-        .replace(/ div /, " // ")
-        .replace(/ mod /, " % ")
+        .replace(/ div /i, " // ")
+        .replace(/ mod /i, " % ")
         .replace(/\^/, " ** ")
         .replace(/<--/, '=')
 
@@ -233,7 +232,7 @@ function translateLines(r) {
             if (temp.groups.other) {
                 newres.push(temp.groups.other + '/*' + String(key) + '*/')
             }
-        } else if (starter.match("^tant[ ]?que")) {
+        } else if (starter.match(/^tant[ ]?que/)) {
             let test = isTantque(res[i][key])
             if (test) {
                 newres.push(test + '/*' + String(key) + '*/')
@@ -242,7 +241,7 @@ function translateLines(r) {
                 console.error("tantque invalide ")
             }
         }
-        else if (starter.match("^jusqu'?(a|à)")) {
+        else if (starter.match(/^jusqu'?(a|à)/)) {
             let test = isJusqua(res[i][key])
             if (test) {
                 newres.push(test + '/*' + String(key) + '*/')
@@ -252,14 +251,14 @@ function translateLines(r) {
             else {
                 console.error(" Jusqu'a invalide ")
             }
-        } else if (starter.match("^R(e|é)p(e|é)ter[ ]*")) {
+        } else if (starter.match(/^R(e|é)p(e|é)ter[ ]*/)) {
             let test = isRepeter(res[i][key])
             if (test) {
                 newres.push(test + '/*' + String(key) + '*/')
             } else {
                 console.error("repeter invalide ")
             }
-        } else if (starter.match("^(fonction)[ ]+")) {
+        } else if (starter.match(/^(fonction)[ ]+/)) {
             [a, b, c] = isFonction(res[i][key])
             if (a) {
                 newres.push(a + '/*' + String(key) + '*/')
@@ -273,7 +272,7 @@ function translateLines(r) {
             else {
                 console.error("fonction invalide ")
             }
-        } else if (starter.match("^(procedure)[ ]+")) {
+        } else if (starter.match(/^(procedure)[ ]+/)) {
             [a, b, c] = isProcedure(res[i][key])
             if (a) {
                 newres.push(a + '/*' + String(key) + '*/')
@@ -285,7 +284,7 @@ function translateLines(r) {
             } else {
                 console.error("procedure invalide ")
             }
-        } else if (starter.match("^retourner[ ]+")) {
+        } else if (starter.match(/^retourner[ ]+/)) {
             let test = res[i][key].match(/^retourner[ ]+(?<stuff>(.*))/)
             if (test) {
                 newres.push(`return ${test[1]}` + '/*' + String(key) + '*/')

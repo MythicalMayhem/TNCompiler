@@ -11,7 +11,7 @@ codeArea.addEventListener("paste", (e) => {
     e.preventDefault();
     const text = e.clipboardData.getData('text/plain');
     document.execCommand("insertHTML", false, text);
-  });
+});
 
 let Write = []
 let output = []
