@@ -55,7 +55,7 @@
         </span>
     </footer>
     <script>
-        function addObjectField(the) {
+        function addObjectField(the, ki, val) {
             let div = document.createElement('div')
             let button = document.createElement('button')
             let input = document.createElement('input')
@@ -67,18 +67,18 @@
             input.id = "name"
             input.type = "text"
             input.spellcheck = "false"
+            input.value = ki || ''
             span.innerText = ':'
             p.id = "textarea"
             p.contentEditable = "true"
             p.spellcheck = "false"
+            p.textContent = val || ''
             div.appendChild(button)
             div.appendChild(input)
             div.appendChild(span)
             div.appendChild(p)
             the.appendChild(div)
         }
-        addObjectField(document.getElementById('tdo'))
-        addObjectField(document.getElementById('tdnt'))
         function delObjectField() { this.parentNode.remove() }
     </script>
     <script src="mods/declaredObjects.js"></script>
