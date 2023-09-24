@@ -10,6 +10,7 @@ function __writeinterminal(s) {
 function input(name) {
     let terminal = document.getElementById('innerTerminal')
     let x = prompt(`${name} = `)
+    if (!x) {throw 'exit' }
     let wrapper = document.createElement('div')  
     wrapper.innerText = `${name} = ${x}`
     terminal.appendChild(wrapper)

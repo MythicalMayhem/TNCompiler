@@ -33,8 +33,8 @@ function isBoucleFor(el) {
         if (el[i].trim() == "a") { start = i }
         if (el[i].trim() == "pas") { pas = i }
     }
-    let test = el.slice(0, pas).match(/pas[ ]*=(?<amount>[0-9]+)/)
     try {
+        let test = el.slice(0, pas).match(/pas[ ]*=(?<amount>[0-9]+)/)
         pas = parseInt(test.groups.amount)
     } catch (error) {
 
@@ -141,20 +141,37 @@ function getSpanTable(start, enD) {
     }
     return tab
 }
-function replacement(el) {
+// function replaceDoubleComparison(stringer) {
+//     let re1 = /(?<before>\w+){1}[ ]*((?<equal12>=)?(?<compare1>[\>\<]{1})(?<equal11>=)?)(?<inside>.*)((?<equal22>=)?(?<compare2>[\>\<])(?<equal21>=)?)[ ]*(?<after>\w+)/
+//     let item = stringer.match(re1)  
+//     console.log(item)
+//     if (!item) { return stringer } 
+//     let before = item.groups.before
+//     let inside = item.groups.inside
+//     let after = item.groups.after
+//     let compare1 = item.groups.compare1
+//     let compare2 = item.groups.compare2
+//     let equal1 = item.groups.equal11 || item.groups.equal12 || ''
+//     let equal2 = item.groups.equal21 || item.groups.equal22 || ''
+//     let result = '( ' + '( ' + before + compare1 + equal1 + inside + ' ) ' + '&&' + ' ( ' + inside + compare2 + equal2 + after + ' )' + ' )'
+//     console.log(stringer.replace(re1,result) )
+//     return stringer.replace()
+// }
+//replaceDoubleComparison('5=<=x=<=10')
+function replacement(el) { 
     return L = el.replace(/\[A\.\.Z\]/, `${getSpanTable('A', 'Z')}`)
         .replace(/\[a\.\.z\]/, `${getSpanTable('a', 'z')}`)
         .replace(/\[0\.\.9\]/, `${getSpanTable('0', '9')}`)
         .replace(/[^a-z0-9_]non[^a-z0-9_]/i, " ! ")
-        .replace(/[^a-z0-9_]et[^a-z0-9_] /i, " && ")
-        .replace(/[^a-z0-9_]ou[^a-z0-9_] /i, " || ")
+        .replace(/[^a-z0-9_]et[^a-z0-9_]/i, " && ")
+        .replace(/[^a-z0-9_]ou[^a-z0-9_]/i, " || ")
         .replace(/[^a-z0-9_]dans[^a-z0-9_]/i, " in ")
         .replace(/ +/, " ")
         .replace(/=/, "==")
         .replace(/ div /i, " // ")
         .replace(/ mod /i, " % ")
         .replace(/\^/, " ** ")
-        .replace(/<--/, '=')
+        .replace(/<--/, '=').trim()
 
 }
 
@@ -195,7 +212,7 @@ function translateLines(r) {
         }
         let key = Object.keys(res[i])[0]
         res[i][key] = replaceInString(res[i][key])
-            .replace(/([^:]*)(:+)$/, /$1/).replace(/([^;]*)(;+)$/, /$1/).replace(/^(selon) (.+)/, "switch $2{")
+            .replace(/([^:]*)(:+)$/, /$1/).replace(/([^;]*)(;+)$/, /$1/).replace(/^(selon) (.+)/, /switch $2{/)
         let starter = res[i][key].split(' ')[0].toLowerCase().trim() + ' '
         if (starter.match(/^(pour)[ ]+/i)) {
             let test = isBoucleFor(res[i][key])

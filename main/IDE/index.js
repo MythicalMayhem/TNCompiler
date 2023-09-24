@@ -1,3 +1,24 @@
+function setCookie(cName, cValue, time) {
+    let date = new Date();
+    date.setTime(date.getTime() + (time * 1000));
+    date = "expires=" + date.toUTCString()
+    document.cookie = cName + "=" + cValue + "; " + date + "; path=/";
+}
+
+function getCookie(cName) {
+    const name = cName + "=";
+    const cDecoded = decodeURIComponent(document.cookie);
+    const cArr = cDecoded.split('; ');
+    let res;
+    cArr.forEach(val => { if (val.indexOf(name) === 0) res = val.substring(name.length); })
+    return res;
+}
+
+function deleteCookie(name) {
+    setCookie(name, '', -1)
+}
+
+
 let codeArea = document.querySelector('#main').querySelector('#textarea')
 let tdo = document.getElementById('tdo')
 let tdnt = document.getElementById('tdnt')
@@ -6,6 +27,7 @@ let copybtn = document.getElementById('copy')
 let writebtn = document.getElementById('write')
 let runbtn = document.getElementById('run')
 let terminalText = document.getElementById('innerTerminal')
+
 
 codeArea.addEventListener("paste", (e) => {
     e.preventDefault();
@@ -72,19 +94,22 @@ function getTDO() {
     }
     return TABLE
 }
-function run() {
+function getLines() {
     let f = []
-    let lines = []
     if (codeArea.hasChildNodes()) {
         let children = codeArea.childNodes;
         for (const node of children) {
             let text = node.textContent.trim() || node.innerText.trim()
             f.push(text)
-            console.log(text)
         }
     } else {
         f = [codeArea.innerText]
     }
+    return f
+}
+function run() {
+    let f = getLines()
+    let lines = []
     for (const i in f) {
         let key = `${(i.toString())}`
         let item = {}
@@ -94,8 +119,18 @@ function run() {
     let objs = formatTDO(getTDO(), getTDNT())
     Write = INDENT(translateLines(lines))
     output = objs.join('') + Write.join(';')
-
 }
+
+codeArea.addEventListener("input", function () { setCookie('save', getLines().join('#'), 60 * 60 * 24 * 365) }, false);
+window.addEventListener('load', () => {
+    let a = getCookie('save').split('#')
+    while (codeArea.hasChildNodes()) { codeArea.removeChild(codeArea.firstChild) }
+    a.forEach(el => {
+        let div = document.createElement('div');
+        div.innerText = String(el);
+        codeArea.appendChild(div);
+    });
+})
 
 copybtn.addEventListener('click', () => { terminalText.innerText = Write.join(''); navigator.clipboard.writeText(Write.join('')) })
 outputtbtn.addEventListener('click', () => { terminalText.innerText = output })
@@ -108,3 +143,4 @@ runbtn.addEventListener('click', () => {
     try { eval(output) }
     catch (error) { terminalText.innerText = time + '\n' + error }
 })
+ 
