@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/github/contributors/MythicalMayhem/ALCompiler?color=blue" alt='contributors'/>
       <img src="https://img.shields.io/github/stars/MythicalMayhem/ALCompiler?color=yellow" alt='stars'/>
       <img src="https://img.shields.io/github/license/MythicalMayhem/ALCompiler?color=green" alt='license'/>
-      <img src="https://img.shields.io/website/http/mythicalmayhem.github.io/ALCompiler/main/IDE/index.html" alt='website'/>
+      <img src="https://img.shields.io/website/http/mythicalmayhem.github.io/TNCompiler/main/IDE/index.html" alt='website'/>
       <img src="https://img.shields.io/badge/python-%3E%3D%20v3.10-blue" alt='python version'/>  
   </div>
 </div> 
