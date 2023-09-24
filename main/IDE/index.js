@@ -4,7 +4,6 @@ function setCookie(cName, cValue, time) {
     date = "expires=" + date.toUTCString()
     document.cookie = cName + "=" + cValue + "; " + date + "; path=/";
 }
-
 function getCookie(cName) {
     const name = cName + "=";
     const cDecoded = decodeURIComponent(document.cookie);
@@ -13,10 +12,7 @@ function getCookie(cName) {
     cArr.forEach(val => { if (val.indexOf(name) === 0) res = val.substring(name.length); })
     return res;
 }
-
-function deleteCookie(name) {
-    setCookie(name, '', -1)
-}
+function deleteCookie(name) { setCookie(name, '', -1) }
 
 
 let codeArea = document.querySelector('#main').querySelector('#textarea')
@@ -64,7 +60,7 @@ function getTDNT() {
                 });
             }
         }
-    } 
+    }
     tdntSave = localtdntSave
     return TABLE
 }
@@ -82,7 +78,7 @@ function getTDO() {
             for (const j of kids1) {
                 if (j.id == 'name') { k = j.value.trim() }
                 if (j.id == 'textarea') { v = j.innerText.trim() }
-            } 
+            }
             if (k.length == 0 || v.length == 0) {
                 continue
             } else {
@@ -107,6 +103,8 @@ function getLines() {
     } else {
         f = [codeArea.innerText]
     }
+    f = codeArea.value.split('\n')
+    console.log(f)
     return f
 }
 function run() {
@@ -120,17 +118,13 @@ function run() {
     }
     let objs = formatTDO(getTDO(), getTDNT())
     Write = INDENT(translateLines(lines))
-    output = objs.join('') + Write.join(';')
+    output = objs.join('') + Write.join(';\n')
 }
 
 window.addEventListener('load', () => {
-    let a = getCookie('algo')?.split('#') || []
-    while (codeArea.hasChildNodes()) { codeArea.removeChild(codeArea.firstChild) }
-    a.forEach(el => {
-        let div = document.createElement('div');
-        div.innerText = String(el);
-        codeArea.appendChild(div);
-    });
+    let a = getCookie('algo')?.split('#') || [] 
+    codeArea.value = a.join('\n')
+
     let b = getCookie('TDO')?.split('#') || []
     let kids = tdo.querySelectorAll('div')
     for (const K of kids) { K.remove() }
@@ -139,12 +133,12 @@ window.addEventListener('load', () => {
     let c = getCookie('TDNT')?.split('#') || []
     let kids1 = tdnt.querySelectorAll('div')
     for (const K of kids1) { K.remove() }
-    for (const i of c) { if (i.length > 0) { addObjectField(tdnt, i.split(':')[0], i.split(':')[1]) } } 
+    for (const i of c) { if (i.length > 0) { addObjectField(tdnt, i.split(':')[0], i.split(':')[1]) } }
 })
 function save() {
     let areas = document.querySelectorAll('#textarea')
-    for (const area of areas) { 
-        area.addEventListener("input", () => {
+    for (const area of areas) {
+        area.addEventListener("input", () => { 
             getTDO()
             getTDNT()
             setCookie('TDNT', tdntSave.join('#'), 60 * 60 * 24 * 365)
@@ -165,5 +159,13 @@ runbtn.addEventListener('click', () => {
     const time = new Intl.DateTimeFormat('fr-fr', { timeStyle: 'medium' }).format(new Date())
     terminalText.innerText = time + '\n'
     try { eval(output) }
-    catch (error) { terminalText.innerText = time + '\n' + error }
+    catch (e) {
+        var err = e.constructor('Error in Evaled Script: ' + e.message);
+        // +3 because `err` has the line number of the `eval` line plus two.
+        err.lineNumber = e.lineNumber - err.lineNumber + 3;
+        terminalText.innerText = time + '\n' + err;
+        throw err;
+    }
+
 })
+

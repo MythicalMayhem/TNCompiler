@@ -158,7 +158,7 @@ function getSpanTable(start, enD) {
 //     return stringer.replace()
 // }
 //replaceDoubleComparison('5=<=x=<=10')
-function replacement(el) { 
+function replacement(el) {
     return L = el.replace(/\[A\.\.Z\]/g, `${getSpanTable('A', 'Z')}`)
         .replaceAll(/\[a\.\.z\]/g, `${getSpanTable('a', 'z')}`)
         .replaceAll(/\[0\.\.9\]/g, `${getSpanTable('0', '9')}`)
@@ -219,21 +219,21 @@ function translateLines(r) {
         if (starter.match(/^(pour)[ ]+/i)) {
             let test = isBoucleFor(res[i][key])
             if (test) {
-                newres.push(test + '/*' + String(key) + '*/')
+                newres.push(test )
             } else {
                 console.error("pour invalide")
             }
         } else if (starter.match(/^(si)[ ]+/i)) {
             let test = isSi(res[i][key])
             if (test) {
-                newres.push(test + '/*' + String(key) + '*/')
+                newres.push(test )
             } else {
                 console.error("si invalide ")
             }
         } else if (starter.match(/^(sinonsi)[ ]/i)) {
             let test = isSinonsi(res[i][key])
             if (test) {
-                newres.push(test + '/*' + String(key) + '*/')
+                newres.push(test )
             } else {
                 console.error("sinonsi invalide ")
             }
@@ -241,22 +241,22 @@ function translateLines(r) {
             let test = isSinon(res[i][key])
             if (test) {
 
-                newres.push(test + '/*' + String(key) + '*/')
+                newres.push(test )
             } else {
                 console.error("sinon invalide ")
             }
         } else if (res[i][key].match(/^((cas[ ])+(?<start>.+)):?(?<other>)?/i)) {
             let temp = res[i][key].match(/^((cas[ ])+(?<start>.+)+):?(?<other>)?/i)
             if (temp && temp.groups.start) {
-                newres.push("case" + temp.groups.start + ":" + '/*' + String(key) + '*/')
+                newres.push("case" + temp.groups.start + ":" )
             }
             if (temp.groups.other) {
-                newres.push(temp.groups.other + '/*' + String(key) + '*/')
+                newres.push(temp.groups.other )
             }
         } else if (starter.match(/^tant[ ]?que/i)) {
             let test = isTantque(res[i][key])
             if (test) {
-                newres.push(test + '/*' + String(key) + '*/')
+                newres.push(test )
             }
             else {
                 console.error("tantque invalide ")
@@ -265,10 +265,10 @@ function translateLines(r) {
         else if (starter.match(/^jusqu'?(a|à)/i)) {
             let test = isJusqua(res[i][key])
             if (test) {
-                newres.push(test + '/*' + String(key) + '*/')
-                newres.push("break" + '/*' + String(key) + '*/')
-                newres.push("}" + '/*' + String(key) + '*/')
-                newres.push("finsi" + '/*' + String(key) + '*/')
+                newres.push(test )
+                newres.push("break" )
+                newres.push("}" )
+                newres.push("finsi" )
             }
             else {
                 console.error(" Jusqu'a invalide ")
@@ -276,18 +276,18 @@ function translateLines(r) {
         } else if (starter.match(/^R(e|é)p(e|é)ter[ ]*/i)) {
             let test = isRepeter(res[i][key])
             if (test) {
-                newres.push(test + '/*' + String(key) + '*/')
+                newres.push(test )
             } else {
                 console.error("repeter invalide ")
             }
         } else if (starter.match(/^(fonction)[ ]+/i)) {
-            [a, b, c] = isFonction(res[i][key])
+            let [a, b, c] = isFonction(res[i][key])
             if (a) {
-                newres.push(a + '/*' + String(key) + '*/')
-                newres.push(b + '/*' + String(key) + '*/')
-                newres.push(c + '/*' + String(key) + '*/')
+                newres.push(a )
+                newres.push(b)
+                newres.push(c)
                 for (l in b) {
-                    newres.push(b[l][0] + " = " + b[l][1] + '/*' + String(key) + '*/')
+                    newres.push(b[l][0] + " = " + b[l][1] )
                 }
             }
 
@@ -295,13 +295,14 @@ function translateLines(r) {
                 console.error("fonction invalide ")
             }
         } else if (starter.match(/^(procedure)[ ]+/i)) {
-            [a, b, c] = isProcedure(res[i][key])
+            let [a, b, c] = isProcedure(res[i][key])
+            console.log(newres)
             if (a) {
-                newres.push(a + '/*' + String(key) + '*/')
-                newres.push(b + '/*' + String(key) + '*/')
-                newres.push(c + '/*' + String(key) + '*/')
+                newres.push(a )
+                newres.push(b)
+                newres.push(c)
                 for (l in b) {
-                    newres.push(b[l][0] + " = " + b[l][1] + '/*' + String(key) + '*/')
+                    newres.push(b[l][0] + " = " + b[l][1] )
                 }
             } else {
                 console.error("procedure invalide ")
@@ -309,20 +310,20 @@ function translateLines(r) {
         } else if (starter.match(/^retourner[ ]+/i)) {
             let test = res[i][key].match(/^retourner[ ]+(?<stuff>(.*))/i)
             if (test) {
-                newres.push(`return ${test[1]}` + '/*' + String(key) + '*/')
+                newres.push(`return ${test[1]}` )
             } else {
                 newres.push("return ")
             }
         } else if (starter.match(/^lire\(.+\)/i)) {
             let test = isLire(res[i][key], String(key))
             if (test) {
-                newres.push(test.join('') + '/*' + String(key) + '*/')
+                newres.push(test.join('') )
             } else {
                 console.error("lire invalide ")
             }
         }
         else {
-            newres.push(res[i][key] + '/*' + String(key) + '*/')
+            newres.push(res[i][key] )
         }
     }
 
@@ -333,6 +334,7 @@ function translateLines(r) {
         }
         if (newres[i].split(" ")[0] in ["return", "fin"]) {
             for (let k = i; i < -1; i--) {
+
                 if (Array.isArray(newres[k])) { continue }
                 if (newres[k].split(" ")[0].trim() == 'function') {
                     botargs = newres[k + 2]
@@ -345,19 +347,8 @@ function translateLines(r) {
                 }
             }
         }
-        wres.push(newres[i])
+        if (!Array.isArray(newres[i])) { wres.push(newres[i]) }
     }
 
-    while (true) {
-        let test = true
-        for (let i = 0; i < wres.length; i++) {
-            if (Array.isArray(wres[i])) {
-                wres.pop(i)
-                test = false
-                break
-            }
-        }
-        if (test == true) { break }
-    }
     return wres
 }

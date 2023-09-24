@@ -24,9 +24,10 @@ function valeur(n) { return Number(n) }
 function convch(e) { return String(e) }
 function long(n) { return n.length }
 function sous_chaine(chaine, start, length) { return chaine.substring(start, length) }
-function racine_carree(n) { return math.sqrt(n) }
-function puissance(x, y) { return math.pow(x, y) }
-function arrondi(n) { return math.round(n) }
+function racine_carree(n) { return Math.sqrt(n) }
+function puissance(x, y) { return Math.pow(x, y) }
+function abs(n) { return Math.abs(n) }
+function arrondi(n) { return Math.round(n) }
 function alea(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max) + 1;
