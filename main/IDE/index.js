@@ -103,8 +103,7 @@ function getLines() {
     } else {
         f = [codeArea.innerText]
     }
-    f = codeArea.value.split('\n')
-    console.log(f)
+    f = codeArea.value.split('\n') 
     return f
 }
 function run() {
