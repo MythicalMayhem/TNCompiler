@@ -145,11 +145,9 @@ function save() {
             setCookie('algo', getLines().join('#'), 60 * 60 * 24 * 365)
         })
     }
-    setTimeout(() => {
-        save()
-    }, 2000);
+
 }
-save()
+setInterval(save,2000) 
 copybtn.addEventListener('click', () => { terminalText.innerText = Write.join(''); navigator.clipboard.writeText(Write.join('')) })
 outputtbtn.addEventListener('click', () => { terminalText.innerText = output })
 writebtn.addEventListener('click', () => { terminalText.innerText = Write.join('\n') })
@@ -159,10 +157,10 @@ runbtn.addEventListener('click', () => {
     terminalText.innerText = time + '\n'
     try { eval(output) }
     catch (e) {
-        var err = e.constructor('Error in Evaled Script: ' + e.message);
+        var err = e.constructor('Error in Evaled Script: ' + e + e.message);
         // +3 because `err` has the line number of the `eval` line plus two.
-        err.lineNumber = e.lineNumber - err.lineNumber + 3;
-        terminalText.innerText = time + '\n' + err;
+        //err.lineNumber = e.lineNumber - err.lineNumber + 3;
+        terminalText.innerText = time+' <<>>' +     e.message  + '\n' + err ;
         throw err;
     }
 

@@ -1,6 +1,3 @@
-//import random
-//import math
-//import numpy as np
 function __writeinterminal(s) {
     let parent = document.getElementById('innerTerminal')
     let node = document.createElement('div')
@@ -10,9 +7,9 @@ function __writeinterminal(s) {
 function input(name) {
     let terminal = document.getElementById('innerTerminal')
     let x = prompt(`${name} = `)
-    if (!x) {throw 'exit' }
-    let wrapper = document.createElement('div')  
-    wrapper.innerText = `${name} = ${x}`
+    if (!x) { throw 'exit' }
+    let wrapper = document.createElement('div')
+    wrapper.innerText = `   <sys> ${name} <---- ${x}`
     terminal.appendChild(wrapper)
     return x
 }
