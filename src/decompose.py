@@ -11,6 +11,6 @@ def get(lines:list) -> None:
         if re.match("^(#tdo)", lines[i], re.IGNORECASE):
             tdnt = i-1 
 
-    return tdnt+1, tdo, algo
+    return tdnt+1, tdo+1, algo
 
  
