@@ -12,9 +12,7 @@ def assignment(ch):
     ch = ch.split('<--')
     varname = ch[0].strip()
     val = ''.join( ch[1:])
-    print(varname,val,alphanum(varname))
-    if alphanum(varname) and val.strip() != '':
-        return f'{varname} = {val}'
+    if alphanum(varname) and val.strip() != '' : return f'{varname} = {val}'
     else : return False
 
 def pour(ch):

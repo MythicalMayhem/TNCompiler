@@ -65,8 +65,7 @@ def format(vars:list,tdnt:dict):
     for key in (tdnt.keys()): 
         if   key in vars['tables']   : ch[key]=createTable(tdnt[key][0],tdnt[key][1],vars,tdnt)
         elif key in vars['matrices'] : ch[key]=createMatrix(tdnt[key][0],tdnt[key][1],tdnt[key][2],vars ,tdnt)
-        elif key in vars['enregistrement']  : ch[key]=createClass(key,tdnt[key],vars,tdnt)
- 
+        elif key in vars['enregistrement']  : ch[key]=createClass(key,tdnt[key],vars,tdnt) 
     return ch
 
 

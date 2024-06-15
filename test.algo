@@ -1,0 +1,20 @@
+#TDNT
+tab:tableau de 2 entier
+mat:tableau de 5 lignes * 5 colones tab
+e:enregistrement
+debut
+test:chaine
+r:entier
+fin
+#TDO
+a:mat
+algorithme test
+debut
+
+a <-- 'P'
+si a dans [A..Z] alors
+    a <-- 'ddl'
+fin_si 
+ 
+ecrire(a)
+fin

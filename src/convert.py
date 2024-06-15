@@ -34,8 +34,7 @@ def replaceInString(el):
     for i in range(0, len(el)):
         item = el[i].strip()
         before = 0
-        if i > 0: before = i - 1 
-
+        if i > 0: before = i - 1  
         if (item == '"' or item == "'") and el[before] != "\\":
             if opened == None:
                 opened = i
@@ -62,10 +61,9 @@ def read(lines,start,end):
         line = re.sub("([^:]*)(:+)$", r"\1", line)
         starter =  line.split(" ")[0].lower().strip() + " "
 
-        if re.match("(.*)[<\--](.*)", line, re.IGNORECASE):
-            print('ggggg')
+        if re.match("(.*)[<\--](.*)", line, re.IGNORECASE): 
             test = stx.assignment(line)
-            if test : jdid.append(f'{test}#{str(len(jdid))} \n\tpass#{str(len(jdid)+1)}')
+            if test : jdid.append(f'{test}#{str(len(jdid))}')
             else    : exit(f"assignment invalide line {i}")
 
         elif re.match("^pour[ ]+", starter, re.IGNORECASE):
@@ -104,6 +102,5 @@ def read(lines,start,end):
             test = stx.repeter(line)
             if test: jdid.append(f'{test}#{str(len(jdid))} \n\tpass#{str(len(jdid)+1)}')
             else: exit(f"repeter invalide line {i} ")
-        else : jdid.append(line)
-    print(jdid)
+        else : jdid.append(line) 
     return jdid
